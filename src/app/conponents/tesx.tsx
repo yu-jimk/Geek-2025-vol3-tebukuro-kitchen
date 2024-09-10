@@ -2,7 +2,7 @@ import React from 'react'
 
 const tesx = () => {
   return (
-    <div>tesx</div>
+    <div>commit test</div>
   )
 }
 
