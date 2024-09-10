@@ -506,6 +506,11 @@
     "@swc/counter" "^0.1.3"
     tslib "^2.4.0"
 
+"@types/dom-speech-recognition@*":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@types/dom-speech-recognition/-/dom-speech-recognition-0.0.4.tgz"
+  integrity sha512-zf2GwV/G6TdaLwpLDcGTIkHnXf8JEf/viMux+khqKQKDa8/8BAUtXXZS563GnvJ4Fg0PBLGAaFf2GekEVSZ6GQ==
+
 "@types/json-schema@^7.0.12":
   version "7.0.15"
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.15.tgz"
@@ -545,6 +550,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-speech-recognition@^3.9.5":
+  version "3.9.5"
+  resolved "https://registry.npmjs.org/@types/react-speech-recognition/-/react-speech-recognition-3.9.5.tgz"
+  integrity sha512-m3Sg3Xtj/YcEUu+nLPGwI6oq1wcSblsuyAmXgBfW6Nprfmtl+A+kH4ruPzzFKnFkq6WmmRxdsLvt0nLRAAJtBw==
+  dependencies:
+    "@types/dom-speech-recognition" "*"
+
 "@types/react-transition-group@^4.4.11":
   version "4.4.11"
   resolved "https://registry.npmjs.org/@types/react-transition-group/-/react-transition-group-4.4.11.tgz"
@@ -559,6 +571,11 @@
   dependencies:
     "@types/prop-types" "*"
     csstype "^3.0.2"
+
+"@types/regenerator-runtime@^0.13.7":
+  version "0.13.7"
+  resolved "https://registry.npmjs.org/@types/regenerator-runtime/-/regenerator-runtime-0.13.7.tgz"
+  integrity sha512-E9v1AevDmViMkfLmk1k32mOWmmcv5QmzfRkttn0UD25u+D6V1AE8O2NfD7K1O7yf1XHt3BNX5Zg+zQ+98y8MWw==
 
 "@types/semver@^7.5.0":
   version "7.5.8"
