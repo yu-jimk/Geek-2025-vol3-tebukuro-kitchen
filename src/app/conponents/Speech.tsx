@@ -12,7 +12,7 @@ const Speech = () => {
 
   const commands = [
     {
-      command: "進む",
+      command: "次へ",
       callback: () => {
         setMessage("進みます");
         resetTranscript();
@@ -20,7 +20,7 @@ const Speech = () => {
       },
     },
     {
-      command: "戻る",
+      command: "前へ",
       callback: () => {
         setMessage("戻ります");
         resetTranscript();
