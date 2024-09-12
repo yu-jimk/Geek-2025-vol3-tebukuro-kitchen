@@ -6,7 +6,18 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import { useState, useEffect } from "react";
 
-const Speech = () => {
+type PageController = {
+  nextPage: () => void;
+  prevPage: () => void;
+  showIng: () => void;
+  timerStart: () => void;
+  timerStop: () => void;
+  timerReset: () => void;
+  showAmount: () => void;
+  showHowTo: () => void;
+};
+
+const Speech: React.FC<PageController> = ({nextPage, prevPage, showIng, timerStart, timerStop, timerReset, showAmount, showHowTo}) => {
   const [message, setMessage] = useState("");
   const [lastTranscript, setLastTranscript] = useState(""); // 最後に処理したtranscript
 
@@ -14,6 +25,7 @@ const Speech = () => {
     {
       command: "次へ",
       callback: () => {
+        nextPage();
         setMessage("進みます");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -22,6 +34,7 @@ const Speech = () => {
     {
       command: "前へ",
       callback: () => {
+        prevPage();
         setMessage("戻ります");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -30,6 +43,7 @@ const Speech = () => {
     {
       command: "材料表示",
       callback: () => {
+        showIng();
         setMessage("材料を表示します");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -38,6 +52,7 @@ const Speech = () => {
     {
       command: "タイマー スタート",
       callback: () => {
+        timerStart();
         setMessage("タイマーをスタート");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -46,6 +61,7 @@ const Speech = () => {
     {
       command: "タイマー ストップ",
       callback: () => {
+        timerStop();
         setMessage("タイマーをストップ");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -54,6 +70,7 @@ const Speech = () => {
     {
       command: "タイマー リセット",
       callback: () => {
+        timerReset();
         setMessage("タイマーをリセット");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -62,6 +79,7 @@ const Speech = () => {
     {
       command: "*の量は",
       callback: (material: string) => {
+        showAmount();
         setMessage(`${material}の量はこの通りです`);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -70,6 +88,7 @@ const Speech = () => {
     {
       command: "*ってどうやる",
       callback: (material: string) => {
+        showHowTo();
         setMessage(`${material}はこのような切り方です`);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
