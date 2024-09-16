@@ -10,50 +10,58 @@ const Speech = () => {
   const [message, setMessage] = useState("");
   const [lastTranscript, setLastTranscript] = useState(""); // 最後に処理したtranscript
 
+  const [status, setStatus] = useState("");
+
   const commands = [
     {
-      command: "次へ",
+      command: "進んで",
       callback: () => {
+        setStatus("next");
         setMessage("進みます");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
-      command: "前へ",
+      command: "戻って",
       callback: () => {
+        setStatus("prev");
         setMessage("戻ります");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
-      command: "材料表示",
+      command: "材料を表示して",
       callback: () => {
+        setStatus("show");
         setMessage("材料を表示します");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
-      command: "タイマー スタート",
+      command: "タイマーをスタート",
       callback: () => {
+        setStatus("start");
         setMessage("タイマーをスタート");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
-      command: "タイマー ストップ",
+      command: "タイマーをストップ",
       callback: () => {
+        setStatus("stop");
         setMessage("タイマーをストップ");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
-      command: "タイマー リセット",
+      command: "タイマーをリセット",
       callback: () => {
+        setStatus("reset");
         setMessage("タイマーをリセット");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -62,6 +70,7 @@ const Speech = () => {
     {
       command: "*の量は",
       callback: (material: string) => {
+        setStatus(`amount ${material}`);
         setMessage(`${material}の量はこの通りです`);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -70,6 +79,7 @@ const Speech = () => {
     {
       command: "*ってどうやる",
       callback: (material: string) => {
+        setStatus(`how ${material}`);
         setMessage(`${material}はこのような切り方です`);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -104,13 +114,18 @@ const Speech = () => {
   }, [listening]);
 
   if (!browserSupportsSpeechRecognition) {
-    return null;
+    console.log("useSpeech ERROR");
   }
+
+  useEffect(() => {
+    console.log("Current status:", status);
+  }, [status]);
 
   return (
     <div>
       <p>response : {message}</p>
       <p>input : {transcript}</p>
+      <p>status : {status}</p>
       {/* <p>入力: {listening ? "on" : "off"}</p>
         <button type="button" onClick={() => SpeechRecognition.startListening({ continous: true })}>
           入力開始
@@ -126,3 +141,4 @@ const Speech = () => {
 };
 
 export default Speech;
+
