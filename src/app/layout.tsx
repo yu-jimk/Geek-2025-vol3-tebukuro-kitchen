@@ -1,4 +1,6 @@
-
+import Footer from "./conponents/Footer";
+import Header from "./conponents/Header";
+import "./globals.css";
 
 export default function RootLayout({
   children,
@@ -7,9 +9,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-      >
+      <body className="bg-white">
         {children}
+        <Footer />
       </body>
     </html>
   );
