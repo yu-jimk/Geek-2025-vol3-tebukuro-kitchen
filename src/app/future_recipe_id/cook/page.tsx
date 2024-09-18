@@ -5,8 +5,13 @@ import Image from "next/image";
 
 //データベースからの取得は後。仮データ
 const page: number = 3; //ページ数
+const text: string[] = [
+  "フライパンに油をひき、卵を割る。白身が白くなったらお米を入れる。",
+  "お米を軽く炒め、卵とよく混ぜ合わせる。みじん切りにしたネギや、お好みの具材（ハム、エビ、野菜など）を加え、さらに炒める。",
+  "全体がよく混ざり、具材が熱くなったら、塩とコショウで味を付ける。最後に、醤油を少々加え、全体をさっと炒めて香りを引き出す。",
+];
 
-//丸を描画する関数　count=丸の数　id=丸のkey
+//丸を描画する関数　count=丸の数　id=塗りつぶし判定用ページ数
 const Circle = ({ count, id }: { count: number; id: number }) => {
   return (
     <>
@@ -35,18 +40,18 @@ const Cook = () => {
         <Circle count={page} id={id} />
       </div>
       <div className="mx-5 font-bold text-center text-black text-3xl">
-        フライパンに油をひき、卵を割る。白身が白くなったらお米を入れる。
+        {text[id]}
       </div>
 
       <div className="text-black flex justify-between">
         <button
-          onClick={() => id==0 ? setId(id) : setId(id-1)}
+          onClick={() => (id == 0 ? setId(id) : setId(id - 1))}
           className="w-10 h-10 bg-orange-400"
         >
           前へ
         </button>
         <button
-          onClick={() => id==page-1 ? setId(id) : setId(id+1)}
+          onClick={() => (id == page - 1 ? setId(id) : setId(id + 1))}
           className="w-10 h-10 bg-orange-400"
         >
           次へ
