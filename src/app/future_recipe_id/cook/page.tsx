@@ -6,6 +6,7 @@ import Image from "next/image";
 //データベースからの取得は後。仮データ
 const page: number = 3; //ページ数
 
+//丸を描画する関数　count=丸の数　id=丸のkey
 const Circle = ({ count, id }: { count: number; id: number }) => {
   return (
     <>
@@ -39,16 +40,16 @@ const Cook = () => {
 
       <div className="text-black flex justify-between">
         <button
-          onClick={() => setId(id - 1)}
+          onClick={() => id==0 ? setId(id) : setId(id-1)}
           className="w-10 h-10 bg-orange-400"
         >
-          前
+          前へ
         </button>
         <button
-          onClick={() => setId(id + 1)}
+          onClick={() => id==page-1 ? setId(id) : setId(id+1)}
           className="w-10 h-10 bg-orange-400"
         >
-          次
+          次へ
         </button>
       </div>
     </>
