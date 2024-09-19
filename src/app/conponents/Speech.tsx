@@ -6,7 +6,19 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import { useState, useEffect } from "react";
 
-const Speech = () => {
+const Speech = ({
+  next,
+  back,
+  num,
+  page,
+  setId,
+}: {
+  next: Function;
+  back: Function;
+  num: number;
+  page: number;
+  setId: Function;
+}) => {
   const [message, setMessage] = useState("");
   const [lastTranscript, setLastTranscript] = useState(""); // 最後に処理したtranscript
 
@@ -16,6 +28,7 @@ const Speech = () => {
     {
       command: "進んで",
       callback: () => {
+        next(num, page, setId);
         setStatus("next");
         setMessage("進みます");
         resetTranscript();
@@ -25,6 +38,7 @@ const Speech = () => {
     {
       command: "戻って",
       callback: () => {
+        back(num, setId);
         setStatus("prev");
         setMessage("戻ります");
         resetTranscript();
@@ -122,23 +136,13 @@ const Speech = () => {
   }, [status]);
 
   return (
-    <div>
-      <p>response : {message}</p>
+    <>
+      {/* デバッグ用 */}
+      {/* <p>response : {message}</p>
       <p>input : {transcript}</p>
-      <p>status : {status}</p>
-      {/* <p>入力: {listening ? "on" : "off"}</p>
-        <button type="button" onClick={() => SpeechRecognition.startListening({ continous: true })}>
-          入力開始
-        </button>
-        <button type="button" onClick={() => SpeechRecognition.stopListening()}>
-          Stop
-        </button>
-        <button type="button" onClick={() => resetTranscript()}>
-          リセット
-        </button> */}
-    </div>
+      <p>status : {status}</p> */}
+    </>
   );
 };
 
 export default Speech;
-

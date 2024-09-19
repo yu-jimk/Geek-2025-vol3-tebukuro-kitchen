@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Speech from "@/app/conponents/Speech";
 
 //データベースからの取得は後。仮データ
 const page: number = 3; //ページ数
@@ -27,10 +28,18 @@ const Circle = ({ count, id }: { count: number; id: number }) => {
   );
 };
 
+
 const Cook = () => {
   const [id, setId] = useState(0); //現在のページ
+  const back = (num:number, setId:Function) => {
+    num == 0 ? setId(num) : setId(num - 1);
+  }
+  const next = (num:number, page:number, setId:Function) => {
+    num == page - 1 ? setId(num) : setId(num + 1);
+  }
   return (
     <>
+      <Speech next={next} back={back} num={id} page={page} setId={setId}/>
       <div className="bg-orange-400 h-20">Header置くとこ（サイズは適当）</div>
 
       <div className="flex justify-center content-center">
