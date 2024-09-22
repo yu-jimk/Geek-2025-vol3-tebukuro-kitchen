@@ -40,10 +40,9 @@ const Cook = () => {
   return (
     <>
       <Speech next={next} back={back} num={id} page={page} setId={setId}/>
-      <div className="bg-orange-400 h-20">Header置くとこ（サイズは適当）</div>
 
       <div className="flex justify-center content-center">
-        <Image src="" alt="" width={500} height={400} className="shadow-md" />
+        <Image src="" alt="" width={500} height={500} className="shadow-md" />
       </div>
       <div className="mt-6 mb-10 flex justify-center">
         <Circle count={page} id={id} />
