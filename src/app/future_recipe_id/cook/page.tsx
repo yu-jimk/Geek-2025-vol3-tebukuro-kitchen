@@ -47,7 +47,7 @@ const Cook = () => {
       <div className="mt-6 mb-10 flex justify-center">
         <Circle count={page} id={id} />
       </div>
-      <div className="mx-5 font-bold text-center text-black text-3xl">
+      <div className="mx-5 font-bold text-left text-black text-3xl">
         {text[id]}
       </div>
 
