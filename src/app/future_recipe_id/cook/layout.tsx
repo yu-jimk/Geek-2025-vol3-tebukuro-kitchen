@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import { IoMicOutline } from "react-icons/io5";
+import RecipeHeader from "@/app/conponents/RecipeHeader";
 
 export default function CookLayout({
   children,
@@ -13,7 +14,12 @@ export default function CookLayout({
   return (
     <html lang="en">
       <body className="bg-white">
-        <div className="bg-orange-400 h-20">Header置くとこ（サイズは適当）</div>
+        <RecipeHeader
+          bgColor="bg-orange-400"
+          textColor="text-white"
+          title="基本のチャーハン"
+          link=""
+        />
         {children}
         <div className="bg-orange-400 w-full fixed bottom-0 h-14 flex justify-center">
           <div className="w-full flex justify-between">

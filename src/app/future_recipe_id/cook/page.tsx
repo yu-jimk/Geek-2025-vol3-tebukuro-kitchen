@@ -28,18 +28,24 @@ const Circle = ({ count, id }: { count: number; id: number }) => {
   );
 };
 
-
 const Cook = () => {
   const [id, setId] = useState(0); //現在のページ
-  const back = (num:number, setId:Function) => {
+  const back = (
+    num: number,
+    setId: React.Dispatch<React.SetStateAction<number>>
+  ) => {
     num == 0 ? setId(num) : setId(num - 1);
-  }
-  const next = (num:number, page:number, setId:Function) => {
+  };
+  const next = (
+    num: number,
+    page: number,
+    setId: React.Dispatch<React.SetStateAction<number>>
+  ) => {
     num == page - 1 ? setId(num) : setId(num + 1);
-  }
+  };
   return (
     <>
-      <Speech next={next} back={back} num={id} page={page} setId={setId}/>
+      <Speech next={next} back={back} num={id} page={page} setId={setId} />
 
       <div className="flex justify-center content-center">
         <Image src="" alt="" width={500} height={500} className="shadow-md" />

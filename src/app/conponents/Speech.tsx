@@ -6,6 +6,11 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import { useState, useEffect } from "react";
 
+type screenController = {
+  next: (num: number, page: number, setId: React.Dispatch<React.SetStateAction<number>>) => void;
+  back: (num: number, setId: React.Dispatch<React.SetStateAction<number>>) => void;
+}
+
 const Speech = ({
   next,
   back,
@@ -13,11 +18,11 @@ const Speech = ({
   page,
   setId,
 }: {
-  next: Function;
-  back: Function;
+  next: screenController["next"];
+  back: screenController["back"];
   num: number;
   page: number;
-  setId: Function;
+  setId: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const [message, setMessage] = useState("");
   const [lastTranscript, setLastTranscript] = useState(""); // 最後に処理したtranscript
