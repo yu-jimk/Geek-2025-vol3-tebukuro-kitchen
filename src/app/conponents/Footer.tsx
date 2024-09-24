@@ -7,11 +7,12 @@ import Link from 'next/link';
 import { usePathname } from "next/navigation";
 
 const Footer = () => {
+  
   const iconsize = 28;
 const currentPath = usePathname();
+
   return (
-    <div className='border-t-2 border-gray-400 w-full fixed bottom-0 h-14 pt-2 flex justify-center 
-    /shadow-inner shadow-black/'>
+    <div className='border-t-2 border-gray-400 w-full fixed bottom-0 h-16 pt-2 flex justify-center bg-white'>
       <Link className='w-1/3' href={'/'}>
         <FiSearch size={iconsize} color={currentPath === '/' ? 'orange' : 'gray'} className={`mx-auto w-fit ${currentPath==='/'?'text-orange-600' : 'text-gray-600'}`}/>
         <div className={`text-xs w-fit mx-auto
