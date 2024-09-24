@@ -26,7 +26,8 @@ const Speech = ({
 
   const commands = [
     {
-      command: "進んで",
+      command: "*進んで*",
+      //　*印は、雑音に影響されないよう命令の前後の文言を許容するため。起こる恐れのあるバグが不明のため、要検証
       callback: () => {
         next(num, page, setId);
         setStatus("next");
@@ -36,7 +37,7 @@ const Speech = ({
       },
     },
     {
-      command: "戻って",
+      command: "*戻って*",
       callback: () => {
         back(num, setId);
         setStatus("prev");
@@ -128,7 +129,7 @@ const Speech = ({
   }, [listening]);
 
   if (!browserSupportsSpeechRecognition) {
-    console.log("useSpeech ERROR");
+    console.log("Speech conponent ERROR");
   }
 
   useEffect(() => {
