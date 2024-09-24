@@ -9,7 +9,7 @@ export type Recipe = {
   image_url?: string;
   time?: string; //料理時間
   comment?: string;
-  howmany: string; //何人前
+  howmany?: string; //何人前
 };
 // 材料
 export type Ingredient = {
