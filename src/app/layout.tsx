@@ -1,5 +1,3 @@
-import Footer from "./conponents/Footer";
-import Header from "./conponents/Header";
 import "./globals.css";
 
 export default function RootLayout({
