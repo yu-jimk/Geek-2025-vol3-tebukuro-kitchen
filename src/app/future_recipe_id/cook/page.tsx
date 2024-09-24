@@ -62,14 +62,14 @@ const Cook = () => {
       <div className="text-white flex justify-between fixed bottom-0 z-10 w-full h-14">
         <button
           onClick={() => (id == 0 ? setId(id) : setId(id - 1))}
-          className="w-20 h-14 bg-orange-400 font-bold"
+          className="w-20 h-14 bg-transparent font-bold"
         >
           <FaArrowLeft className="w-6 h-6 mx-7"/>
           前へ
         </button>
         <button
           onClick={() => (id == page - 1 ? setId(id) : setId(id + 1))}
-          className="w-20 h-14 bg-orange-400 font-bold"
+          className="w-20 h-14 bg-transparent font-bold"
         >
           <FaArrowRight className="w-6 h-6 mx-7"/>
           次へ
