@@ -50,12 +50,12 @@ const Cook = () => {
       <Speech next={next} back={back} num={id} page={page} setId={setId} />
 
       <div className="flex justify-center content-center">
-        <Image src="" alt="" width={500} height={500} className="shadow-md" />
+        <Image src="" alt="" width={500} height={400} className="shadow-md" />
       </div>
       <div className="mt-6 mb-10 flex justify-center">
         <Circle count={page} id={id} />
       </div>
-      <div className="mx-5 font-bold text-left text-black text-3xl">
+      <div id="desc" className="mx-5 font-mono font-black text-left text-black text-2xl">
         {text[id]}
       </div>
 
@@ -64,14 +64,14 @@ const Cook = () => {
           onClick={() => (id == 0 ? setId(id) : setId(id - 1))}
           className="w-20 h-14 bg-transparent font-bold"
         >
-          <FaArrowLeft className="w-6 h-6 mx-7"/>
+          <FaArrowLeft className="w-6 h-6 mx-7" />
           前へ
         </button>
         <button
           onClick={() => (id == page - 1 ? setId(id) : setId(id + 1))}
           className="w-20 h-14 bg-transparent font-bold"
         >
-          <FaArrowRight className="w-6 h-6 mx-7"/>
+          <FaArrowRight className="w-6 h-6 mx-7" />
           次へ
         </button>
       </div>
