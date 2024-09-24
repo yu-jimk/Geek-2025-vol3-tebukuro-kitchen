@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Speech from "@/app/conponents/Speech";
+import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 
 //データベースからの取得は後。仮データ
 const page: number = 3; //ページ数
@@ -57,17 +59,19 @@ const Cook = () => {
         {text[id]}
       </div>
 
-      <div className="text-black flex justify-between">
+      <div className="text-white flex justify-between fixed bottom-0 z-10 w-full h-14">
         <button
           onClick={() => (id == 0 ? setId(id) : setId(id - 1))}
-          className="w-10 h-10 bg-orange-400"
+          className="w-20 h-14 bg-orange-400 font-bold"
         >
+          <FaArrowLeft className="w-6 h-6 mx-7"/>
           前へ
         </button>
         <button
           onClick={() => (id == page - 1 ? setId(id) : setId(id + 1))}
-          className="w-10 h-10 bg-orange-400"
+          className="w-20 h-14 bg-orange-400 font-bold"
         >
+          <FaArrowRight className="w-6 h-6 mx-7"/>
           次へ
         </button>
       </div>
