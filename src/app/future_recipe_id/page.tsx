@@ -26,8 +26,8 @@ const RecipeId = () => {
             <Image
               src="https://picsum.photos/300"
               alt="基本のチャーハン"
-              width={430}
-              height={297}
+              width={450}
+              height={300}
               layout={"responsive"}
               objectFit={"cover"}
             />
@@ -44,8 +44,8 @@ const RecipeId = () => {
             <FavoriteButton />
           </div>
 
-          <div className="flex items-center my-2">
-            <WiTime4 fill="#fa003f" className="size-8 mr-2" />
+          <div className="flex items-center py-2 gap-2">
+            <WiTime4 fill="#fa003f" className="size-8" />
             約10分
           </div>
 

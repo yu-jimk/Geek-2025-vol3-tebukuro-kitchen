@@ -11,11 +11,11 @@ const FavoriteButton = () => {
   }
 
   return (
-    <div className="text-center" onClick={handleClick}>
+    <div className="text-center space-y-1" onClick={handleClick}>
       <FiHeart
         fill={favorite ? "#fa003f" : "#FFFBF4"}
         stroke={favorite ? "#fa003f" : "#807E7E"}
-        className="size-9 mb-1 mx-auto"
+        className="size-9 mx-auto"
       />
       <p
         className={`text-xs font-light ${
