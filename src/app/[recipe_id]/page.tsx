@@ -53,7 +53,7 @@ export default async function RecipeId({
           )}
         </div>
 
-        <div className="border-b border-gray-300 m-4">
+        <div className="border-b border-gray-300 m-4 pb-4">
           <div className="flex justify-between">
             <p className="text-2xl font-semibold text-[#815B2C]">
               {detailArticle.name}
@@ -61,21 +61,29 @@ export default async function RecipeId({
             <FavoriteButton />
           </div>
 
-          <div className="flex items-center py-2 gap-2">
-            <WiTime4 fill="#fa003f" className="size-8" />
-            {detailArticle.time}
-          </div>
+          {detailArticle.time ? (
+            <div className="flex items-center py-2 gap-2">
+              <WiTime4 fill="#fa003f" className="size-8" />
+              {detailArticle.time}
+            </div>
+          ) : null}
 
-          <p className="text-sm font-semibold text-stone-600 py-3">
-            {detailArticle.comment}
-          </p>
+          {detailArticle.comment ? (
+            <p className="text-sm font-semibold text-stone-600 pt-3">
+              {detailArticle.comment}
+            </p>
+          ) : null}
         </div>
 
         <div className="lg:flex justify-between items-center">
           <div className="pt-1 pb-8 flex-1">
-            <p className="bg-[#F9DEDC] font-semibold text-sm px-4 py-2">
-              材料（{detailArticle.how_many}）
-            </p>
+            <div className="bg-[#F9DEDC] font-semibold text-sm px-4 py-2">
+              {detailArticle.how_many ? (
+                <p>材料（{detailArticle.how_many}）</p>
+              ) : (
+                <p>材料</p>
+              )}
+            </div>
             {detailArticle.Ingredients.map((ingredient: Ingredient) => (
               <IngredientItem
                 key={ingredient.id}

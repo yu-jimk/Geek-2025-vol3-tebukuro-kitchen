@@ -14,7 +14,6 @@ export async function GET(req: Request) {
     .single();
 
   if (error || !data) {
-    // エラーやデータがない場合は404ステータスを返す
     return NextResponse.json(
       { error: error?.message || "Post not found" },
       { status: 404 }
