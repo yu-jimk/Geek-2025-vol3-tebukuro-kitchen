@@ -3,8 +3,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Speech from "@/app/conponents/Speech";
+import Modal from "./Modal";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
+import { createPortal } from "react-dom";
 
 //データベースからの取得は後。仮データ
 const page: number = 3; //ページ数
@@ -30,8 +32,16 @@ const Circle = ({ count, id }: { count: number; id: number }) => {
   );
 };
 
+const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
+  const container = document.getElementById("container");
+  if (container) {
+    return createPortal(children, container);
+  }
+};
+
 const Cook = () => {
   const [id, setId] = useState(0); //現在のページ
+  const [modalOpen, setModalOpen] = useState(false);
   const back = (
     num: number,
     setId: React.Dispatch<React.SetStateAction<number>>
@@ -55,8 +65,26 @@ const Cook = () => {
       <div className="mt-6 mb-10 flex justify-center">
         <Circle count={page} id={id} />
       </div>
-      <div id="desc" className="mx-5 font-mono font-black text-left text-black text-2xl">
+      <div
+        id="desc"
+        className="mx-5 font-mono font-black text-left text-black text-2xl"
+      >
         {text[id]}
+      </div>
+
+      <button
+        onClick={() => setModalOpen(!modalOpen)}
+        className="bg-black fixed bottom-14"
+      >
+        材料表示
+      </button>
+
+      <div id="container">
+        {modalOpen && (
+          <ModalContainer>
+            <Modal />
+          </ModalContainer>
+        )}
       </div>
 
       <div className="text-white flex justify-between fixed bottom-0 z-10 w-full h-14">
