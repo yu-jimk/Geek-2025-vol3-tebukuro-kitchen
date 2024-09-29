@@ -82,7 +82,11 @@ const Cook = () => {
       <div id="container">
         {modalOpen && (
           <ModalContainer>
-            <Modal modalClose={()=>{setModalOpen(false)}}/>
+            <Modal
+              modalClose={() => {
+                setModalOpen(false);
+              }}
+            />
           </ModalContainer>
         )}
       </div>
