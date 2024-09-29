@@ -16,7 +16,7 @@ export default function CookLayout({
           bgColor="bg-orange-400"
           textColor="text-white"
           title="基本のチャーハン"
-          link=""
+          link="/future_recipe_id"
         />
         {children}
         <div className="bg-orange-400 w-full fixed bottom-0 h-14 flex justify-center">
