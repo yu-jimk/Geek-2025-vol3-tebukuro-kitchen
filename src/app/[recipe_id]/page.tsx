@@ -58,7 +58,7 @@ export default async function RecipeId({
             <p className="text-2xl font-semibold text-[#815B2C]">
               {detailArticle.name}
             </p>
-            <FavoriteButton />
+            <FavoriteButton id={detailArticle.id} />
           </div>
 
           {detailArticle.time ? (
