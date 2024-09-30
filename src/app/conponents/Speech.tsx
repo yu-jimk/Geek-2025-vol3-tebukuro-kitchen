@@ -39,10 +39,8 @@ const Speech = ({
   setId: React.Dispatch<React.SetStateAction<number>>;
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const [message, setMessage] = useState("");
+  const [response, setResponse] = useState("");
   const [lastTranscript, setLastTranscript] = useState(""); // 最後に処理したtranscript
-
-  const [status, setStatus] = useState("");
 
   const commands = [
     {
@@ -50,8 +48,7 @@ const Speech = ({
       //　*印は、雑音に影響されないよう命令の前後の文言を許容するため。起こる恐れのあるバグが不明のため、要検証
       callback: () => {
         next(num, page, setId);
-        setStatus("next");
-        setMessage("進みます");
+        setResponse("next")
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -60,8 +57,7 @@ const Speech = ({
       command: "*戻って*",
       callback: () => {
         back(num, setId);
-        setStatus("prev");
-        setMessage("戻ります");
+        setResponse("back")
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -70,8 +66,7 @@ const Speech = ({
       command: "*材料は*",
       callback: () => {
         dispModal(setModalOpen, true);
-        setStatus("show");
-        setMessage("材料を表示します");
+        setResponse("dispModal")
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -80,8 +75,7 @@ const Speech = ({
       command: "*閉じて*",
       callback: () => {
         dispModal(setModalOpen, false);
-        setStatus("close");
-        setMessage("材料の表示を閉じます");
+        setResponse("closeModal")
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -89,8 +83,7 @@ const Speech = ({
     {
       command: "タイマーをスタート",
       callback: () => {
-        setStatus("start");
-        setMessage("タイマーをスタート");
+        setResponse("start")
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -98,8 +91,7 @@ const Speech = ({
     {
       command: "タイマーをストップ",
       callback: () => {
-        setStatus("stop");
-        setMessage("タイマーをストップ");
+        setResponse("stop")
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -107,26 +99,23 @@ const Speech = ({
     {
       command: "タイマーをリセット",
       callback: () => {
-        setStatus("reset");
-        setMessage("タイマーをリセット");
+        setResponse("reset")
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
       command: "*の量は",
-      callback: (material: string) => {
-        setStatus(`amount ${material}`);
-        setMessage(`${material}の量はこの通りです`);
+      callback: () => {
+        setResponse("amouht")
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
       command: "*ってどうやる",
-      callback: (material: string) => {
-        setStatus(`how ${material}`);
-        setMessage(`${material}はこのような切り方です`);
+      callback: () => {
+        setResponse("how")
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -144,12 +133,12 @@ const Speech = ({
     if (transcript && transcript !== lastTranscript) {
       // コマンドで処理されなかった場合の処理
       // 認識停止予防
-      if (message === "") {
+      if (response === "") {
         SpeechRecognition.startListening({ continuous: true });
       }
       setLastTranscript(transcript);
     }
-  }, [transcript, lastTranscript, message]);
+  }, [transcript, lastTranscript, response]);
 
   // 音声認識が停止したときに再スタートする処理
   // 認識停止予防
@@ -164,15 +153,14 @@ const Speech = ({
   }
 
   useEffect(() => {
-    console.log("Current status:", status);
-  }, [status]);
+    console.log("Current response:", response);
+  }, [response]);
 
   return (
     <>
       {/* デバッグ用 */}
-      {/* <p>response : {message}</p>
-      <p>input : {transcript}</p>
-      <p>status : {status}</p> */}
+      {/* <p>input : {transcript}</p>
+      <p>response : {response}</p> */}
     </>
   );
 };
