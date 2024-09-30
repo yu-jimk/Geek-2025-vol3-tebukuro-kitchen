@@ -55,9 +55,23 @@ const Cook = () => {
   ) => {
     num == page - 1 ? setId(num) : setId(num + 1);
   };
+  const dispModal = (
+    setModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    status: boolean
+  ) => {
+    setModalOpen(status);
+  };
   return (
     <>
-      <Speech next={next} back={back} num={id} page={page} setId={setId} />
+      <Speech
+        next={next}
+        back={back}
+        dispModal={dispModal}
+        num={id}
+        page={page}
+        setId={setId}
+        setModalOpen={setModalOpen}
+      />
 
       <div className="flex justify-center content-center">
         <Image src="" alt="" width={500} height={400} className="shadow-md" />

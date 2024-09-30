@@ -7,22 +7,37 @@ import SpeechRecognition, {
 import { useState, useEffect } from "react";
 
 type screenController = {
-  next: (num: number, page: number, setId: React.Dispatch<React.SetStateAction<number>>) => void;
-  back: (num: number, setId: React.Dispatch<React.SetStateAction<number>>) => void;
-}
+  next: (
+    num: number,
+    page: number,
+    setId: React.Dispatch<React.SetStateAction<number>>
+  ) => void;
+  back: (
+    num: number,
+    setId: React.Dispatch<React.SetStateAction<number>>
+  ) => void;
+  dispModal: (
+    setModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    status: boolean
+  ) => void;
+};
 
 const Speech = ({
   next,
   back,
+  dispModal,
   num,
   page,
   setId,
+  setModalOpen,
 }: {
   next: screenController["next"];
   back: screenController["back"];
+  dispModal: screenController["dispModal"];
   num: number;
   page: number;
   setId: React.Dispatch<React.SetStateAction<number>>;
+  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [message, setMessage] = useState("");
   const [lastTranscript, setLastTranscript] = useState(""); // 最後に処理したtranscript
@@ -52,10 +67,21 @@ const Speech = ({
       },
     },
     {
-      command: "材料を表示して",
+      command: "*材料は*",
       callback: () => {
+        dispModal(setModalOpen, true);
         setStatus("show");
         setMessage("材料を表示します");
+        resetTranscript();
+        SpeechRecognition.startListening({ continuous: true });
+      },
+    },
+    {
+      command: "*閉じて*",
+      callback: () => {
+        dispModal(setModalOpen, false);
+        setStatus("close");
+        setMessage("材料の表示を閉じます");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
