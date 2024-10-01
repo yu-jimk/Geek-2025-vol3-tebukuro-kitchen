@@ -34,9 +34,9 @@ const Registration = () => {
           <input type="number" name="time" id="time" placeholder="時間" style={{ height: '40px' }} className="w-4/10 mt-4 bg-[#FEF9EC]" />
         </div>
 
-        <img className="">
+        <img className=""
         src="bookmark.png"
-        </img>
+        />
 
         <div>
           <input type="number" name="people" id="people" placeholder="人数" style={{ backgroundColor: '#FEF9EC', height: '40px' }} className="w-full border-b border-gray-400 mt-4" />
