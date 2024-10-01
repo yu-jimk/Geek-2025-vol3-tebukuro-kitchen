@@ -40,7 +40,6 @@ const Speech = ({
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [response, setResponse] = useState("");
-  const [lastTranscript, setLastTranscript] = useState(""); // 最後に処理したtranscript
 
   const commands = [
     {
@@ -130,6 +129,7 @@ const Speech = ({
   } = useSpeechRecognition({ commands });
 
   // ここの処理はなくても良さそう。認識が止まることがあれば戻す。
+  // const [lastTranscript, setLastTranscript] = useState(""); // 最後に処理したtranscript
   // useEffect(() => {
   //   if (transcript && transcript !== lastTranscript) {
   //     // コマンドで処理されなかった場合の処理
