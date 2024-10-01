@@ -1,24 +1,29 @@
-import React from "react";
+'use client'
+
 import Link from "next/link";
 import Image from "next/image";
+import { Recipe } from "../types";
 
-  const ArticleCard = () => {
+type prop_type ={
+  recipe : Recipe;
+};
+
+  const ArticleCard = (recipe:prop_type) => {
+
     return (
-      <div className="py-3 px-6  bg-orange-100 " >
-        <Link href={'/aaa'}>
-        <div className="relative rounded-t-xl overflow-hidden"style={{ position: 'relative', aspectRatio: '4 / 5' }}>
-        <Image 
-            src={`/red_fish.jpg`}
-            layout="fill"
-        objectFit="cover"  // 親要素に合わせてトリミング
-            alt=""
-            />
+      <div className="py-3 px-4  bg-orange-100 " >
+            <Link href={`/${recipe.recipe.id}`}>
+            <div className="relative rounded-t-xl overflow-hidden"style={{ position: 'relative', aspectRatio: '4 / 5' }}>
+                <Image 
+                    src={`/${recipe.recipe.image_url}`}
+                    layout="fill"
+                    objectFit="cover"
+                    alt=""
+                />
             </div>
-        <div className=" border-t-4 border-orange-500 rounded-b-xl bg-white">
-            aiueoaaaaaazaaaa
-            aaaaaaaaaasdserf
-            aaaaaaa
-        </div>
+            <div className="h-24 border-t-4 border-orange-500 rounded-b-xl bg-white">
+                {recipe.recipe.name}
+            </div>
         </Link>
       </div>
     );
