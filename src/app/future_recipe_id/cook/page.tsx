@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Speech from "@/app/conponents/Speech";
 import Modal from "./Modal";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import { createPortal } from "react-dom";
+import { getByDescriptId } from "@/app/utils/supabaseFunctions";
+import { Descript } from "@/app/types";
 
 //データベースからの取得は後。仮データ
 const page: number = 3; //ページ数
@@ -40,7 +42,22 @@ const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
   return createPortal(children, container);
 };
 
-const Cook = () => {
+const Cook = ({ params }: { params: { recipe_id: number } }) => {
+  
+  // const [recipes, setRecipes] = useState<any>([]);
+  // useEffect(() => {
+  //   const getRecipes = async () => {
+  //     const recipes = await getByDescriptId(1);
+  //     setRecipes(recipes);
+  //   };
+  //   getRecipes();
+  // }, []);
+
+  // useEffect(() => {
+  //   const sorted = recipes.sort((a: Descript, b: Descript) => a.id - b.id);
+  //   setRecipes(sorted);
+  // }, []);
+
   const [id, setId] = useState(0); //現在のページ
   const [modalOpen, setModalOpen] = useState(false);
   const back = (
