@@ -106,16 +106,16 @@ const Speech = ({
     },
     {
       command: "*の量は",
-      callback: () => {
-        setResponse("amouht")
+      callback: (material : string) => {
+        setResponse(`amount of ${material}`)
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
       command: "*ってどうやる",
-      callback: () => {
-        setResponse("how")
+      callback: (material : string) => {
+        setResponse(`how to ${material}`)
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -129,16 +129,17 @@ const Speech = ({
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition({ commands });
 
-  useEffect(() => {
-    if (transcript && transcript !== lastTranscript) {
-      // コマンドで処理されなかった場合の処理
-      // 認識停止予防
-      if (response === "") {
-        SpeechRecognition.startListening({ continuous: true });
-      }
-      setLastTranscript(transcript);
-    }
-  }, [transcript, lastTranscript, response]);
+  // ここの処理はなくても良さそう。認識が止まることがあれば戻す。
+  // useEffect(() => {
+  //   if (transcript && transcript !== lastTranscript) {
+  //     // コマンドで処理されなかった場合の処理
+  //     // 認識停止予防
+  //     if (response === "") {
+  //       SpeechRecognition.startListening({ continuous: true });
+  //     }
+  //     setLastTranscript(transcript);
+  //   }
+  // }, [transcript, lastTranscript, response]);
 
   // 音声認識が停止したときに再スタートする処理
   // 認識停止予防
