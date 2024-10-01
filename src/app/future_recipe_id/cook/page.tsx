@@ -1,8 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Speech from "@/app/conponents/Speech";
+import Modal from "./Modal";
+import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
+import { createPortal } from "react-dom";
+import { getByDescriptId } from "@/app/utils/supabaseFunctions";
+import { Descript } from "@/app/types";
 
 //データベースからの取得は後。仮データ
 const page: number = 3; //ページ数
@@ -28,40 +34,108 @@ const Circle = ({ count, id }: { count: number; id: number }) => {
   );
 };
 
+const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
+  const container = document.getElementById("container");
+  if (!container) {
+    return null;
+  }
+  return createPortal(children, container);
+};
 
-const Cook = () => {
+const Cook = ({ params }: { params: { recipe_id: number } }) => {
+  
+  // const [recipes, setRecipes] = useState<any>([]);
+  // useEffect(() => {
+  //   const getRecipes = async () => {
+  //     const recipes = await getByDescriptId(1);
+  //     setRecipes(recipes);
+  //   };
+  //   getRecipes();
+  // }, []);
+
+  // useEffect(() => {
+  //   const sorted = recipes.sort((a: Descript, b: Descript) => a.id - b.id);
+  //   setRecipes(sorted);
+  // }, []);
+
   const [id, setId] = useState(0); //現在のページ
-  const back = (num:number, setId:Function) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const back = (
+    num: number,
+    setId: React.Dispatch<React.SetStateAction<number>>
+  ) => {
     num == 0 ? setId(num) : setId(num - 1);
-  }
-  const next = (num:number, page:number, setId:Function) => {
+  };
+  const next = (
+    num: number,
+    page: number,
+    setId: React.Dispatch<React.SetStateAction<number>>
+  ) => {
     num == page - 1 ? setId(num) : setId(num + 1);
-  }
+  };
+  const dispModal = (
+    setModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    status: boolean
+  ) => {
+    setModalOpen(status);
+  };
   return (
     <>
-      <Speech next={next} back={back} num={id} page={page} setId={setId}/>
+      <Speech
+        next={next}
+        back={back}
+        dispModal={dispModal}
+        num={id}
+        page={page}
+        setId={setId}
+        setModalOpen={setModalOpen}
+      />
 
       <div className="flex justify-center content-center">
-        <Image src="" alt="" width={500} height={500} className="shadow-md" />
+        <Image src="" alt="" width={500} height={400} className="shadow-md" />
       </div>
       <div className="mt-6 mb-10 flex justify-center">
         <Circle count={page} id={id} />
       </div>
-      <div className="mx-5 font-bold text-left text-black text-3xl">
+      <div
+        id="desc"
+        className="mx-5 font-mono font-black text-left text-black text-2xl"
+      >
         {text[id]}
       </div>
 
-      <div className="text-black flex justify-between">
+      <button
+        onClick={() => setModalOpen(!modalOpen)}
+        className="bg-black fixed bottom-14"
+      >
+        材料表示
+      </button>
+
+      <div id="container">
+        {modalOpen && (
+          <ModalContainer>
+            <Modal
+              modalClose={() => {
+                setModalOpen(false);
+              }}
+            />
+          </ModalContainer>
+        )}
+      </div>
+
+      <div className="text-white flex justify-between fixed bottom-0 z-10 w-full h-14">
         <button
           onClick={() => (id == 0 ? setId(id) : setId(id - 1))}
-          className="w-10 h-10 bg-orange-400"
+          className="w-20 h-14 bg-transparent font-bold"
         >
+          <FaArrowLeft className="w-6 h-6 mx-7" />
           前へ
         </button>
         <button
           onClick={() => (id == page - 1 ? setId(id) : setId(id + 1))}
-          className="w-10 h-10 bg-orange-400"
+          className="w-20 h-14 bg-transparent font-bold"
         >
+          <FaArrowRight className="w-6 h-6 mx-7" />
           次へ
         </button>
       </div>

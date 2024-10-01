@@ -6,50 +6,75 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import { useState, useEffect } from "react";
 
+type screenController = {
+  next: (
+    num: number,
+    page: number,
+    setId: React.Dispatch<React.SetStateAction<number>>
+  ) => void;
+  back: (
+    num: number,
+    setId: React.Dispatch<React.SetStateAction<number>>
+  ) => void;
+  dispModal: (
+    setModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    status: boolean
+  ) => void;
+};
+
 const Speech = ({
   next,
   back,
+  dispModal,
   num,
   page,
   setId,
+  setModalOpen,
 }: {
-  next: Function;
-  back: Function;
+  next: screenController["next"];
+  back: screenController["back"];
+  dispModal: screenController["dispModal"];
   num: number;
   page: number;
-  setId: Function;
+  setId: React.Dispatch<React.SetStateAction<number>>;
+  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const [message, setMessage] = useState("");
-  const [lastTranscript, setLastTranscript] = useState(""); // 最後に処理したtranscript
-
-  const [status, setStatus] = useState("");
+  const [response, setResponse] = useState("");
 
   const commands = [
     {
-      command: "進んで",
+      command: "*進んで*",
+      //　*印は、雑音に影響されないよう命令の前後の文言を許容するため。起こる恐れのあるバグが不明のため、要検証
       callback: () => {
         next(num, page, setId);
-        setStatus("next");
-        setMessage("進みます");
+        setResponse("next");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
-      command: "戻って",
+      command: "*戻って*",
       callback: () => {
         back(num, setId);
-        setStatus("prev");
-        setMessage("戻ります");
+        setResponse("back");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
-      command: "材料を表示して",
+      command: "*材料は*",
       callback: () => {
-        setStatus("show");
-        setMessage("材料を表示します");
+        dispModal(setModalOpen, true);
+        setResponse("dispModal");
+        resetTranscript();
+        SpeechRecognition.startListening({ continuous: true });
+      },
+    },
+    {
+      command: "*閉じて*",
+      callback: () => {
+        dispModal(setModalOpen, false);
+        setResponse("closeModal");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -57,8 +82,7 @@ const Speech = ({
     {
       command: "タイマーをスタート",
       callback: () => {
-        setStatus("start");
-        setMessage("タイマーをスタート");
+        setResponse("start");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -66,8 +90,7 @@ const Speech = ({
     {
       command: "タイマーをストップ",
       callback: () => {
-        setStatus("stop");
-        setMessage("タイマーをストップ");
+        setResponse("stop");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -75,8 +98,7 @@ const Speech = ({
     {
       command: "タイマーをリセット",
       callback: () => {
-        setStatus("reset");
-        setMessage("タイマーをリセット");
+        setResponse("reset");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -84,8 +106,7 @@ const Speech = ({
     {
       command: "*の量は",
       callback: (material: string) => {
-        setStatus(`amount ${material}`);
-        setMessage(`${material}の量はこの通りです`);
+        setResponse(`amount of ${material}`);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -93,8 +114,7 @@ const Speech = ({
     {
       command: "*ってどうやる",
       callback: (material: string) => {
-        setStatus(`how ${material}`);
-        setMessage(`${material}はこのような切り方です`);
+        setResponse(`how to ${material}`);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -108,16 +128,18 @@ const Speech = ({
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition({ commands });
 
-  useEffect(() => {
-    if (transcript && transcript !== lastTranscript) {
-      // コマンドで処理されなかった場合の処理
-      // 認識停止予防
-      if (message === "") {
-        SpeechRecognition.startListening({ continuous: true });
-      }
-      setLastTranscript(transcript);
-    }
-  }, [transcript, lastTranscript, message]);
+  // ここの処理はなくても良さそう。認識が止まることがあれば戻す。
+  // const [lastTranscript, setLastTranscript] = useState(""); // 最後に処理したtranscript
+  // useEffect(() => {
+  //   if (transcript && transcript !== lastTranscript) {
+  //     // コマンドで処理されなかった場合の処理
+  //     // 認識停止予防
+  //     if (response === "") {
+  //       SpeechRecognition.startListening({ continuous: true });
+  //     }
+  //     setLastTranscript(transcript);
+  //   }
+  // }, [transcript, lastTranscript, response]);
 
   // 音声認識が停止したときに再スタートする処理
   // 認識停止予防
@@ -128,19 +150,22 @@ const Speech = ({
   }, [listening]);
 
   if (!browserSupportsSpeechRecognition) {
-    console.log("useSpeech ERROR");
+    console.log("Speech conponent ERROR");
   }
 
   useEffect(() => {
-    console.log("Current status:", status);
-  }, [status]);
+    console.log("Current response:", response);
+  }, [response]);
 
   return (
     <>
       {/* デバッグ用 */}
-      {/* <p>response : {message}</p>
-      <p>input : {transcript}</p>
-      <p>status : {status}</p> */}
+      <p className="text-black fixed top-32 bg-black bg-opacity-20">
+        response : {response}
+      </p>
+      <p className="text-black fixed top-40 bg-black bg-opacity-20">
+        input : {transcript}
+      </p>
     </>
   );
 };
