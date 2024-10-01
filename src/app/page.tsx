@@ -1,17 +1,36 @@
+'use client'
+
+import {useEffect, useState } from "react";
+import ArticleCard from "./conponents/ArticleCard";
+import Footer from "./conponents/Footer";
 import Header from "./conponents/Header";
+import { getAllRecipes } from "./utils/supabaseFunctions";
+import { Recipe } from "./types";
+import { usePathname } from "next/navigation";
 
 
 export default function Home() {
-  const nem :number[] =  [1,2,3,4,5,6,7,8,9,0,11,12,13,14,1,5,6,7,8,9]
+
+  const pathName = usePathname()
+
+  const [list,setList]=useState<Recipe[]>([])
+  useEffect (()=> {
+      const setarticlelist = async()=>{
+          const articlelist = await getAllRecipes()
+          setList(articlelist)
+      };
+      setarticlelist()
+  },[]);
 
   return (
     <div>
-      <Header />
-      <div className="grid grid-cols-2">
-      {nem.map((value) => (
-              <div>{value}</div>
-          ))}
+      <Header pathName={pathName}/>
+      <div className="bg-orange-100 grid grid-cols-2">
+      {list.map((recipe:Recipe)=>(
+        <ArticleCard recipe={recipe}/>
+      ))}
       </div>
+      <Footer pathName={pathName}/>
     </div>
   );
 }
