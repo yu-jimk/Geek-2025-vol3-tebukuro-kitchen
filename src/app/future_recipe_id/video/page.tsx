@@ -1,24 +1,51 @@
-"use client"
+"use client";
 
-// src/pages/SearchVideos.tsx
-import React, { useState } from 'react';
-import youtube from '../../utils/youtube'
-import VideoPlayer from './VideoPlayer';
+import React, { useState } from "react";
+import youtube from "../../utils/youtube";
+import VideoPlayer from "./VideoPlayer";
 
-const SearchVideos: React.FC = () => {
-  const [keyword, setKeyword] = useState('');
-  const [videos, setVideos] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
+type Thumbnail = {
+  url: string;
+  width: number;
+  height: number;
+};
+
+type Snippet = {
+  publishedAt: string;
+  channelId: string;
+  title: string;
+  description: string;
+  thumbnails: {
+    default: Thumbnail;
+    medium: Thumbnail;
+    high: Thumbnail;
+  };
+  channelTitle: string;
+  liveBroadcastContent: string;
+  publishTime: string;
+};
+
+type Video = {
+  kind: string;
+  etag: string;
+  id: {
+    kind: string;
+    videoId: string;
+  };
+  snippet: Snippet;
+};
+
+const SearchVideo = () => {
+  const [keyword, setKeyword] = useState("");
+  const [video, setVideo] = useState<Video[]>([]);
 
   const handleSearch = async () => {
-    setLoading(true);
     try {
-      const results = await youtube(keyword);
-      setVideos(results);
+      const result = await youtube(keyword);
+      setVideo(result);
+      console.log(result);
     } catch (error) {
-      console.error('Error fetching videos:', error);
-    } finally {
-      setLoading(false);
+      console.error("Error fetching video:", error);
     }
   };
 
@@ -33,10 +60,8 @@ const SearchVideos: React.FC = () => {
       />
       <button onClick={handleSearch}>検索</button>
 
-      {loading ? <p>Loading...</p> : null}
-
       <div>
-        {videos.map((video) => (
+        {video.map((video) => (
           <VideoPlayer key={video.id.videoId} videoId={video.id.videoId} />
         ))}
       </div>
@@ -44,4 +69,4 @@ const SearchVideos: React.FC = () => {
   );
 };
 
-export default SearchVideos;
+export default SearchVideo;

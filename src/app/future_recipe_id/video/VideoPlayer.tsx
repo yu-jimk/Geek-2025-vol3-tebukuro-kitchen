@@ -1,13 +1,9 @@
-// src/components/VideoPlayer.tsx
-import React from 'react';
 
-type VideoPlayerProps = {
-  videoId: string;
-};
+import React from "react";
 
-const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoId }) => {
+const VideoPlayer = ({ videoId }: { videoId: string }) => {
   return (
-    <div style={{ width: '300px', height: '200px' }}>
+    <div style={{ width: "300px", height: "200px" }}>
       <iframe
         width="300"
         height="200"
