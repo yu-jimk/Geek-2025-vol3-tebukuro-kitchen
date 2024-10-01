@@ -119,7 +119,7 @@ export default async function RecipeId({
         </Link>
       </main>
 
-      <Footer />
+      <Footer pathName="/" />
     </>
   );
 }
