@@ -1,9 +1,11 @@
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import { supabase } from "../utils/supabase";
 import { Descript, Ingredient, Recipe } from "../types";
-
 export const getAllRecipes = async () => {
   const recipes = await supabase.from("Recipes").select("*");
+  // if(recipes.data !== null){
+  //   recipes.data.sort((firstItem:Recipe, secondItem:Recipe) => firstItem.id - secondItem.id);
+  // }
   // 強制的にRecipe[]として認識させる
   return recipes.data as Recipe[];
 };
@@ -29,14 +31,17 @@ export const deleteRecipe = async (id: number) => {
 };
 
 export const getByIngredientId = async (recipe_id: number) => {
-  const Ingredients: PostgrestSingleResponse<Ingredient[]> = await supabase
+  const ingredients: PostgrestSingleResponse<Ingredient[]> = await supabase
     .from("Ingredients")
     .select("*")
     .eq("recipe_id", recipe_id);
-  if (Ingredients.data === null) {
-    return -1;
+  if (ingredients.data !== null) {
+    ingredients.data.sort(
+      (firstItem: Ingredient, secondItem: Ingredient) =>
+        firstItem.id - secondItem.id
+    );
   }
-  return Ingredients.data;
+  return ingredients.data as Ingredient[];
 };
 
 export const addIngredient = async (
@@ -52,24 +57,33 @@ export const addIngredient = async (
 };
 
 export const getByDescriptId = async (recipe_id: number) => {
-  const Descripts: PostgrestSingleResponse<Descript[]> = await supabase
+  const descripts: PostgrestSingleResponse<Descript[]> = await supabase
     .from("Descripts")
     .select("*")
     .eq("recipe_id", recipe_id);
-  if (Descripts.data === null) {
-    return -1;
+  if (descripts.data !== null) {
+    descripts.data.sort(
+      (firstItem: Descript, secondItem: Descript) =>
+        firstItem.id - secondItem.id
+    );
   }
-  return Descripts.data;
+  return descripts.data as Descript[];
 };
 
 export const addDescript = async (
   recipe_id: number,
-  image_url?: string,
-  text?: string
+  name: string,
+  amount: string
 ) => {
   await supabase.from("Ingredients").insert({
     recipe_id: recipe_id,
-    image_url: image_url,
-    text: text,
+    name: name,
+    amount: amount,
   });
+};
+
+export const showImage = async (filePath: string) => {
+  const { data } = supabase.storage.from("images").getPublicUrl(filePath);
+  const imageUrl = data.publicUrl;
+  return imageUrl;
 };
