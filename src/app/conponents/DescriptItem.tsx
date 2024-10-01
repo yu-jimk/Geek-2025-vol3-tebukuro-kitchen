@@ -1,22 +1,23 @@
+import { Descript } from "@/app/types";
 import Image from "next/image";
 import { FiCameraOff } from "react-icons/fi";
-const DescriptItem = () => {
-  const imageExist: boolean = false;
+
+const DescriptItem = (props: Descript) => {
+  const { id, text, image_url } = props;
 
   return (
     <div className="bg-white flex items-start justify-between p-1">
       <div className="flex-shrink-0">
         <p className="bg-orange-400 text-white size-4 flex items-center justify-center font-semibold text-xs rounded-sm">
-          1
+          {id}
         </p>
       </div>
-      <p className="pt-2 px-4 font-semibold text-xs">
-        フライパンに油をひき、卵を割る。白身が白くなったらお米を入れる。
-      </p>
-      {imageExist ? (
+      <p className="pt-2 px-4 font-semibold text-xs">{text}</p>
+      {/* nullのみを判定しているので、url先の画像が見つからない場合に対処できない */}
+      {image_url && text ? (
         <Image
-          src="https://picsum.photos/300"
-          alt="フライパンに油をひき、卵を割る。白身が白くなったらお米を入れる。"
+          src={image_url}
+          alt={text}
           width={72}
           height={72}
           className="my-auto"
