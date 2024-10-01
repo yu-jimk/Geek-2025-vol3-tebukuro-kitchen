@@ -47,7 +47,7 @@ const Speech = ({
       //　*印は、雑音に影響されないよう命令の前後の文言を許容するため。起こる恐れのあるバグが不明のため、要検証
       callback: () => {
         next(num, page, setId);
-        setResponse("next")
+        setResponse("next");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -56,7 +56,7 @@ const Speech = ({
       command: "*戻って*",
       callback: () => {
         back(num, setId);
-        setResponse("back")
+        setResponse("back");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -65,7 +65,7 @@ const Speech = ({
       command: "*材料は*",
       callback: () => {
         dispModal(setModalOpen, true);
-        setResponse("dispModal")
+        setResponse("dispModal");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -74,7 +74,7 @@ const Speech = ({
       command: "*閉じて*",
       callback: () => {
         dispModal(setModalOpen, false);
-        setResponse("closeModal")
+        setResponse("closeModal");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -82,7 +82,7 @@ const Speech = ({
     {
       command: "タイマーをスタート",
       callback: () => {
-        setResponse("start")
+        setResponse("start");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -90,7 +90,7 @@ const Speech = ({
     {
       command: "タイマーをストップ",
       callback: () => {
-        setResponse("stop")
+        setResponse("stop");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -98,23 +98,23 @@ const Speech = ({
     {
       command: "タイマーをリセット",
       callback: () => {
-        setResponse("reset")
+        setResponse("reset");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
       command: "*の量は",
-      callback: (material : string) => {
-        setResponse(`amount of ${material}`)
+      callback: (material: string) => {
+        setResponse(`amount of ${material}`);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
       command: "*ってどうやる",
-      callback: (material : string) => {
-        setResponse(`how to ${material}`)
+      callback: (material: string) => {
+        setResponse(`how to ${material}`);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -160,8 +160,12 @@ const Speech = ({
   return (
     <>
       {/* デバッグ用 */}
-      {/* <p className="text-black">input : {transcript}</p>
-      <p className="text-black">response : {response}</p> */}
+      <p className="text-black fixed top-32 bg-black bg-opacity-20">
+        response : {response}
+      </p>
+      <p className="text-black fixed top-40 bg-black bg-opacity-20">
+        input : {transcript}
+      </p>
     </>
   );
 };
