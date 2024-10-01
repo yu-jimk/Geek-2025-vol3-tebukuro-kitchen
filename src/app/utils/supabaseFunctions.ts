@@ -1,6 +1,7 @@
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import { supabase } from "../utils/supabase";
 import { Descript, Ingredient, Recipe } from "../types";
+// 全レシピ取得
 export const getAllRecipes = async () => {
   const recipes = await supabase.from("Recipes").select("*");
   // if(recipes.data !== null){
@@ -9,7 +10,16 @@ export const getAllRecipes = async () => {
   // 強制的にRecipe[]として認識させる
   return recipes.data as Recipe[];
 };
-
+// レシピのidより1つのレシピ取得
+export const getRecipesbyId = async (id:number) => {
+  const recipe = await supabase.from("Recipes").select("*").eq("id",id);
+  // if(recipes.data !== null){
+  //   recipes.data.sort((firstItem:Recipe, secondItem:Recipe) => firstItem.id - secondItem.id);
+  // }
+  // 強制的にRecipe[]として認識させる
+  return recipe.data as Recipe[];
+};
+// レシピ作成
 export const addRecipe = async (
   name: string,
   image_url?: string,
@@ -25,11 +35,11 @@ export const addRecipe = async (
     comment: comment,
   });
 };
-
+// レシピ削除
 export const deleteRecipe = async (id: number) => {
   await supabase.from("Recipes").delete().eq("id", id);
 };
-
+// レシピのidより材料取得
 export const getByIngredientId = async (recipe_id: number) => {
   const ingredients: PostgrestSingleResponse<Ingredient[]> = await supabase
     .from("Ingredients")
@@ -43,7 +53,7 @@ export const getByIngredientId = async (recipe_id: number) => {
   }
   return ingredients.data as Ingredient[];
 };
-
+// 材料作成
 export const addIngredient = async (
   recipe_id: number,
   name: string,
@@ -55,7 +65,7 @@ export const addIngredient = async (
     amount: amount,
   });
 };
-
+// レシピのidより説明取得
 export const getByDescriptId = async (recipe_id: number) => {
   const descripts: PostgrestSingleResponse<Descript[]> = await supabase
     .from("Descripts")
@@ -69,7 +79,7 @@ export const getByDescriptId = async (recipe_id: number) => {
   }
   return descripts.data as Descript[];
 };
-
+// 説明作成
 export const addDescript = async (
   recipe_id: number,
   name: string,
@@ -81,8 +91,8 @@ export const addDescript = async (
     amount: amount,
   });
 };
-
-export const showImage = async (filePath: string) => {
+// 画像名より画像のurl取得
+export const getImageUrl = async (filePath: string) => {
   const { data } = supabase.storage.from("images").getPublicUrl(filePath);
   const imageUrl = data.publicUrl;
   return imageUrl;
