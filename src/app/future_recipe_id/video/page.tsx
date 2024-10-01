@@ -9,12 +9,11 @@ const SearchVideos: React.FC = () => {
   const [keyword, setKeyword] = useState('');
   const [videos, setVideos] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-  const channelId = '@KikkomanJP'; // 特定のチャンネルIDを設定
 
   const handleSearch = async () => {
     setLoading(true);
     try {
-      const results = await youtube(channelId, keyword);
+      const results = await youtube(keyword);
       setVideos(results);
     } catch (error) {
       console.error('Error fetching videos:', error);
