@@ -34,9 +34,10 @@ const Circle = ({ count, id }: { count: number; id: number }) => {
 
 const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
   const container = document.getElementById("container");
-  if (container) {
-    return createPortal(children, container);
+  if (!container) {
+    return null;
   }
+  return createPortal(children, container);
 };
 
 const Cook = () => {
