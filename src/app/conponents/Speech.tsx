@@ -160,8 +160,8 @@ const Speech = ({
   return (
     <>
       {/* デバッグ用 */}
-      <p className="text-black">input : {transcript}</p>
-      <p className="text-black">response : {response}</p>
+      {/* <p className="text-black">input : {transcript}</p>
+      <p className="text-black">response : {response}</p> */}
     </>
   );
 };
