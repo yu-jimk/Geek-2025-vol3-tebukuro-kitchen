@@ -62,7 +62,7 @@ const SearchVideo = () => {
 
       <div>
         {video.map((video) => (
-          <YtModal modalClose={()=>console.log("A")} keyword={video.id.videoId} />
+          <YtModal modalClose={()=>console.log("A")} keyword={video.id.videoId} key={video.id.videoId}/>
         ))}
       </div>
     </div>
