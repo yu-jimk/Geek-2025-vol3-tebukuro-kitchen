@@ -17,7 +17,7 @@ type screenController = {
     setId: React.Dispatch<React.SetStateAction<number>>
   ) => void;
   dispModal: (
-    setModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    setIngModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
     status: boolean
   ) => void;
 };
@@ -29,7 +29,7 @@ const Speech = ({
   num,
   page,
   setId,
-  setModalOpen,
+  setIngModalOpen,
 }: {
   next: screenController["next"];
   back: screenController["back"];
@@ -37,7 +37,7 @@ const Speech = ({
   num: number;
   page: number;
   setId: React.Dispatch<React.SetStateAction<number>>;
-  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIngModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [response, setResponse] = useState("");
 
@@ -64,7 +64,7 @@ const Speech = ({
     {
       command: "*材料は*",
       callback: () => {
-        dispModal(setModalOpen, true);
+        dispModal(setIngModalOpen, true);
         setResponse("dispModal");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -73,7 +73,7 @@ const Speech = ({
     {
       command: "*閉じて*",
       callback: () => {
-        dispModal(setModalOpen, false);
+        dispModal(setIngModalOpen, false);
         setResponse("closeModal");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });

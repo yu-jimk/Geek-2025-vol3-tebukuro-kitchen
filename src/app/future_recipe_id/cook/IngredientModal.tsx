@@ -1,7 +1,7 @@
 import React from "react";
 import { IoMdClose } from "react-icons/io";
 
-const Modal = ({ modalClose }: { modalClose: () => void }) => {
+const IngredientModal = ({ modalClose }: { modalClose: () => void }) => {
   const bgClickClose = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       modalClose();
@@ -32,4 +32,4 @@ const Modal = ({ modalClose }: { modalClose: () => void }) => {
   );
 };
 
-export default Modal;
+export default IngredientModal;

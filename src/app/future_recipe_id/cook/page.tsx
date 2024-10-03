@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Speech from "@/app/conponents/Speech";
-import Modal from "./Modal";
+import IngredientModal from "./IngredientModal";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import { createPortal } from "react-dom";
@@ -34,7 +34,7 @@ const Circle = ({ count, id }: { count: number; id: number }) => {
   );
 };
 
-const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
+const IngModalContainer = ({ children }: { children: React.JSX.Element }) => {
   const container = document.getElementById("container");
   if (!container) {
     return null;
@@ -59,7 +59,7 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
   // }, []);
 
   const [id, setId] = useState(0); //現在のページ
-  const [modalOpen, setModalOpen] = useState(false);
+  const [ingModalOpen, setIngModalOpen] = useState(false);
   const back = (
     num: number,
     setId: React.Dispatch<React.SetStateAction<number>>
@@ -88,7 +88,7 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
         num={id}
         page={page}
         setId={setId}
-        setModalOpen={setModalOpen}
+        setIngModalOpen={setIngModalOpen}
       />
 
       <div className="flex justify-center content-center">
@@ -105,21 +105,21 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
       </div>
 
       <button
-        onClick={() => setModalOpen(!modalOpen)}
+        onClick={() => setIngModalOpen(!ingModalOpen)}
         className="bg-black fixed bottom-14"
       >
         材料表示
       </button>
 
       <div id="container">
-        {modalOpen && (
-          <ModalContainer>
-            <Modal
+        {ingModalOpen && (
+          <IngModalContainer>
+            <IngredientModal
               modalClose={() => {
-                setModalOpen(false);
+                setIngModalOpen(false);
               }}
             />
-          </ModalContainer>
+          </IngModalContainer>
         )}
       </div>
 
