@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Speech from "@/app/conponents/Speech";
-import IngredientModal from "./IngredientModal";
+import IngModal from "./IngModal";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import { createPortal } from "react-dom";
@@ -114,7 +114,7 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
       <div id="container">
         {ingModalOpen && (
           <IngModalContainer>
-            <IngredientModal
+            <IngModal
               modalClose={() => {
                 setIngModalOpen(false);
               }}
