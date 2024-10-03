@@ -25,19 +25,21 @@ type screenController = {
 const Speech = ({
   next,
   back,
-  dispModal,
   num,
   page,
   setId,
   setIngModalOpen,
+  setYtModalOpen,
+  setKeyword
 }: {
   next: screenController["next"];
   back: screenController["back"];
-  dispModal: screenController["dispModal"];
   num: number;
   page: number;
   setId: React.Dispatch<React.SetStateAction<number>>;
   setIngModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setYtModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setKeyword: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [response, setResponse] = useState("");
 
@@ -64,7 +66,7 @@ const Speech = ({
     {
       command: "*材料は*",
       callback: () => {
-        dispModal(setIngModalOpen, true);
+        setIngModalOpen(true)
         setResponse("dispModal");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -73,7 +75,8 @@ const Speech = ({
     {
       command: "*閉じて*",
       callback: () => {
-        dispModal(setIngModalOpen, false);
+        setIngModalOpen(false)
+        setYtModalOpen(false)
         setResponse("closeModal");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -114,6 +117,8 @@ const Speech = ({
     {
       command: "*ってどうやる",
       callback: (material: string) => {
+        setKeyword(material);
+        setYtModalOpen(true)
         setResponse(`how to ${material}`);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });

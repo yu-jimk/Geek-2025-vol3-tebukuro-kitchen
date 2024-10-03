@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import youtube from "../../utils/youtube";
-import VideoPlayer from "./VideoPlayer";
+import YtModal from "../cook/YtModal";
 
 type Thumbnail = {
   url: string;
@@ -62,7 +62,7 @@ const SearchVideo = () => {
 
       <div>
         {video.map((video) => (
-          <VideoPlayer key={video.id.videoId} videoId={video.id.videoId} />
+          <YtModal modalClose={()=>console.log("A")} keyword={video.id.videoId} />
         ))}
       </div>
     </div>
