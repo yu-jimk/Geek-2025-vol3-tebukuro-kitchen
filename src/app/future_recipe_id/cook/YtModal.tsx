@@ -48,6 +48,7 @@ const YtModal = ({
       modalClose();
     }
   };
+  
   useEffect(() => {
     if (keyword !== "") {
       const handleSearch = async () => {
