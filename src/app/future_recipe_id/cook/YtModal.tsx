@@ -1,5 +1,7 @@
+"use client";
+
 import youtube from "@/app/utils/youtube";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
 type Thumbnail = {
@@ -40,29 +42,27 @@ const YtModal = ({
   modalClose: () => void;
   keyword: string;
 }) => {
-  const [video, setVideo] = useState<Video[]>([]);
+  const [video, setVideo] = useState<Video | null>(null);
   const bgClickClose = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       modalClose();
     }
   };
-  const handleSearch = async () => {
-    try {
-      const result = await youtube(keyword);
-      setVideo(result);
-      console.log(result);
-    } catch (error) {
-      console.error("Error fetching video:", error);
-    }
-  };
-  const safeSearch = () => {
-    setTimeout(() => {
+  useEffect(() => {
+    if (keyword !== "") {
+      const handleSearch = async () => {
+        try {
+          const result = await youtube(keyword);
+          setVideo(result);
+          console.log(result);
+        } catch (error) {
+          console.error("Error fetching video:", error);
+        }
+      };
       handleSearch();
-    }, 5000);
-  };
-  if (keyword != "") {
-    safeSearch();
-  }
+    }
+  }, []);
+
   return (
     <>
       <div className="bg-black bg-opacity-50 fixed inset-x-0 -top-10 bottom-0">
@@ -75,14 +75,12 @@ const YtModal = ({
               <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
             </div>
             <div>
-              {video.map((video) => (
-                <iframe
-                  width="300"
-                  height="200"
-                  src={`https://www.youtube.com/embed/${video.id.videoId}}`}
-                  title="YouTube video player"
-                ></iframe>
-              ))}
+              <iframe
+                width="300"
+                height="200"
+                src={`https://www.youtube.com/embed/${video?.id.videoId}`}
+                title="YouTube video player"
+              ></iframe>
             </div>
           </div>
         </div>

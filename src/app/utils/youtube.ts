@@ -17,7 +17,7 @@ const youtube = async (keyword: string) => {
   }
 
   const data = await response.json();
-  return data.items;
+  return data.items[0];
 };
 
 export default youtube;
