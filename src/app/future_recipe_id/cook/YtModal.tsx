@@ -77,7 +77,12 @@ const YtModal = ({
             </div>
             <div>
               {video === null ? (
-                <div className="w-72 h-52"></div>
+                <div className="w-72 h-52 bg-white text-black text-center flex flex-col justify-center">
+                  動画をロード中です
+                  <div className="flex justify-center">
+                    <div className="mt-5 w-10 h-10 rounded-full animate-spin border-orange-400 border-4 border-t-transparent"></div>
+                  </div>
+                </div>
               ) : (
                 <iframe
                   width="300"
