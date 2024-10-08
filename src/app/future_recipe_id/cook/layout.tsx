@@ -1,5 +1,3 @@
-"use client";
-
 import "@/app/globals.css";
 import { IoMicOutline } from "react-icons/io5";
 import RecipeHeader from "@/app/conponents/RecipeHeader";
