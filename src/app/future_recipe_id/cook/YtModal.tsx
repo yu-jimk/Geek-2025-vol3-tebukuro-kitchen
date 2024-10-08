@@ -87,7 +87,7 @@ const YtModal = ({
                 <iframe
                   width="300"
                   height="200"
-                  src={`https://www.youtube.com/embed/${video?.id.videoId}`}
+                  src={`https://www.youtube.com/embed/${video?.id.videoId}?autoplay=1&mute=1`}
                   title="YouTube video player"
                 ></iframe>
               )}
