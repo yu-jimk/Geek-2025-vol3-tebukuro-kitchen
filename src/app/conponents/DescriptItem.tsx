@@ -12,7 +12,9 @@ const DescriptItem = (props: Descript) => {
           {id}
         </p>
       </div>
-      <p className="pt-2 px-4 font-semibold text-xs">{text}</p>
+      <p className="pt-2 px-4 font-semibold text-xs break-words max-w-[calc(100%-90px)]">
+        {text}
+      </p>
       {/* nullのみを判定しているので、url先の画像が見つからない場合に対処できない */}
       {image_url && text ? (
         <Image
