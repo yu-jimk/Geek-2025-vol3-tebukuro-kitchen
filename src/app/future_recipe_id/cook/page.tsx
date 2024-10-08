@@ -3,12 +3,13 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Speech from "@/app/conponents/Speech";
-import Modal from "./Modal";
+import IngModal from "./IngModal";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import { createPortal } from "react-dom";
 import { getByDescriptId } from "@/app/utils/supabaseFunctions";
 import { Descript } from "@/app/types";
+import YtModal from "./YtModal";
 
 //データベースからの取得は後。仮データ
 const page: number = 3; //ページ数
@@ -34,7 +35,14 @@ const Circle = ({ count, id }: { count: number; id: number }) => {
   );
 };
 
-const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
+const IngModalContainer = ({ children }: { children: React.JSX.Element }) => {
+  const container = document.getElementById("container");
+  if (!container) {
+    return null;
+  }
+  return createPortal(children, container);
+};
+const YtModalContainer = ({ children }: { children: React.JSX.Element }) => {
   const container = document.getElementById("container");
   if (!container) {
     return null;
@@ -43,7 +51,6 @@ const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
 };
 
 const Cook = ({ params }: { params: { recipe_id: number } }) => {
-  
   // const [recipes, setRecipes] = useState<any>([]);
   // useEffect(() => {
   //   const getRecipes = async () => {
@@ -59,7 +66,10 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
   // }, []);
 
   const [id, setId] = useState(0); //現在のページ
-  const [modalOpen, setModalOpen] = useState(false);
+  const [ingModalOpen, setIngModalOpen] = useState(false);
+  const [ytModalOpen, setYtModalOpen] = useState(false);
+  const [keyword, setKeyword] = useState("")
+
   const back = (
     num: number,
     setId: React.Dispatch<React.SetStateAction<number>>
@@ -73,22 +83,17 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
   ) => {
     num == page - 1 ? setId(num) : setId(num + 1);
   };
-  const dispModal = (
-    setModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    status: boolean
-  ) => {
-    setModalOpen(status);
-  };
   return (
     <>
       <Speech
         next={next}
         back={back}
-        dispModal={dispModal}
         num={id}
         page={page}
         setId={setId}
-        setModalOpen={setModalOpen}
+        setIngModalOpen={setIngModalOpen}
+        setYtModalOpen={setYtModalOpen}
+        setKeyword={setKeyword}
       />
 
       <div className="flex justify-center content-center">
@@ -104,22 +109,40 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
         {text[id]}
       </div>
 
-      <button
-        onClick={() => setModalOpen(!modalOpen)}
-        className="bg-black fixed bottom-14"
-      >
-        材料表示
-      </button>
+      <div className="w-full flex justify-between fixed bottom-14">
+        <button
+          onClick={() => setIngModalOpen(!ingModalOpen)}
+          className="bg-black"
+        >
+          材料表示
+        </button>
+        <button
+          onClick={() => setYtModalOpen(!ytModalOpen)}
+          className="bg-black"
+        >
+          動画表示
+        </button>
+      </div>
 
       <div id="container">
-        {modalOpen && (
-          <ModalContainer>
-            <Modal
+        {ingModalOpen && (
+          <IngModalContainer>
+            <IngModal
               modalClose={() => {
-                setModalOpen(false);
+                setIngModalOpen(false);
               }}
             />
-          </ModalContainer>
+          </IngModalContainer>
+        )}
+        {ytModalOpen && (
+          <YtModalContainer>
+            <YtModal
+              modalClose={() => {
+                setYtModalOpen(false);
+              }}
+              keyword={keyword}
+            />
+          </YtModalContainer>
         )}
       </div>
 

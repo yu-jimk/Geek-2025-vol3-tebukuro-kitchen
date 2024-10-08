@@ -17,7 +17,7 @@ type screenController = {
     setId: React.Dispatch<React.SetStateAction<number>>
   ) => void;
   dispModal: (
-    setModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    setIngModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
     status: boolean
   ) => void;
 };
@@ -25,19 +25,21 @@ type screenController = {
 const Speech = ({
   next,
   back,
-  dispModal,
   num,
   page,
   setId,
-  setModalOpen,
+  setIngModalOpen,
+  setYtModalOpen,
+  setKeyword
 }: {
   next: screenController["next"];
   back: screenController["back"];
-  dispModal: screenController["dispModal"];
   num: number;
   page: number;
   setId: React.Dispatch<React.SetStateAction<number>>;
-  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIngModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setYtModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setKeyword: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [response, setResponse] = useState("");
 
@@ -64,7 +66,7 @@ const Speech = ({
     {
       command: "*材料は*",
       callback: () => {
-        dispModal(setModalOpen, true);
+        setIngModalOpen(true)
         setResponse("dispModal");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -73,7 +75,8 @@ const Speech = ({
     {
       command: "*閉じて*",
       callback: () => {
-        dispModal(setModalOpen, false);
+        setIngModalOpen(false)
+        setYtModalOpen(false)
         setResponse("closeModal");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -114,6 +117,8 @@ const Speech = ({
     {
       command: "*ってどうやる",
       callback: (material: string) => {
+        setKeyword(material);
+        setYtModalOpen(true)
         setResponse(`how to ${material}`);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
