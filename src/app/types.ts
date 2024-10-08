@@ -25,3 +25,14 @@ export type Descript = {
   image_url?: string;
   text?: string;
 };
+
+export type DetailRecipe = {
+  id: number;
+  name: string;
+  image_url?: string;
+  time?: string; //料理時間
+  comment?: string;
+  howmany?: string; //何人前
+  Descripts: Descript[];
+  Ingredients: Ingredient[];
+};

@@ -1,45 +1,41 @@
 "use client";
 
+import { Recipe } from "@/app/types";
+import {
+  getFavoriteRecipes,
+  setFavoriteRecipes,
+} from "@/app/utils/localstorageFunction";
 import { useEffect, useState } from "react";
 import { FiHeart } from "react-icons/fi";
 
 type FavoriteButtonProps = {
-  id: number;
+  recipe: Recipe;
 };
 
-const FavoriteButton = ({ id }: FavoriteButtonProps) => {
+const FavoriteButton = ({ recipe }: FavoriteButtonProps) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
-  const recipe_id: number = id; // パラメータのrecipe_idを取得
-
-  const getFavoriteRecipeIds = (): number[] => {
-    return JSON.parse(localStorage.getItem("favoriteRecipeIds") || "[]");
-  };
-
-  const saveFavoriteRecipeIds = (ids: number[]) => {
-    localStorage.setItem("favoriteRecipeIds", JSON.stringify(ids));
-  };
+  const recipe_id: number = recipe.id; // パラメータのrecipe_idを取得
 
   // レンダリング時にlocalStorageを確認し、記事が既にお気に入りにあるかを判定
   useEffect(() => {
-    const favoriteRecipeIds: number[] = getFavoriteRecipeIds();
-    setIsFavorite(favoriteRecipeIds.includes(recipe_id));
+    const favoriteRecipes: Recipe[] = getFavoriteRecipes();
+    setIsFavorite(favoriteRecipes.some((r: Recipe) => r.id === recipe_id));
     setLoading(false);
   }, [recipe_id]);
 
   // クリックイベント: お気に入りの状態を切り替え、localStorageを更新
   const handleFavoriteClick = () => {
-    const favoriteRecipeIds: number[] = getFavoriteRecipeIds();
-
+    const favoriteRecipes: Recipe[] = getFavoriteRecipes();
     if (isFavorite) {
       // お気に入りから削除
-      const updatedFavorites: number[] = favoriteRecipeIds.filter(
-        (id: number) => id !== recipe_id
+      const updatedFavorites: Recipe[] = favoriteRecipes.filter(
+        (r: Recipe) => r.id !== recipe_id
       );
-      saveFavoriteRecipeIds(updatedFavorites);
+      setFavoriteRecipes(updatedFavorites);
     } else {
       // お気に入りに追加
-      saveFavoriteRecipeIds([...favoriteRecipeIds, recipe_id]);
+      setFavoriteRecipes([...favoriteRecipes, recipe]);
     }
 
     // isFavoriteの状態を反転
