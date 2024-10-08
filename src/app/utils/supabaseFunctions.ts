@@ -1,6 +1,6 @@
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
+import { Descript, DetailRecipe, Ingredient, Recipe } from "../types";
 import { supabase } from "../utils/supabase";
-import { Descript, Ingredient, Recipe } from "../types";
 // 全レシピ取得
 export const getAllRecipes = async () => {
   const recipes = await supabase.from("Recipes").select("*");
@@ -11,8 +11,8 @@ export const getAllRecipes = async () => {
   return recipes.data as Recipe[];
 };
 // レシピのidより1つのレシピ取得
-export const getRecipesbyId = async (id:number) => {
-  const recipe = await supabase.from("Recipes").select("*").eq("id",id);
+export const getRecipesbyId = async (id: number) => {
+  const recipe = await supabase.from("Recipes").select("*").eq("id", id);
   // if(recipes.data !== null){
   //   recipes.data.sort((firstItem:Recipe, secondItem:Recipe) => firstItem.id - secondItem.id);
   // }
@@ -96,4 +96,16 @@ export const getImageUrl = async (filePath: string) => {
   const { data } = supabase.storage.from("images").getPublicUrl(filePath);
   const imageUrl = data.publicUrl;
   return imageUrl;
+};
+
+export const getDetailRecipebyId = async (id: number) => {
+  const detailRecipe: PostgrestSingleResponse<DetailRecipe> = await supabase
+    .from("Recipes")
+    .select("*, Descripts(*), Ingredients(*)")
+    .eq("id", id)
+    .single();
+  // if (detailRecipe.data !== null) {
+  // }
+  // 強制的にRecipe[]として認識させる
+  return detailRecipe.data as DetailRecipe;
 };
