@@ -48,7 +48,7 @@ const YtModal = ({
       modalClose();
     }
   };
-  
+
   useEffect(() => {
     if (keyword !== "") {
       const handleSearch = async () => {
@@ -76,12 +76,16 @@ const YtModal = ({
               <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
             </div>
             <div>
-              <iframe
-                width="300"
-                height="200"
-                src={`https://www.youtube.com/embed/${video?.id.videoId}`}
-                title="YouTube video player"
-              ></iframe>
+              {video === null ? (
+                <div className="w-72 h-52"></div>
+              ) : (
+                <iframe
+                  width="300"
+                  height="200"
+                  src={`https://www.youtube.com/embed/${video?.id.videoId}`}
+                  title="YouTube video player"
+                ></iframe>
+              )}
             </div>
           </div>
         </div>
