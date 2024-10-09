@@ -1,34 +1,34 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react'
-import Header from '../conponents/Header'
-import { usePathname } from 'next/navigation'
-import Footer from '../conponents/Footer'
-import ArticleCard from '../conponents/ArticleCard'
+import ArticleCard from "@/app/conponents/ArticleCard";
+import Footer from "@/app/conponents/Footer";
+import Header from "@/app/conponents/Header";
+import { Recipe } from "@/app/types";
+import { getFavoriteRecipes } from "@/app/utils/localstorageFunction";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const Favorites = () => {
-  const [lecipies, setlecipes] = useState<string[]>([]);
+  const pathName = usePathname();
+
+  const [list, setList] = useState<Recipe[]>([]);
 
   useEffect(() => {
-    const favorritesList = localStorage.getItem('numbersArray');
-    if (favorritesList) {
-      setlecipes(JSON.parse(favorritesList));
-    }
+    const favoriteRecipes: Recipe[] = getFavoriteRecipes();
+    setList(favoriteRecipes);
   }, []);
-
-  const pathName = usePathname()
 
   return (
     <div>
-      <Header pathName={pathName}/>
+      <Header pathName={pathName} />
       <div className="bg-orange-100 grid grid-cols-2">
-      {lecipies.map((id:string)=>(
-        <ArticleCard recipe = {undefined} id={id}/>
-      ))}
+        {list.map((recipe: Recipe) => (
+          <ArticleCard recipe={recipe} key={recipe.id} />
+        ))}
       </div>
       <Footer pathName={pathName} />
-      </div>
-  )
-}
+    </div>
+  );
+};
 
-export default Favorites
+export default Favorites;
