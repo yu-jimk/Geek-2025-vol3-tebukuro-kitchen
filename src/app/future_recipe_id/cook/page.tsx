@@ -6,6 +6,8 @@ import Speech from "@/app/conponents/Speech";
 import IngModal from "./IngModal";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
+import { PiNoteDuotone } from "react-icons/pi";
+import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { createPortal } from "react-dom";
 import { getByDescriptId } from "@/app/utils/supabaseFunctions";
 import { Descript } from "@/app/types";
@@ -68,7 +70,7 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
   const [id, setId] = useState(0); //現在のページ
   const [ingModalOpen, setIngModalOpen] = useState(false);
   const [ytModalOpen, setYtModalOpen] = useState(false);
-  const [keyword, setKeyword] = useState("")
+  const [keyword, setKeyword] = useState("");
 
   const back = (
     num: number,
@@ -97,7 +99,7 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
       />
 
       <div className="flex justify-center content-center">
-        <Image src="" alt="" width={500} height={400} className="shadow-md" />
+        <Image src="" alt="" width={500} height={400} className="shadow-lg" />
       </div>
       <div className="mt-6 mb-10 flex justify-center">
         <Circle count={page} id={id} />
@@ -109,13 +111,8 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
         {text[id]}
       </div>
 
+      {/* 動画表示デバッグ用 */}
       <div className="w-full flex justify-between fixed bottom-14">
-        <button
-          onClick={() => setIngModalOpen(!ingModalOpen)}
-          className="bg-black"
-        >
-          材料表示
-        </button>
         <button
           onClick={() => setYtModalOpen(!ytModalOpen)}
           className="bg-black"
@@ -154,6 +151,22 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
           <FaArrowLeft className="w-6 h-6 mx-7" />
           前へ
         </button>
+        <div className="mx-8 w-full flex justify-between">
+          <button
+            onClick={() => setIngModalOpen(!ingModalOpen)}
+            className="bg-orange-400 font-bold"
+          >
+            <PiNoteDuotone className="w-6 h-6 mx-7"/>
+            材料
+          </button>
+          <button
+            // onClick={}
+            className="bg-orange-400 font-bold"
+          >
+            <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-7"/>
+            操作ガイド
+          </button>
+        </div>
         <button
           onClick={() => (id == page - 1 ? setId(id) : setId(id + 1))}
           className="w-20 h-14 bg-transparent font-bold"
