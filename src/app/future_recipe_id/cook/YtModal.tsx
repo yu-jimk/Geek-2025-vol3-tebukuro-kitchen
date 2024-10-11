@@ -62,7 +62,7 @@ const YtModal = ({
       };
       handleSearch();
     }
-  });
+  }, [keyword]);
 
   return (
     <>
