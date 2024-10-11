@@ -164,7 +164,7 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
             className="bg-orange-400 font-bold"
           >
             <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-7"/>
-            操作ガイド
+            ガイド
           </button>
         </div>
         <button
