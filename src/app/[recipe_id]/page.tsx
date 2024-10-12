@@ -23,13 +23,6 @@ export default function RecipeId({
     const getDetailRecipe = async () => {
       const detailRecipe = await getDetailRecipebyId(params.recipe_id);
       setList(detailRecipe);
-      // const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-      // const res = await fetch(`${API_URL}/api/${params.recipe_id}`, {
-      //   next: {
-      //     revalidate: 10,
-      //   },
-      // });
     };
     getDetailRecipe();
   }, [params.recipe_id]);
@@ -45,19 +38,20 @@ export default function RecipeId({
         textColor="text-black"
         title={list.name}
         link="/"
+        iconFill="black"
       />
 
       <main className="bg-[#FFFBF4] pb-10 min-h-[calc(100vh-150px)] ">
-        <div className="flex justify-center items-center border-b border-gray-400 shadow-md aspect-[3/2] bg-gray-100">
+        <div className="flex justify-center items-center border-b border-gray-400 shadow-md aspect-[3/2] bg-gray-100 relative">
           {/* nullのみを判定しているので、url先の画像が見つからない場合に対処できない */}
           {list.image_url ? (
             <Image
+              // src={`https://picsum.photos/${list.id + 500}`}
               src={list.image_url}
               alt={list.name}
-              width={450}
-              height={300}
-              layout={"responsive"}
-              objectFit={"cover"}
+              sizes="100vw"
+              fill
+              className="object-cover"
             />
           ) : (
             <FiCameraOff size={40} stroke="#737373" />
@@ -114,15 +108,18 @@ export default function RecipeId({
               作り方
             </p>
             <div className="space-y-1">
-              {list.Descripts.map((descript: Descript, index) => (
-                <DescriptItem
-                  key={descript.id}
-                  id={index + 1}
-                  text={descript.text}
-                  image_url={descript.image_url}
-                  recipe_id={descript.recipe_id}
-                />
-              ))}
+              {list.Descripts.sort((a, b) => a.id - b.id).map(
+                (descript: Descript, index) => (
+                  <DescriptItem
+                    key={descript.id}
+                    id={index + 1}
+                    text={descript.text}
+                    // image_url={`https://picsum.photos/${descript.id + 500}`}
+                    image_url={descript.image_url}
+                    recipe_id={descript.recipe_id}
+                  />
+                )
+              )}
             </div>
           </div>
         </div>
