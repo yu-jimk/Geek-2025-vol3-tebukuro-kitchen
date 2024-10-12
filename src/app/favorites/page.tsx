@@ -39,7 +39,7 @@ const Favorites = () => {
       ) : (
         <div className="bg-[#FFFBF4] flex-grow grid grid-cols-2 auto-rows-min gap-5 p-5">
           {list.map((recipe: Recipe) => (
-            <ArticleCard recipe={recipe} key={recipe.id} />
+            <ArticleCard recipe={recipe} key={recipe.id} from="favorites" />
           ))}
         </div>
       )}

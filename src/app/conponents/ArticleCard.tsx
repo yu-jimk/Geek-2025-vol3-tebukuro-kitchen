@@ -5,16 +5,17 @@ import { FiCameraOff } from "react-icons/fi";
 
 type ArticleCardProps = {
   recipe: Recipe;
+  from?: string;
 };
 
 const ArticleCard = (props: ArticleCardProps) => {
-  const { recipe } = props;
+  const { recipe, from } = props;
   // const existImage: boolean = false;
   // console.log("This`s ArticleCard");
 
   return (
     <Link
-      href={`/${recipe.id}`}
+      href={`/${recipe.id}${from ? `?from=${from}` : ""}`}
       className="border-[1px] border-gray-400 rounded-lg"
     >
       <div className="relative rounded-t-[7px] overflow-hidden aspect-[7/10] flex justify-center items-center bg-gray-100">

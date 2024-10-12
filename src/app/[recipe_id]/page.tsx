@@ -15,10 +15,13 @@ import { WiTime4 } from "react-icons/wi";
 
 export default function RecipeId({
   params,
+  searchParams,
 }: {
   params: { recipe_id: number };
+  searchParams: { from?: string };
 }) {
   const [list, setList] = useState<DetailRecipe>();
+  const from = searchParams?.from || "/";
   useEffect(() => {
     const getDetailRecipe = async () => {
       const detailRecipe = await getDetailRecipebyId(params.recipe_id);
@@ -37,7 +40,7 @@ export default function RecipeId({
         bgColor="bg-white"
         textColor="text-black"
         title={list.name}
-        link="/"
+        link={from === "favorites" ? "/favorites" : "/"}
         iconFill="black"
       />
 
@@ -125,7 +128,9 @@ export default function RecipeId({
         </div>
 
         <Link
-          href={`./${params.recipe_id}/cook`}
+          href={`./${params.recipe_id}/cook${
+            from === "favorites" ? "?from=favorites" : ""
+          }`}
           className="flex justify-center text-white bg-orange-400 hover:bg-orange-500 font-semibold rounded-xl text-lg py-3 w-64 shadow-md mx-auto mt-8"
         >
           つくる
