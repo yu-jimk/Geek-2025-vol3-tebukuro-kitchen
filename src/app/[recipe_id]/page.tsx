@@ -84,7 +84,7 @@ export default function RecipeId({
           )}
 
           {list.comment && (
-            <p className="text-sm font-semibold text-stone-600 pt-3">
+            <p className="text-sm font-semibold text-[#565656] pt-3">
               {list.comment}
             </p>
           )}
