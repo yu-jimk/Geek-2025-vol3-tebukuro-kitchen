@@ -26,22 +26,22 @@ const Favorites = () => {
       <Header pathName={pathName} />
 
       {loading ? (
-        <div className="bg-[#FFFBF4] flex-grow"></div>
+        <section className="bg-[#FFFBF4] flex-grow"></section>
       ) : list.length === 0 ? (
-        <div className="bg-[#FFFBF4] flex-grow flex flex-col justify-center items-center gap-4">
+        <section className="bg-[#FFFBF4] flex-grow flex flex-col justify-center items-center gap-4">
           <FiHeart size={55} />
           <p className="font-black text-2xl">
             お気に入りを
             <br />
             登録しよう！
           </p>
-        </div>
+        </section>
       ) : (
-        <div className="bg-[#FFFBF4] flex-grow grid grid-cols-2 auto-rows-min gap-5 p-5">
+        <section className="bg-[#FFFBF4] flex-grow grid grid-cols-2 auto-rows-min gap-5 p-5">
           {list.map((recipe: Recipe) => (
             <ArticleCard recipe={recipe} key={recipe.id} from="favorites" />
           ))}
-        </div>
+        </section>
       )}
 
       <Footer pathName={pathName} />

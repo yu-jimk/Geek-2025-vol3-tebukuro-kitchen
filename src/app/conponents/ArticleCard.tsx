@@ -27,6 +27,7 @@ const ArticleCard = (props: ArticleCardProps) => {
             fill
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
             className="rounded-t-[7px] object-cover"
+            onError={() => console.error("Image failed to load")}
           />
         ) : (
           <FiCameraOff size={30} stroke="#737373" />

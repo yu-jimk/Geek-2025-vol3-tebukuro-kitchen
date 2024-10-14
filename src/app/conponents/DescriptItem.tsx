@@ -24,6 +24,7 @@ const DescriptItem = (props: Descript) => {
             alt={text}
             fill={true}
             className="my-auto object-cover"
+            onError={() => console.error("Image failed to load")}
           />
         </div>
       ) : (
