@@ -115,7 +115,7 @@ const Speech = ({
       },
     },
     {
-      command: "*ってどうやる",
+      command: "*ってどうするの",
       callback: (material: string) => {
         setKeyword(material);
         setYtModalOpen(true)
@@ -165,9 +165,9 @@ const Speech = ({
   return (
     <>
       {/* デバッグ用 */}
-      <p className="text-black fixed top-32 bg-black bg-opacity-20">
+      {/* <p className="text-black fixed top-32 bg-black bg-opacity-20">
         response : {response}
-      </p>
+      </p> */}
       <p className="text-black fixed top-40 bg-black bg-opacity-20">
         input : {transcript}
       </p>
