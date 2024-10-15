@@ -112,14 +112,14 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
       </div>
 
       {/* 動画表示デバッグ用 */}
-      <div className="w-full flex justify-between fixed bottom-14">
+      {/* <div className="w-full flex justify-between fixed bottom-14">
         <button
           onClick={() => setYtModalOpen(!ytModalOpen)}
           className="bg-black"
         >
           動画表示
         </button>
-      </div>
+      </div> */}
 
       <div id="container">
         {ingModalOpen && (
@@ -151,7 +151,7 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
           <FaArrowLeft className="w-6 h-6 mx-7" />
           前へ
         </button>
-        <div className="mx-8 w-full flex justify-between">
+        <div className="w-full flex justify-between">
           <button
             onClick={() => setIngModalOpen(!ingModalOpen)}
             className="bg-orange-400 font-bold"

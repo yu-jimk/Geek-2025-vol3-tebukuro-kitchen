@@ -154,23 +154,23 @@ const Speech = ({
     }
   }, [listening]);
 
+  useEffect(() => {
+    console.log('[input] ' + transcript);
+  },[transcript])
+
   if (!browserSupportsSpeechRecognition) {
     console.log("Speech conponent ERROR");
   }
-
-  useEffect(() => {
-    console.log("Current response:", response);
-  }, [response]);
 
   return (
     <>
       {/* デバッグ用 */}
       {/* <p className="text-black fixed top-32 bg-black bg-opacity-20">
         response : {response}
-      </p> */}
+      </p>
       <p className="text-black fixed top-40 bg-black bg-opacity-20">
         input : {transcript}
-      </p>
+      </p> */}
     </>
   );
 };
