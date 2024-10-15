@@ -1,5 +1,3 @@
-import { Recipe } from "../types";
-
 export type RecipeType =
   | "id"
   | "name"

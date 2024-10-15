@@ -1,5 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Descript, Ingredient, Recipe } from "../types";
 import { DescriptType, IngredientType, RecipeType } from "./typesUnion";
 
