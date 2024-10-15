@@ -4,6 +4,8 @@ import { Descript, Ingredient, Recipe } from "../types";
 import { DescriptType, IngredientType, RecipeType } from "./typesUnion";
 
 // 簡単にsetRecipeできる関数 入れたい値,入れたい要素,入れたいuseStateで動作
+// レシピの値が変えれる
+// setRecipe((prev) => ({ ...prev, name: state }));で割と簡単に変えれるのでこの関数を使うことはないかも？
 export const FncRecipeSet = (
   state: string,
   recipeType: RecipeType,
