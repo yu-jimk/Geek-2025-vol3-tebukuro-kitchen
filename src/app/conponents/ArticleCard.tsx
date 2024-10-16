@@ -4,11 +4,10 @@ import Link from "next/link";
 
 type ArticleCardProps = {
   recipe: Recipe;
-  from?: string;
 };
 
 const ArticleCard = (props: ArticleCardProps) => {
-  const { recipe, from } = props;
+  const { recipe } = props;
   // const existImage: boolean = false;
   // console.log("This`s ArticleCard");
 
