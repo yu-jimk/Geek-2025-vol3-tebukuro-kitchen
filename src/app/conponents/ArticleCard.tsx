@@ -16,9 +16,9 @@ type prop_type ={
 
     if(recipe != null)
       return (
-        <div className="py-3 px-4  bg-orange-100 " >
+        <div className="py-3 px-4 bg-orange-100" >
               <Link href={`/${recipe.id}`}>
-              <div className="relative rounded-t-xl overflow-hidden"style={{ position: 'relative', aspectRatio: '4 / 5' }}>
+              <div className="bg-gray-100 relative rounded-t-xl overflow-hidden"style={{ position: 'relative', aspectRatio: '4 / 5' }}>
                   <Image 
                       src={`/${recipe.image_url}`}
                       layout="fill"
@@ -26,7 +26,7 @@ type prop_type ={
                       alt=""
                   />
               </div>
-              <div className="h-24 border-t-4 border-orange-500 rounded-b-xl bg-white">
+              <div className="h-24 border-t-4 border-orange-400 rounded-b-xl bg-white">
                   {recipe.name}
               </div>
           </Link>
