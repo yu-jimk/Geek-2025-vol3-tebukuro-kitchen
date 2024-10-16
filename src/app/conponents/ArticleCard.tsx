@@ -33,12 +33,23 @@ const ArticleCard = (props: ArticleCardProps) => {
           <FiCameraOff size={30} stroke="#737373" />
         )}
       </div>
-
-      <p className="h-12 border-t-4 border-t-orange-400 rounded-b-lg bg-white font-semibold text-sm p-1">
-        {recipe.name}
-      </p>
-    </Link>
-  );
-};
+    if(recipe != null)
+      return (
+        <div className="py-3 px-4 bg-orange-100" >
+              <Link href={`/${recipe.id}`}>
+              <div className="bg-gray-100 relative rounded-t-xl overflow-hidden"style={{ position: 'relative', aspectRatio: '4 / 5' }}>
+                  <Image 
+                      src={`/${recipe.image_url}`}
+                      layout="fill"
+                      objectFit="cover"
+                      alt=""
+                  />
+              </div>
+              <div className="h-24 border-t-4 border-orange-400 rounded-b-xl bg-white">
+                  {recipe.name}
+              </div>
+          </Link>
+        </div>
+      );
 
 export default ArticleCard;

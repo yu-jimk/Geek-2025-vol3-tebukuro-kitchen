@@ -10,25 +10,40 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const pathName = usePathname();
+  const pathName = usePathname()
+  const [list,setList]=useState<Recipe[]>([])
+  const [showlist,setshowlist] = useState(true)
 
-  const [list, setList] = useState<Recipe[]>([]);
-  useEffect(() => {
-    const setarticlelist = async () => {
-      const articlelist = await getAllRecipes();
-      setList(articlelist);
-    };
-    setarticlelist();
-  }, []);
+  console.log('This`s /page.tsx')
+
+  const handlers = useSwipeable({
+    onSwipedUp:() => setshowlist(false),
+    onSwipedDown:()=> setshowlist(true),
+    delta: 20,
+  });
+
+  useEffect (()=> {
+      const setarticlelist = async()=>{
+          const articlelist = await getAllRecipes()
+          setList(articlelist)
+      };
+      setarticlelist()
+  },[]);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header pathName={pathName} />
-      <div className="bg-[#FFFBF4] grid grid-cols-2 auto-rows-min gap-5 p-5 flex-grow">
-        {list.map((recipe: Recipe) => (
-          <ArticleCard recipe={recipe} key={recipe.id} />
-        ))}
+    <div {...handlers} className="bg-orange-100">
+      {showlist &&
+        <Header pathName={pathName}/>
+      }
+      
+      <div className="border-none grid grid-cols-2">
+      {list.map((recipe:Recipe)=>(
+        <ArticleCard recipe={recipe}/>
+      ))}
       </div>
-      <Footer pathName={pathName} />
+      {showlist &&
+        <Footer pathName={pathName}/>
+      }
     </div>
   );
 }
