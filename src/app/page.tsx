@@ -1,36 +1,34 @@
-'use client'
+"use client";
 
-import {useEffect, useState } from "react";
-import ArticleCard from "./conponents/ArticleCard";
-import Footer from "./conponents/Footer";
-import Header from "./conponents/Header";
-import { getAllRecipes } from "./utils/supabaseFunctions";
-import { Recipe } from "./types";
+import ArticleCard from "@/app/conponents/ArticleCard";
+import Footer from "@/app/conponents/Footer";
+import Header from "@/app/conponents/Header";
+import { Recipe } from "@/app/types";
+import { getAllRecipes } from "@/app/utils/supabaseFunctions";
 import { usePathname } from "next/navigation";
-
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const pathName = usePathname();
 
-  const pathName = usePathname()
-
-  const [list,setList]=useState<Recipe[]>([])
-  useEffect (()=> {
-      const setarticlelist = async()=>{
-          const articlelist = await getAllRecipes()
-          setList(articlelist)
-      };
-      setarticlelist()
-  },[]);
+  const [list, setList] = useState<Recipe[]>([]);
+  useEffect(() => {
+    const setarticlelist = async () => {
+      const articlelist = await getAllRecipes();
+      setList(articlelist);
+    };
+    setarticlelist();
+  }, []);
 
   return (
-    <div>
-      <Header pathName={pathName}/>
-      <div className="bg-orange-100 grid grid-cols-2">
-      {list.map((recipe:Recipe)=>(
-        <ArticleCard recipe={recipe}/>
-      ))}
+    <div className="min-h-screen flex flex-col">
+      <Header pathName={pathName} />
+      <div className="bg-[#FFFBF4] grid grid-cols-2 auto-rows-min gap-5 p-5 flex-grow">
+        {list.map((recipe: Recipe) => (
+          <ArticleCard recipe={recipe} key={recipe.id} />
+        ))}
       </div>
-      <Footer pathName={pathName}/>
+      <Footer pathName={pathName} />
     </div>
   );
 }
