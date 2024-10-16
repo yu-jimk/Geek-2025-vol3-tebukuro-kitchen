@@ -10,10 +10,10 @@ type FooterProps = {
 const Footer = (props: FooterProps) => {
   const { pathName } = props;
   console.log(pathName)
-  const iconsize = 28;
+  const iconsize = 22;
 
   return (
-    <div className='border-t-2 border-gray-400 w-full sticky bottom-0 h-16 pt-2 flex justify-center bg-white'>
+    <div className='border-t-2 border-gray-400 w-full sticky bottom-0 h-16 pt-1 flex justify-center bg-white'>
 
       <Link className='w-1/3' href={`/`}>
         <FiSearch 
