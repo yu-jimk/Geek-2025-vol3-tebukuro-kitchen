@@ -1,17 +1,15 @@
-'use client'
+"use client";
 
-import {useEffect, useState } from "react";
-import ArticleCard from "./conponents/ArticleCard";
-import Footer from "./conponents/Footer";
-import { getAllRecipes } from "./utils/supabaseFunctions";
-import { Recipe } from "./types";
+import ArticleCard from "@/app/conponents/ArticleCard";
+import Footer from "@/app/conponents/Footer";
+import Header from "@/app/conponents/Header";
+import { Recipe } from "@/app/types";
+import { getAllRecipes } from "@/app/utils/supabaseFunctions";
 import { usePathname } from "next/navigation";
-import Header from "./conponents/Header";
-import { useSwipeable } from 'react-swipeable';
-
+import { useEffect, useState } from "react";
 
 export default function Home() {
-
+  const pathName = usePathname();
   const pathName = usePathname()
   const [list,setList]=useState<Recipe[]>([])
   const [showlist,setshowlist] = useState(true)

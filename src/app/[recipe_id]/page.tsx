@@ -15,21 +15,18 @@ import { WiTime4 } from "react-icons/wi";
 
 export default function RecipeId({
   params,
+  searchParams,
 }: {
   params: { recipe_id: number };
+  searchParams: { from?: string };
 }) {
   const [list, setList] = useState<DetailRecipe>();
+  const from = searchParams?.from || "/";
+
   useEffect(() => {
     const getDetailRecipe = async () => {
       const detailRecipe = await getDetailRecipebyId(params.recipe_id);
       setList(detailRecipe);
-      // const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-      // const res = await fetch(`${API_URL}/api/${params.recipe_id}`, {
-      //   next: {
-      //     revalidate: 10,
-      //   },
-      // });
     };
     getDetailRecipe();
   }, [params.recipe_id]);
@@ -44,25 +41,27 @@ export default function RecipeId({
         bgColor="bg-white"
         textColor="text-black"
         title={list.name}
-        link="/"
+        link={from === "favorites" ? "/favorites" : "/"}
+        iconFill="black"
       />
 
       <main className="bg-[#FFFBF4] pb-10 min-h-[calc(100vh-150px)] ">
-        <div className="flex justify-center items-center border-b border-gray-400 shadow-md aspect-[3/2] bg-gray-100">
+        <figure className="flex justify-center items-center border-b border-gray-400 shadow-md aspect-[3/2] bg-gray-100 relative">
           {/* nullのみを判定しているので、url先の画像が見つからない場合に対処できない */}
           {list.image_url ? (
             <Image
+              // src={`https://picsum.photos/${list.id + 500}`}
               src={list.image_url}
               alt={list.name}
-              width={450}
-              height={300}
-              layout={"responsive"}
-              objectFit={"cover"}
+              sizes="100vw"
+              fill
+              className="object-cover"
+              onError={() => console.error("Image failed to load")}
             />
           ) : (
             <FiCameraOff size={40} stroke="#737373" />
           )}
-        </div>
+        </figure>
 
         <div className="border-b border-gray-300 m-4 pb-4">
           <div className="flex justify-between">
@@ -87,14 +86,14 @@ export default function RecipeId({
           )}
 
           {list.comment && (
-            <p className="text-sm font-semibold text-stone-600 pt-3">
+            <p className="text-sm font-semibold text-[#565656] pt-3">
               {list.comment}
             </p>
           )}
         </div>
 
         <div className="lg:flex justify-between items-start">
-          <div className="pt-1 pb-8 flex-1">
+          <section className="pt-1 pb-8 flex-1">
             <div className="bg-[#F9DEDC] font-semibold text-sm px-4 py-2">
               {list.howmany ? <p>材料（{list.howmany}）</p> : <p>材料</p>}
             </div>
@@ -107,28 +106,33 @@ export default function RecipeId({
                 recipe_id={ingredient.recipe_id}
               />
             ))}
-          </div>
+          </section>
 
-          <div className="mx-4">
+          <section className="mx-4">
             <p className="font-semibold text-lg pb-1 mb-3 border-b border-black">
               作り方
             </p>
             <div className="space-y-1">
-              {list.Descripts.map((descript: Descript, index) => (
-                <DescriptItem
-                  key={descript.id}
-                  id={index + 1}
-                  text={descript.text}
-                  image_url={descript.image_url}
-                  recipe_id={descript.recipe_id}
-                />
-              ))}
+              {list.Descripts.sort((a, b) => a.id - b.id).map(
+                (descript: Descript, index) => (
+                  <DescriptItem
+                    key={descript.id}
+                    id={index + 1}
+                    text={descript.text}
+                    // image_url={`https://picsum.photos/${descript.id + 500}`}
+                    image_url={descript.image_url}
+                    recipe_id={descript.recipe_id}
+                  />
+                )
+              )}
             </div>
-          </div>
+          </section>
         </div>
 
         <Link
-          href={`./${params.recipe_id}/cook`}
+          href={`./${params.recipe_id}/cook${
+            from === "favorites" ? "?from=favorites" : ""
+          }`}
           className="flex justify-center text-white bg-orange-400 hover:bg-orange-500 font-semibold rounded-xl text-lg py-3 w-64 shadow-md mx-auto mt-8"
         >
           つくる

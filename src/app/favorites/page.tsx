@@ -1,34 +1,52 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react'
-import Header from '../conponents/Header'
-import { usePathname } from 'next/navigation'
-import Footer from '../conponents/Footer'
-import ArticleCard from '../conponents/ArticleCard'
+import ArticleCard from "@/app/conponents/ArticleCard";
+import Footer from "@/app/conponents/Footer";
+import Header from "@/app/conponents/Header";
+import { Recipe } from "@/app/types";
+import { getFavoriteRecipes } from "@/app/utils/localstorageFunction";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { FiHeart } from "react-icons/fi";
 
 const Favorites = () => {
-  const [lecipies, setlecipes] = useState<string[]>([]);
+  const pathName = usePathname();
+
+  const [list, setList] = useState<Recipe[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const favorritesList = localStorage.getItem('numbersArray');
-    if (favorritesList) {
-      setlecipes(JSON.parse(favorritesList));
-    }
+    const favoriteRecipes: Recipe[] = getFavoriteRecipes();
+    if (favoriteRecipes.length > 0) setList(favoriteRecipes);
+    setLoading(false);
   }, []);
 
-  const pathName = usePathname()
-
   return (
-    <div>
-      <Header pathName={pathName}/>
-      <div className="bg-orange-100 grid grid-cols-2">
-      {lecipies.map((id:string)=>(
-        <ArticleCard recipe = {undefined} id={id}/>
-      ))}
-      </div>
-      <Footer pathName={pathName} />
-      </div>
-  )
-}
+    <div className="min-h-screen flex flex-col">
+      <Header pathName={pathName} />
 
-export default Favorites
+      {loading ? (
+        <section className="bg-[#FFFBF4] flex-grow"></section>
+      ) : list.length === 0 ? (
+        <section className="bg-[#FFFBF4] flex-grow flex flex-col justify-center items-center gap-4">
+          <FiHeart size={55} />
+          <p className="font-black text-2xl">
+            お気に入りを
+            <br />
+            登録しよう！
+          </p>
+        </section>
+      ) : (
+        <section className="bg-[#FFFBF4] flex-grow grid grid-cols-2 auto-rows-min gap-5 p-5">
+          {list.map((recipe: Recipe) => (
+            <ArticleCard recipe={recipe} key={recipe.id} from="favorites" />
+          ))}
+        </section>
+      )}
+
+      <Footer pathName={pathName} />
+    </div>
+  );
+};
+
+export default Favorites;

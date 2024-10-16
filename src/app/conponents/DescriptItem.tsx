@@ -16,14 +16,17 @@ const DescriptItem = (props: Descript) => {
         {text}
       </p>
       {/* nullのみを判定しているので、url先の画像が見つからない場合に対処できない */}
+
       {image_url && text ? (
-        <Image
-          src={image_url}
-          alt={text}
-          width={72}
-          height={72}
-          className="my-auto"
-        />
+        <div className="relative size-[72px]">
+          <Image
+            src={image_url}
+            alt={text}
+            fill={true}
+            className="my-auto object-cover"
+            onError={() => console.error("Image failed to load")}
+          />
+        </div>
       ) : (
         <div className="bg-gray-100 p-6">
           <FiCameraOff size={24} stroke="#737373" />
