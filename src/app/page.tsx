@@ -7,9 +7,9 @@ import { Recipe } from "@/app/types";
 import { getAllRecipes } from "@/app/utils/supabaseFunctions";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useSwipeable } from "react-swipeable";
 
 export default function Home() {
-  const pathName = usePathname();
   const pathName = usePathname()
   const [list,setList]=useState<Recipe[]>([])
   const [showlist,setshowlist] = useState(true)
