@@ -1,53 +1,37 @@
-import React from "react";
+"use client";
 
-type unit = {
-  [key: string]: number;
-};
-
-const parseTime2sec = (time: string): number => {
-  //                      優先度 高->低
-  const regex = /(\d+)\s*(秒|分半|分|時間半|時間|日)/g;
-  let match: RegExpExecArray | null;
-  let miliSec: number = 0;
-
-  const unitToMs: unit = {
-    日: 86400000,
-    時間半: 3600000,
-    時間: 3600000,
-    分半: 60000,
-    分: 60000,
-    秒: 1000,
-  };
-
-  while ((match = regex.exec(time)) !== null) {
-    const value = parseInt(match[1], 10);
-    const unit = match[2];
-    if (unitToMs[unit]) {
-      miliSec += value * unitToMs[unit];
-      if (unit == "分半" || unit == "時間半") {
-        miliSec += unitToMs[unit] / 2;
-      }
-    }
-  }
-
-  return miliSec / 1000;
-};
-
-const Timer = ({ time }: { time: string }) => {
-  let sec: number = parseTime2sec(time);
-  let min, hour;
-  hour = Math.floor(sec/3600);
-  sec -= hour*3600;
-  min = Math.floor(sec / 60);
-  sec -= min * 60;
-  return <div>{`${hour}:${min}:${sec}`}</div>;
-};
+import React, { useState } from "react";
+import Timer from "./Timer";
+import { str2TimerText } from "./timerFunc";
 
 const page = () => {
+  let str: string = "4時間45分4秒";
+  const { timerText, hour, min, sec } = str2TimerText(str);
+  const [h, setHour] = useState(hour);
+  const [m, setMin] = useState(min);
+  const [s, setSec] = useState(sec);
+  const [disp, setDisp] = useState(timerText);
+  const [timerStart, setTimerStart] = useState(false);
   return (
     <>
       <div className="text-black">
-        <Timer time="4分20秒" />
+        <Timer
+          hour={h}
+          min={m}
+          sec={s}
+          setHour={setHour}
+          setMin={setMin}
+          setSec={setSec}
+          start={timerStart}
+          disp={disp}
+          setDisp={setDisp}
+        />
+        <button
+          className="bg-gray-400"
+          onClick={() => setTimerStart(!timerStart)}
+        >
+          {`start: ${timerStart}`}
+        </button>
       </div>
     </>
   );
