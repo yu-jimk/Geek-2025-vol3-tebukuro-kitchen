@@ -12,6 +12,7 @@ import { createPortal } from "react-dom";
 import { getByDescriptId } from "@/app/utils/supabaseFunctions";
 import { Descript } from "@/app/types";
 import YtModal from "./YtModal";
+import GuideModal from "./GuideModal";
 
 //データベースからの取得は後。仮データ
 const page: number = 3; //ページ数
@@ -37,20 +38,14 @@ const Circle = ({ count, id }: { count: number; id: number }) => {
   );
 };
 
-const IngModalContainer = ({ children }: { children: React.JSX.Element }) => {
+const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
   const container = document.getElementById("container");
   if (!container) {
     return null;
   }
   return createPortal(children, container);
 };
-const YtModalContainer = ({ children }: { children: React.JSX.Element }) => {
-  const container = document.getElementById("container");
-  if (!container) {
-    return null;
-  }
-  return createPortal(children, container);
-};
+
 
 const Cook = ({ params }: { params: { recipe_id: number } }) => {
   // const [recipes, setRecipes] = useState<any>([]);
@@ -70,6 +65,7 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
   const [id, setId] = useState(0); //現在のページ
   const [ingModalOpen, setIngModalOpen] = useState(false);
   const [ytModalOpen, setYtModalOpen] = useState(false);
+  const [guideModalOpen, setGuideModalOpen] = useState(false);
   const [keyword, setKeyword] = useState("");
 
   const back = (
@@ -123,23 +119,32 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
 
       <div id="container">
         {ingModalOpen && (
-          <IngModalContainer>
+          <ModalContainer>
             <IngModal
               modalClose={() => {
                 setIngModalOpen(false);
               }}
             />
-          </IngModalContainer>
+          </ModalContainer>
         )}
         {ytModalOpen && (
-          <YtModalContainer>
+          <ModalContainer>
             <YtModal
               modalClose={() => {
                 setYtModalOpen(false);
               }}
               keyword={keyword}
             />
-          </YtModalContainer>
+          </ModalContainer>
+        )}
+        {guideModalOpen && (
+          <ModalContainer>
+            <GuideModal
+              modalClose={() => {
+                setGuideModalOpen(false);
+              }}
+            />
+          </ModalContainer>
         )}
       </div>
 
@@ -154,14 +159,14 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
         <div className="w-full flex justify-between">
           <button
             onClick={() => setIngModalOpen(!ingModalOpen)}
-            className="bg-orange-400 font-bold"
+            className="bg-transparent font-bold"
           >
             <PiNoteDuotone className="w-6 h-6 mx-7"/>
             材料
           </button>
           <button
-            // onClick={}
-            className="bg-orange-400 font-bold"
+            onClick={() => setGuideModalOpen(!guideModalOpen)}
+            className="bg-transparent font-bold"
           >
             <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-7"/>
             ガイド
