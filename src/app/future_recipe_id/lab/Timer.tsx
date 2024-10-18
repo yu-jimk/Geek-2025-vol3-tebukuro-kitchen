@@ -12,10 +12,18 @@ const Timer = ({
   disp: string;
   setDisp: React.Dispatch<React.SetStateAction<string>>;
 }) => {
+  
   const { hour, min, sec } = str2TimerText(str);
   const h = useRef(hour);
   const m = useRef(min);
   const s = useRef(sec);
+
+  useEffect(() => {
+    const { hour, min, sec } = str2TimerText(str);
+    h.current = hour;
+    m.current = min;
+    s.current = sec;
+  }, [str]);
 
   useEffect(() => {
     setDisp(num2TimerText(h.current, m.current, s.current));

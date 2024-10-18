@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Timer from "./Timer";
 
 const Timerlab = () => {
-  const str: string = "1時間45分";
+  const str: string = "10分半";
   const [disp, setDisp] = useState("");
   const [timerStart, setTimerStart] = useState(false);
   return (
