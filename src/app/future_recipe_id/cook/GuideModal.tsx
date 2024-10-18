@@ -20,10 +20,33 @@ const IngModal = ({ modalClose }: { modalClose: () => void }) => {
               <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
             </div>
             <div className="font-bold mx-5 w-52 text-xl border-b-2 border-orange-400">
-              たまご
+              音声認識ガイド
+            </div>
+            <div className="mt-5 mb-1 bg-orange-100">
+              <div className="ml-5">
+                <div className="text-2xl font-bold">「進んで」</div>
+                次のページに進みます。
+              </div>
+              <div className="ml-5">
+                <div className="text-2xl font-bold">「戻って」</div>
+                前のページに戻ります。
+              </div>
+            </div>
+            <div className="mt-5 mb-1 bg-orange-100">
+              <div className="ml-5">
+                <div className="text-2xl font-bold">「材料は？」</div>
+                必要な材料を一覧表示します。
+              </div>
+              <div className="ml-5">
+                <div className="text-2xl font-bold">「～ってどうするの？」</div>
+                切り方等分からないことをYoutubeで検索し、動画を再生します。
+              </div>
             </div>
             <div className="mt-5 mb-10 bg-orange-100">
-              <div className="ml-5">個数：２個</div>
+              <div className="ml-5">
+                <div className="text-2xl font-bold">「閉じて」</div>
+                材料一覧や動画などの表示を閉じます。
+              </div>
             </div>
           </div>
         </div>
