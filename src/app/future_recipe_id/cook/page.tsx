@@ -92,6 +92,7 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
         setIngModalOpen={setIngModalOpen}
         setYtModalOpen={setYtModalOpen}
         setKeyword={setKeyword}
+        setGuideModalOpen={setGuideModalOpen}
       />
 
       <div className="flex justify-center content-center">

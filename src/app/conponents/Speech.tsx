@@ -30,7 +30,8 @@ const Speech = ({
   setId,
   setIngModalOpen,
   setYtModalOpen,
-  setKeyword
+  setKeyword,
+  setGuideModalOpen,
 }: {
   next: screenController["next"];
   back: screenController["back"];
@@ -40,6 +41,7 @@ const Speech = ({
   setIngModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setYtModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setKeyword: React.Dispatch<React.SetStateAction<string>>;
+  setGuideModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [response, setResponse] = useState("");
 
@@ -66,7 +68,7 @@ const Speech = ({
     {
       command: "*材料は*",
       callback: () => {
-        setIngModalOpen(true)
+        setIngModalOpen(true);
         setResponse("dispModal");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -75,8 +77,8 @@ const Speech = ({
     {
       command: "*閉じて*",
       callback: () => {
-        setIngModalOpen(false)
-        setYtModalOpen(false)
+        setIngModalOpen(false);
+        setYtModalOpen(false);
         setResponse("closeModal");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -118,8 +120,17 @@ const Speech = ({
       command: "*ってどうするの",
       callback: (material: string) => {
         setKeyword(material);
-        setYtModalOpen(true)
+        setYtModalOpen(true);
         setResponse(`how to ${material}`);
+        resetTranscript();
+        SpeechRecognition.startListening({ continuous: true });
+      },
+    },
+    {
+      command: "*ガイド*",
+      callback: () => {
+        setGuideModalOpen(false);
+        setResponse(`guide`);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -155,8 +166,8 @@ const Speech = ({
   }, [listening]);
 
   useEffect(() => {
-    console.log('[input] ' + transcript);
-  },[transcript])
+    console.log("[input] " + transcript);
+  }, [transcript]);
 
   if (!browserSupportsSpeechRecognition) {
     console.log("Speech conponent ERROR");
