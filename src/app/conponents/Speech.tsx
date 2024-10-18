@@ -79,6 +79,7 @@ const Speech = ({
       callback: () => {
         setIngModalOpen(false);
         setYtModalOpen(false);
+        setGuideModalOpen(false);
         setResponse("closeModal");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -129,7 +130,7 @@ const Speech = ({
     {
       command: "*ガイド*",
       callback: () => {
-        setGuideModalOpen(false);
+        setGuideModalOpen(true);
         setResponse(`guide`);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
