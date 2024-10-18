@@ -51,6 +51,5 @@ export const str2TimerText = (str: string) => {
   min = Math.floor(sec / 60);
   sec -= min * 60;
 
-  let timerText: string = num2TimerText(hour, min, sec);
-  return { timerText, hour, min, sec };
+  return { hour, min, sec };
 };
