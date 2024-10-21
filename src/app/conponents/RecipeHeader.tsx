@@ -18,9 +18,11 @@ const RecipeHeader = (props: RecipeHeaderProps) => {
       <Link href={link} className="absolute left-5 text-3xl">
         <IoIosArrowBack fill={iconFill} />
       </Link>
-      <p className={`flex-1 text-center text-xl font-semibold ${textColor}`}>
-        {title}
-      </p>
+      <div
+        className={`flex-1 text-center text-xl font-semibold ${textColor} pl-10 pr-4 text-balance`}
+      >
+        <p>{title}</p>
+      </div>
     </header>
   );
 };
