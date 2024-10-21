@@ -126,7 +126,7 @@ export default function RecipeId({
                   />
                 )
               )}
-              {/* {list.Descripts.map((descript: Descript, index) => (
+              {list.Descripts.map((descript: Descript, index) => (
                 <DescriptItem
                   key={descript.id}
                   id={index + 1}
@@ -135,7 +135,7 @@ export default function RecipeId({
                   image_url={descript.image_url}
                   recipe_id={descript.recipe_id}
                 />
-              ))} */}
+              ))}
             </div>
           </section>
         </div>
