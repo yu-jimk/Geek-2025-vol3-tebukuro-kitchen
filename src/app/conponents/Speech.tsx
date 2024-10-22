@@ -109,6 +109,7 @@ const Speech = ({
       command: "タイマー*セット",
       callback: (material: string) => {
         setStr(material.replace(/\s+/g,'')); //スペース削除
+        setResponse(material.replace(/\s+/g,''))
         setTimerModalOpen(true);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
