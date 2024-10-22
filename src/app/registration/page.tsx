@@ -57,18 +57,14 @@ const Registration = () => {
       reader.readAsDataURL(file);
     }
   };
-  const a = getImageUrl("1/1.png");
   async function handleSubmit() {
     if (recipe.name === "") {
-      console.log("url", a);
-      console.log("TF", InputIngredientsIsSpace(inputIngredients));
       window.alert("料理名を入力してください");
       return false;
     } else if (InputIngredientsIsSpace(inputIngredients) === true) {
       window.alert("材料名、分量を入力してください");
       return false;
     } else {
-      console.log("addRecipe", recipe);
 
       const recipe_id = await addRecipe(recipe);
 
@@ -78,7 +74,6 @@ const Registration = () => {
           const imagePath = `${recipe_id}/recipe.${extension}`;
           await uploadImage(recipeImageFile, imagePath);
           recipe.image_url = await getImageUrl(imagePath);
-          console.log(recipe.image_url);
           updateRecipeImage(recipe_id, recipe.image_url);
         }
         addSomeDescript(recipe_id, inputDescripts);
@@ -145,7 +140,6 @@ const Registration = () => {
             id="title"
             onChange={(e) => {
               setRecipe((prev) => ({ ...prev, name: e.target.value }));
-              console.log(recipe);
             }}
             placeholder="タイトル /例  基本のチャーハン"
             style={{ height: "40px", outline: "none" }}
@@ -163,7 +157,6 @@ const Registration = () => {
             name="time"
             onChange={(e) => {
               setRecipe((prev) => ({ ...prev, time: e.target.value }));
-              console.log(recipe);
             }}
             id="time"
             placeholder="時間  /例  約10分"
@@ -195,7 +188,6 @@ const Registration = () => {
               placeholder="人数  /例  2人分"
               onChange={(e) => {
                 setRecipe((prev) => ({ ...prev, howmany: e.target.value }));
-                console.log(recipe);
               }}
               style={{
                 backgroundColor: "#FEF9EC",
@@ -231,7 +223,6 @@ const Registration = () => {
             id="comment"
             onChange={(e) => {
               setRecipe((prev) => ({ ...prev, comment: e.target.value }));
-              console.log(recipe);
             }}
             className="w-full border border-gray-500 outline-none"
             style={{ outline: "none" }}
