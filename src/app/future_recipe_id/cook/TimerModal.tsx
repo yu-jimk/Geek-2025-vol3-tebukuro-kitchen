@@ -55,7 +55,7 @@ const TimerModal = ({
         clearInterval(manager);
       }
     };
-  }, [hour, min, sec, setDisp, start]);
+  }, [hour, min, sec, setDisp, start, alarm, setStart]);
 
   const bgClickClose = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
