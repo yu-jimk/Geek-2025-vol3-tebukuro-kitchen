@@ -106,7 +106,7 @@ const Speech = ({
       },
     },
     {
-      command: "タイマー*セット",
+      command: "タイマー*セットして",
       callback: (material: string) => {
         setStr(material.replace(/\s+/g,'')); //スペース削除
         setResponse(material.replace(/\s+/g,''))
