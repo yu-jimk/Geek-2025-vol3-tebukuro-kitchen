@@ -12,6 +12,8 @@ import { createPortal } from "react-dom";
 import { getByDescriptId } from "@/app/utils/supabaseFunctions";
 import { Descript } from "@/app/types";
 import YtModal from "./YtModal";
+import GuideModal from "./GuideModal";
+import TimerModal from "./TimerModal";
 
 //データベースからの取得は後。仮データ
 const page: number = 3; //ページ数
@@ -37,14 +39,7 @@ const Circle = ({ count, id }: { count: number; id: number }) => {
   );
 };
 
-const IngModalContainer = ({ children }: { children: React.JSX.Element }) => {
-  const container = document.getElementById("container");
-  if (!container) {
-    return null;
-  }
-  return createPortal(children, container);
-};
-const YtModalContainer = ({ children }: { children: React.JSX.Element }) => {
+const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
   const container = document.getElementById("container");
   if (!container) {
     return null;
@@ -70,7 +65,12 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
   const [id, setId] = useState(0); //現在のページ
   const [ingModalOpen, setIngModalOpen] = useState(false);
   const [ytModalOpen, setYtModalOpen] = useState(false);
+  const [guideModalOpen, setGuideModalOpen] = useState(false);
+  const [timerModalOpen, setTimerModalOpen] = useState(false);
   const [keyword, setKeyword] = useState("");
+
+  const [str,setStr] = useState("")
+  const [timerStart,setTimerStart] = useState(false)
 
   const back = (
     num: number,
@@ -96,6 +96,10 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
         setIngModalOpen={setIngModalOpen}
         setYtModalOpen={setYtModalOpen}
         setKeyword={setKeyword}
+        setGuideModalOpen={setGuideModalOpen}
+        setTimerModalOpen={setTimerModalOpen}
+        setStr={setStr}
+        setTimerStart={setTimerStart}
       />
 
       <div className="flex justify-center content-center">
@@ -123,26 +127,48 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
 
       <div id="container">
         {ingModalOpen && (
-          <IngModalContainer>
+          <ModalContainer>
             <IngModal
               modalClose={() => {
                 setIngModalOpen(false);
               }}
             />
-          </IngModalContainer>
+          </ModalContainer>
         )}
         {ytModalOpen && (
-          <YtModalContainer>
+          <ModalContainer>
             <YtModal
               modalClose={() => {
                 setYtModalOpen(false);
               }}
               keyword={keyword}
             />
-          </YtModalContainer>
+          </ModalContainer>
+        )}
+        {guideModalOpen && (
+          <ModalContainer>
+            <GuideModal
+              modalClose={() => {
+                setGuideModalOpen(false);
+              }}
+            />
+          </ModalContainer>
+        )}
+        {timerModalOpen && (
+          <ModalContainer>
+            <TimerModal
+              modalClose={() => {
+                setTimerStart(false)
+                setTimerModalOpen(false);
+              }}
+              str={str}
+              start={timerStart}
+              setStart={setTimerStart}
+            />
+          </ModalContainer>
         )}
       </div>
-
+      <button className="bg-black" onClick={()=>setTimerModalOpen(true)}>タイマー</button>
       <div className="text-white flex justify-between fixed bottom-0 z-10 w-full h-14">
         <button
           onClick={() => (id == 0 ? setId(id) : setId(id - 1))}
@@ -154,16 +180,16 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
         <div className="w-full flex justify-between">
           <button
             onClick={() => setIngModalOpen(!ingModalOpen)}
-            className="bg-orange-400 font-bold"
+            className="bg-transparent font-bold"
           >
-            <PiNoteDuotone className="w-6 h-6 mx-7"/>
+            <PiNoteDuotone className="w-6 h-6 mx-7" />
             材料
           </button>
           <button
-            // onClick={}
-            className="bg-orange-400 font-bold"
+            onClick={() => setGuideModalOpen(!guideModalOpen)}
+            className="bg-transparent font-bold"
           >
-            <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-7"/>
+            <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-7" />
             ガイド
           </button>
         </div>

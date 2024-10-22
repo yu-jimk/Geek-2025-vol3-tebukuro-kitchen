@@ -170,7 +170,7 @@ export const getImageUrl = async (filePath: string) => {
   const imageUrl = data.publicUrl;
   return imageUrl;
 };
-
+// レシピのidより1つのレシピ詳細取得
 export const getDetailRecipebyId = async (id: number) => {
   const detailRecipe: PostgrestSingleResponse<DetailRecipe> = await supabase
     .from("Recipes")
@@ -178,5 +178,19 @@ export const getDetailRecipebyId = async (id: number) => {
     .eq("id", id)
     .single();
   // 強制的にRecipe[]として認識させる
+// =======
+//   if (detailRecipe.data?.Ingredients !== null) {
+//     detailRecipe.data?.Ingredients.sort(
+//       (firstItem: Ingredient, secondItem: Ingredient) =>
+//         firstItem.id - secondItem.id
+//     );
+//   }
+//   if (detailRecipe.data?.Descripts !== null) {
+//     detailRecipe.data?.Descripts.sort(
+//       (firstItem: Descript, secondItem: Descript) =>
+//         firstItem.id - secondItem.id
+//     );
+//   }
+// >>>>>>> main
   return detailRecipe.data as DetailRecipe;
 };
