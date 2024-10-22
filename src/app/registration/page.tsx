@@ -22,6 +22,7 @@ import {
 import { Button } from "@mui/material";
 import { updateRecipeImage } from "../utils/supabaseFncUpdate";
 import { getFileExtension } from "../utils/fileUtils";
+import Link from "next/link";
 const Registration = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [recipe, setRecipe] = useState<Recipe>({ id: -1, name: "" });
@@ -230,7 +231,7 @@ const Registration = () => {
           ></textarea>
         </section>
 
-        <div>
+        <Link href={""}>
           <Button
             onClick={handleSubmit}
             className="flex justify-center text-white bg-orange-400 hover:bg-orange-400 font-semibold rounded-xl text-lg py-3 w-64 shadow-md mx-auto mt-8"
@@ -238,7 +239,7 @@ const Registration = () => {
             レシピを登録する
           </Button>
           <div className="bg-[#FFFBF4] w-full h-8"></div>
-        </div>
+        </Link>
       </main>
       <Footer pathName="/registration" />
     </>
