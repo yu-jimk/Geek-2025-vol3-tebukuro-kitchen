@@ -20,15 +20,16 @@ export const parseStr2sec = (str: string): number => {
   while ((match = regex.exec(str)) !== null) {
     const value = parseInt(match[1], 10);
     const unit = match[2];
+    console.log(value)
     if (unitToMs[unit]) {
       miliSec += value * unitToMs[unit];
-      if (unit == "分半" || unit == "時間半") {
+      if (unit == "分半"||"時間半") {
         miliSec += unitToMs[unit] / 2;
       }
     }
   }
 
-  return miliSec / 1000;
+  return Math.trunc(miliSec / 1000); //小数点以下切り捨て
 };
 
 export const num2TimerText = (hour: number, min: number, sec: number) => {

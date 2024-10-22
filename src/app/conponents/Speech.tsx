@@ -32,6 +32,9 @@ const Speech = ({
   setYtModalOpen,
   setKeyword,
   setGuideModalOpen,
+  setTimerModalOpen,
+  setStr,
+  setTimerStart,
 }: {
   next: screenController["next"];
   back: screenController["back"];
@@ -42,6 +45,9 @@ const Speech = ({
   setYtModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setKeyword: React.Dispatch<React.SetStateAction<string>>;
   setGuideModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setTimerModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setStr: React.Dispatch<React.SetStateAction<string>>;
+  setTimerStart: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [response, setResponse] = useState("");
 
@@ -51,7 +57,6 @@ const Speech = ({
       //　*印は、雑音に影響されないよう命令の前後の文言を許容するため。起こる恐れのあるバグが不明のため、要検証
       callback: () => {
         next(num, page, setId);
-        setResponse("next");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -60,7 +65,6 @@ const Speech = ({
       command: "*戻って*",
       callback: () => {
         back(num, setId);
-        setResponse("back");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -69,7 +73,6 @@ const Speech = ({
       command: "*材料は*",
       callback: () => {
         setIngModalOpen(true);
-        setResponse("dispModal");
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -80,31 +83,32 @@ const Speech = ({
         setIngModalOpen(false);
         setYtModalOpen(false);
         setGuideModalOpen(false);
-        setResponse("closeModal");
+        setTimerModalOpen(false);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
-      command: "タイマーをスタート",
+      command: "*スタート*",
       callback: () => {
-        setResponse("start");
+        setTimerStart(true);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
-      command: "タイマーをストップ",
+      command: "*ストップ*",
       callback: () => {
-        setResponse("stop");
+        setTimerStart(false);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
-      command: "タイマーをリセット",
-      callback: () => {
-        setResponse("reset");
+      command: "タイマー*セット",
+      callback: (material: string) => {
+        setStr(material.replace(/\s+/g,'')); //スペース削除
+        setTimerModalOpen(true);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -112,7 +116,7 @@ const Speech = ({
     {
       command: "*の量は",
       callback: (material: string) => {
-        setResponse(`amount of ${material}`);
+        setResponse(`${material}`);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -122,7 +126,7 @@ const Speech = ({
       callback: (material: string) => {
         setKeyword(material);
         setYtModalOpen(true);
-        setResponse(`how to ${material}`);
+        setResponse(`${material}`);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
