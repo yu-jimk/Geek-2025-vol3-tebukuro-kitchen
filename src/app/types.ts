@@ -14,7 +14,7 @@ export type Recipe = {
 // 材料
 export type Ingredient = {
   id: number;
-  index?:number;
+  // index?:number;
   recipe_id: number;
   name: string;
   amount: string;
@@ -22,7 +22,7 @@ export type Ingredient = {
 // 作り方説明
 export type Descript = {
   id: number;
-  index?:number;
+  // index?:number;
   recipe_id: number;
   image_url?: string;
   text?: string;

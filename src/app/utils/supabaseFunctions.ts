@@ -9,7 +9,7 @@ import {
 } from "../types";
 import { supabase } from "../utils/supabase";
 import { getFileExtension } from "./fileUtils";
-import { ExchengeDescripts, ExchengeIngredient } from "./supabaseFncUpdate";
+// import { ExchengeDescripts, ExchengeIngredient } from "./supabaseFncUpdate";
 // 全レシピ取得
 export const getAllRecipes = async () => {
   const recipes = await supabase.from("Recipes").select("*");
@@ -52,15 +52,15 @@ export const getByIngredientId = async (recipe_id: number) => {
     .from("Ingredients")
     .select("*")
     .eq("recipe_id", recipe_id);
-  if (ingredients.data !== null) {
-    ingredients.data.sort((firstItem: Ingredient, secondItem: Ingredient) => {
-      if (firstItem.index !== undefined && secondItem.index !== undefined) {
-        return firstItem.index - secondItem.index;
-      } else {
-        return -1;
-      }
-    });
-  }
+  // if (ingredients.data !== null) {
+  //   ingredients.data.sort((firstItem: Ingredient, secondItem: Ingredient) => {
+  //     if (firstItem.index !== undefined && secondItem.index !== undefined) {
+  //       return firstItem.index - secondItem.index;
+  //     } else {
+  //       return -1;
+  //     }
+  //   });
+  // }
   return ingredients.data as Ingredient[];
 };
 // 材料作成
@@ -84,13 +84,19 @@ export const addSomeIngredient = async (
   recipe_id: number,
   inputIngredients: InputIngredient[]
 ) => {
-  const { data, error } = await supabase
-    .from("Ingredients")
-    .insert({
-      recipe_id: recipe_id,
-      inputIngredients,
-    })
-    .select(); // 挿入されたデータからidと名前を取得
+  // const { error } = await supabase
+  //   .from("Ingredients")
+  //   .insert({
+  //     recipe_id: recipe_id,
+  //     inputIngredients,
+  //   })
+  //   .select(); // 挿入されたデータからidと名前を取得
+  //   if(error){
+  //     console.error("supabaseエラー",error.message)
+  //   }
+  inputIngredients.forEach((e)=>{
+    addIngredient(recipe_id,e.name,e.amount);
+  })
 };
 // レシピのidより作り方取得
 export const getByDescriptId = async (recipe_id: number) => {
@@ -98,15 +104,15 @@ export const getByDescriptId = async (recipe_id: number) => {
     .from("Descripts")
     .select("*")
     .eq("recipe_id", recipe_id);
-  if (descripts.data !== null) {
-    descripts.data.sort((firstItem: Descript, secondItem: Descript) => {
-      if (firstItem.index !== undefined && secondItem.index !== undefined) {
-        return firstItem.index - secondItem.index;
-      } else {
-        return -1;
-      }
-    });
-  }
+  // if (descripts.data !== null) {
+  //   descripts.data.sort((firstItem: Descript, secondItem: Descript) => {
+  //     if (firstItem.index !== undefined && secondItem.index !== undefined) {
+  //       return firstItem.index - secondItem.index;
+  //     } else {
+  //       return -1;
+  //     }
+  //   });
+  // }
   return descripts.data as Descript[];
 };
 // 材料作成
