@@ -1,22 +1,17 @@
 "use client";
-import { useState } from "react";
+import { InputIngredient } from "@/app/types";
+import { Dispatch, SetStateAction } from "react";
 import { BiPlus } from "react-icons/bi";
-
-type IngredientInput = {
-  ingredient: string;
-  quantity: string;
-};
-
-const IngredientInputItem = () => {
-  const [inputs, setInputs] = useState<IngredientInput[]>([
-    { ingredient: "", quantity: "" },
-    { ingredient: "", quantity: "" },
-  ]);
+interface IngredientInputItem {
+  inputs:InputIngredient[],
+  setInputs:Dispatch<SetStateAction<InputIngredient[]>>,
+} 
+const IngredientInputItem = ({inputs,setInputs}:IngredientInputItem) => {
   const maxInputs = 5;
 
   const addInput = () => {
     if (inputs.length < maxInputs) {
-      setInputs([...inputs, { ingredient: "", quantity: "" }]);
+      setInputs([...inputs, { name: "", amount: "" }]);
     }
   };
 
@@ -28,7 +23,7 @@ const IngredientInputItem = () => {
 
   const handleInputChange = (
     index: number,
-    field: keyof IngredientInput,
+    field: keyof InputIngredient,
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const newInputs = [...inputs];
@@ -44,9 +39,9 @@ const IngredientInputItem = () => {
             type="text"
             name={`ingredient${index}`}
             id={`ingredient${index}`}
-            value={input.ingredient}
+            value={input.name}
             style={{ outline: "none" }}
-            onChange={(e) => handleInputChange(index, "ingredient", e)}
+            onChange={(e) => handleInputChange(index, "name", e)}
             placeholder="材料  /例  たまご"
             className="w-full border-b border-gray-400 pl-3 bg-[#FEF9EC] h-[40px]"
           />
@@ -55,9 +50,9 @@ const IngredientInputItem = () => {
             type="text"
             name={`quantity${index}`}
             id={`quantity${index}`}
-            value={input.quantity}
+            value={input.amount}
             style={{ outline: "none" }}
-            onChange={(e) => handleInputChange(index, "quantity", e)}
+            onChange={(e) => handleInputChange(index, "amount", e)}
             placeholder="分量  /例  2個"
             className="w-1/2 border-b border-gray-400 pl-3 bg-[#FEF9EC] h-[40px]"
           />

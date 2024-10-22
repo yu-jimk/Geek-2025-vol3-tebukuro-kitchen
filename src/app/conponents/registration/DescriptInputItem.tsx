@@ -1,23 +1,20 @@
 "use client";
+import { inputDescript } from "@/app/types";
 import Image from "next/image";
-import { useState } from "react";
 import { BiCameraOff, BiPlus } from "react-icons/bi";
-
-interface InputItem {
-  image: string | null;
-  text: string;
+interface DescriptInputItem {
+  inputItems: inputDescript[];
+  setInputItems: React.Dispatch<React.SetStateAction<inputDescript[]>>;
 }
-
-const DescriptInputItem = () => {
-  const [inputItems, setInputItems] = useState<InputItem[]>([
-    { image: null, text: "" },
-    { image: null, text: "" },
-  ]);
+const DescriptInputItem = ({
+  inputItems,
+  setInputItems,
+}: DescriptInputItem) => {
   const maxInputs = 6;
 
   const addInput = () => {
     if (inputItems.length < maxInputs) {
-      setInputItems([...inputItems, { image: null, text: "" }]);
+      setInputItems([...inputItems, { image: undefined, text: "" }]);
     }
   };
 
@@ -28,6 +25,7 @@ const DescriptInputItem = () => {
         const reader = new FileReader();
         reader.onloadend = () => {
           const newInputItems = [...inputItems];
+          newInputItems[index].imageFile = file;
           newInputItems[index].image = reader.result as string;
           setInputItems(newInputItems);
         };
@@ -56,17 +54,22 @@ const DescriptInputItem = () => {
                     fill
                   />
                   <input
+                    title="画像"
                     type="file"
                     accept="image/*"
                     onChange={handleImageUpload(index)}
                     className="absolute inset-0 opacity-0 cursor-pointer"
                   />
-                  <button className="size-5 rounded-full shadow-lg absolute top-0 right-0 bg-gray-400 m-2 flex justify-center items-center">
+                  <button
+                    title="画像"
+                    className="size-5 rounded-full shadow-lg absolute top-0 right-0 bg-gray-400 m-2 flex justify-center items-center"
+                  >
                     <BiPlus className="rotate-45 text-2xl text-white" />
                   </button>
                 </>
               ) : (
                 <input
+                  title="画像"
                   type="file"
                   accept="image/*"
                   onChange={handleImageUpload(index)}
