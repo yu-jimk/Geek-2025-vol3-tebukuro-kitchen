@@ -26,6 +26,7 @@ const TimerModal = ({
     s.current = sec;
   }, [str]);
 
+  const alarm = new Audio("/TimerAlarm.mp3")
   useEffect(() => {
     setDisp(num2TimerText(h.current, m.current, s.current));
     let manager: NodeJS.Timeout;
@@ -34,6 +35,7 @@ const TimerModal = ({
         s.current--;
         if (s.current == 0 && m.current == 0 && h.current == 0) {
           clearInterval(manager);
+          alarm.play()
         } else if (s.current == -1) {
           s.current = 59;
           m.current--;
