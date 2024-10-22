@@ -22,12 +22,11 @@ export const parseStr2sec = (str: string): number => {
     const unit = match[2];
     if (unitToMs[unit]) {
       miliSec += value * unitToMs[unit];
-      if (unit == "分半"||"時間半") {
+      if (unit == "分半"|| unit == "時間半") {
         miliSec += unitToMs[unit] / 2;
       }
     }
   }
-
   return Math.trunc(miliSec / 1000); //小数点以下切り捨て
 };
 

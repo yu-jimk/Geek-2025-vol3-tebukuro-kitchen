@@ -83,6 +83,7 @@ const Speech = ({
         setIngModalOpen(false);
         setYtModalOpen(false);
         setGuideModalOpen(false);
+        setTimerStart(false)
         setTimerModalOpen(false);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
