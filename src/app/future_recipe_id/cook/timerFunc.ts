@@ -20,7 +20,6 @@ export const parseStr2sec = (str: string): number => {
   while ((match = regex.exec(str)) !== null) {
     const value = parseInt(match[1], 10);
     const unit = match[2];
-    console.log(value)
     if (unitToMs[unit]) {
       miliSec += value * unitToMs[unit];
       if (unit == "分半"||"時間半") {
