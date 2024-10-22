@@ -26,22 +26,25 @@ const TimerModal = ({
     s.current = sec;
   }, [str]);
 
-  const alarm = new Audio("/TimerAlarm.mp3")
+  const alarm = new Audio("/TimerAlarm.mp3");
   useEffect(() => {
     setDisp(num2TimerText(h.current, m.current, s.current));
     let manager: NodeJS.Timeout;
     if (start) {
       manager = setInterval(() => {
-        s.current--;
-        if (s.current == 0 && m.current == 0 && h.current == 0) {
+        if (s.current <= 0 && m.current == 0 && h.current == 0) {
           clearInterval(manager);
-          alarm.play()
-        } else if (s.current == -1) {
-          s.current = 59;
-          m.current--;
-          if (m.current == -1) {
-            m.current = 59;
-            h.current--;
+          setStart(false);
+          alarm.play();
+        } else {
+          s.current--;
+          if (s.current == -1) {
+            s.current = 59;
+            m.current--;
+            if (m.current == -1) {
+              m.current = 59;
+              h.current--;
+            }
           }
         }
         setDisp(num2TimerText(h.current, m.current, s.current));
