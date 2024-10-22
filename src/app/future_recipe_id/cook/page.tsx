@@ -69,7 +69,7 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
   const [timerModalOpen, setTimerModalOpen] = useState(false);
   const [keyword, setKeyword] = useState("");
 
-  const [str,setStr] = useState("1時間1秒")
+  const [str,setStr] = useState("")
   const [timerStart,setTimerStart] = useState(false)
 
   const back = (

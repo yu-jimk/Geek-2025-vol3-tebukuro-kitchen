@@ -32,7 +32,9 @@ const TimerModal = ({
     if (start) {
       manager = setInterval(() => {
         s.current--;
-        if (s.current == -1) {
+        if (s.current == 0 && m.current == 0 && h.current == 0) {
+          clearInterval(manager);
+        } else if (s.current == -1) {
           s.current = 59;
           m.current--;
           if (m.current == -1) {
