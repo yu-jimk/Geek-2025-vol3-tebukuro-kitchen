@@ -54,7 +54,7 @@ const FavoriteButton = ({ recipe }: FavoriteButtonProps) => {
         className="size-9 mx-auto"
       />
       <p
-        className={`text-xs font-light ${
+        className={`text-xs font-light break-keep ${
           isFavorite ? "text-[#fa003f]" : "text-gray-500"
         }`}
       >

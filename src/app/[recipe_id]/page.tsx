@@ -37,6 +37,7 @@ export default function RecipeId({
 
   return (
     <>
+      <title>{`${list.name} | てぶくろキッチン`}</title>
       <RecipeHeader
         bgColor="bg-white"
         textColor="text-black"
@@ -64,7 +65,7 @@ export default function RecipeId({
         </figure>
 
         <div className="border-b border-gray-300 m-4 pb-4">
-          <div className="flex justify-between">
+          <div className="flex justify-between gap-2">
             <p className="text-2xl font-semibold text-[#815B2C]">{list.name}</p>
             <FavoriteButton
               recipe={{
@@ -125,6 +126,16 @@ export default function RecipeId({
                   />
                 )
               )}
+              {list.Descripts.map((descript: Descript, index) => (
+                <DescriptItem
+                  key={descript.id}
+                  id={index + 1}
+                  text={descript.text}
+                  // image_url={`https://picsum.photos/${descript.id + 500}`}
+                  image_url={descript.image_url}
+                  recipe_id={descript.recipe_id}
+                />
+              ))}
             </div>
           </section>
         </div>
