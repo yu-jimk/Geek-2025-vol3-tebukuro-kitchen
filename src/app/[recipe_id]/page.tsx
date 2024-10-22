@@ -37,7 +37,7 @@ export default function RecipeId({
 
   return (
     <>
-      {/* <title>{`${list.name} | てぶくろキッチン`}</title> */}
+      <title>{`${list.name} | てぶくろキッチン`}</title>
       <RecipeHeader
         bgColor="bg-white"
         textColor="text-black"
