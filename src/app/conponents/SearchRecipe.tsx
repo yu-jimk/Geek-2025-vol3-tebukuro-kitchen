@@ -4,19 +4,23 @@ import { FiSearch } from 'react-icons/fi'
 
 type propsType = {
     recipes: Recipe[]
-    setlist: (recipes: Recipe[]) => void
+    setlist: (recipes: Recipe[]) => void    //親のステート
 }
 
 const SearchRecipe: React.FC<propsType> = (props: propsType) => {
 
+    //検索ボックスのステート
     const [input, setinput] = useState<string>("")
 
-    useEffect(() => {
-        const filteredRecipes = props.recipes.filter((recipe) => {
-            return recipe.name.includes(input)
-        })
-        props.setlist(filteredRecipes)
-    }, [input])
+    //エンターを押したら検索結果が親のRecipe[]のステートがセットされる
+    const filerandsetter = (e: React.KeyboardEvent<HTMLInputElement>)=>{
+        if(e.key==="Enter"){
+            const filteredRecipes = props.recipes.filter((recipe) => {
+                return recipe.name.includes(input)
+            })
+            props.setlist(filteredRecipes)
+        }
+    }
 
     return (
             <div className="mt-2 px-1 w-full flex items-center bg-gray-200 rounded-2xl">
@@ -25,6 +29,7 @@ const SearchRecipe: React.FC<propsType> = (props: propsType) => {
                 type="text"
                 value={input}
                 onChange={(event) => {setinput(event.target.value)}}
+                onKeyDown={filerandsetter}
                 placeholder="レシピを検索" 
                 className='ps-2 pe-6 w-full text-lg border-spacing-4 bg-gray-200 border-gray-50 rounded-2xl focus:outline-none'
             />
