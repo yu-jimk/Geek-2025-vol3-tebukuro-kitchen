@@ -19,7 +19,6 @@ import {
   getImageUrl,
   uploadImage,
 } from "../utils/supabaseFunctions";
-import { Button } from "@mui/material";
 import { updateRecipeImage } from "../utils/supabaseFncUpdate";
 import { getFileExtension } from "../utils/fileUtils";
 import Link from "next/link";
@@ -96,7 +95,7 @@ const Registration = () => {
   }
   return (
     <div {...handlers}>
-      <main className="bg-[#FFFBF4]">
+      <main className="bg-[#FFFBF4] mb-16">
         <p className="text-center font-semibold text-lg pt-4">レシピを登録</p>
         <section className="bg-gray-100 h-56 w-9/12 mx-auto rounded-xl mt-10 mb-12 shadow-lg flex-col flex gap-y-4 justify-center items-center relative">
           {selectedImage ? (
@@ -238,12 +237,13 @@ const Registration = () => {
         </section>
 
         <Link href={""}>
-          <Button
+          <button
+            type="button"
             onClick={handleSubmit}
             className="flex justify-center text-white bg-orange-400 hover:bg-orange-400 font-semibold rounded-xl text-lg py-3 w-64 shadow-md mx-auto mt-8"
           >
             レシピを登録する
-          </Button>
+          </button>
           <div className="bg-[#FFFBF4] w-full h-8"></div>
         </Link>
       </main>
