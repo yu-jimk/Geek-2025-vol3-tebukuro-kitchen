@@ -8,6 +8,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import { PiNoteDuotone } from "react-icons/pi";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
+import { FiCameraOff } from "react-icons/fi";
 import { createPortal } from "react-dom";
 import { getByDescriptId } from "@/app/utils/supabaseFunctions";
 import { Descript } from "@/app/types";
@@ -15,11 +16,11 @@ import YtModal from "../../future_recipe_id/cook/YtModal";
 import GuideModal from "../../future_recipe_id/cook/GuideModal";
 import TimerModal from "../../future_recipe_id/cook/TimerModal";
 
-//丸を描画する関数　count=丸の数　id=塗りつぶし判定用ページ数
-const Circle = ({ count, id }: { count: number; id: number }) => {
+//丸を描画する関数　length=丸の数　id=塗りつぶし判定用ページ数
+const Circle = ({ length, id }: { length: number; id: number }) => {
   return (
     <>
-      {Array.from({ length: count }).map((_, index) => (
+      {Array.from({ length: length }).map((_, index) => (
         <div
           key={index}
           className={`mx-2 w-2 h-2 border border-black rounded-full ${
@@ -48,7 +49,7 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
     };
     getRecipes();
   }, []);
-  const page = descript.length;
+  const length = descript.length;
 
   // useEffect(() => {
   //   const sorted = recipes.sort((a: Descript, b: Descript) => a.id - b.id);
@@ -62,8 +63,8 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
   const [timerModalOpen, setTimerModalOpen] = useState(false);
   const [keyword, setKeyword] = useState("");
 
-  const [str,setStr] = useState("")
-  const [timerStart,setTimerStart] = useState(false)
+  const [str, setStr] = useState("");
+  const [timerStart, setTimerStart] = useState(false);
 
   const back = (
     num: number,
@@ -84,7 +85,7 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
         next={next}
         back={back}
         num={id}
-        page={page}
+        length={length}
         setId={setId}
         setIngModalOpen={setIngModalOpen}
         setYtModalOpen={setYtModalOpen}
@@ -97,9 +98,20 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
 
       <div className="flex justify-center content-center">
         <Image src="" alt="" width={500} height={400} className="shadow-lg" />
+        {/* {descript[id].image_url ? (
+          <Image
+            src={descript[id]?.image_url ?? ""}
+            sizes="100vw"
+            fill
+            className="object-cover"
+            onError={() => console.error("Image failed to load")}
+          />
+        ) : (
+          <FiCameraOff size={40} stroke="#737373" />
+        )} */}
       </div>
       <div className="mt-6 mb-10 flex justify-center">
-        <Circle count={page} id={id} />
+        <Circle length={length} id={id} />
       </div>
       <div
         id="desc"
@@ -151,7 +163,7 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
           <ModalContainer>
             <TimerModal
               modalClose={() => {
-                setTimerStart(false)
+                setTimerStart(false);
                 setTimerModalOpen(false);
               }}
               str={str}
@@ -161,7 +173,9 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
           </ModalContainer>
         )}
       </div>
-      <button className="bg-black" onClick={()=>setTimerModalOpen(true)}>タイマー</button>
+      <button className="bg-black" onClick={() => setTimerModalOpen(true)}>
+        タイマー
+      </button>
       <div className="text-white flex justify-between fixed bottom-0 z-10 w-full h-14">
         <button
           onClick={() => (id == 0 ? setId(id) : setId(id - 1))}
@@ -187,7 +201,7 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
           </button>
         </div>
         <button
-          onClick={() => (id == page - 1 ? setId(id) : setId(id + 1))}
+          onClick={() => (id == length - 1 ? setId(id) : setId(id + 1))}
           className="w-20 h-14 bg-transparent font-bold"
         >
           <FaArrowRight className="w-6 h-6 mx-7" />

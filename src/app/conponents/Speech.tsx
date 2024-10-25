@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 type screenController = {
   next: (
     num: number,
-    page: number,
+    length: number,
     setId: React.Dispatch<React.SetStateAction<number>>
   ) => void;
   back: (
@@ -26,7 +26,7 @@ const Speech = ({
   next,
   back,
   num,
-  page,
+  length,
   setId,
   setIngModalOpen,
   setYtModalOpen,
@@ -39,7 +39,7 @@ const Speech = ({
   next: screenController["next"];
   back: screenController["back"];
   num: number;
-  page: number;
+  length: number;
   setId: React.Dispatch<React.SetStateAction<number>>;
   setIngModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setYtModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -56,7 +56,7 @@ const Speech = ({
       command: "*進んで*",
       //　*印は、雑音に影響されないよう命令の前後の文言を許容するため。起こる恐れのあるバグが不明のため、要検証
       callback: () => {
-        next(num, page, setId);
+        next(num, length, setId);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
