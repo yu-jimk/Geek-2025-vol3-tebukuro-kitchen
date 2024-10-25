@@ -10,8 +10,8 @@ import { PiNoteDuotone } from "react-icons/pi";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { FiCameraOff } from "react-icons/fi";
 import { createPortal } from "react-dom";
-import { getByDescriptId } from "@/app/utils/supabaseFunctions";
-import { Descript } from "@/app/types";
+import { getByDescriptId, getByIngredientId } from "@/app/utils/supabaseFunctions";
+import { Descript, Ingredient } from "@/app/types";
 import YtModal from "../../future_recipe_id/cook/YtModal";
 import GuideModal from "../../future_recipe_id/cook/GuideModal";
 import TimerModal from "../../future_recipe_id/cook/TimerModal";
@@ -42,13 +42,17 @@ const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
 
 const Cook = ({ params }: { params: { recipe_id: number } }) => {
   const [descript, setDescript] = useState<Descript[]>([]);
+  const [ingredient,setIngredient] = useState<Ingredient[]>([]);
   useEffect(() => {
     const getRecipes = async () => {
-      const recipes = await getByDescriptId(params.recipe_id);
-      setDescript(recipes);
+      const desc = await getByDescriptId(params.recipe_id);
+      const ing = await getByIngredientId(params.recipe_id)
+      setDescript(desc);
+      setIngredient(ing)
     };
     getRecipes();
   }, []);
+  console.log(ingredient)
   const length = descript.length;
 
   // useEffect(() => {
