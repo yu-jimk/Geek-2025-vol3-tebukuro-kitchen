@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Speech from "@/app/conponents/Speech";
-import IngModal from "../../future_recipe_id/cook/IngModal";
+import IngModal from "./IngModal";
 import { FaArrowLeft, FaDoorOpen } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import { PiNoteDuotone } from "react-icons/pi";
@@ -16,9 +16,9 @@ import {
   getRecipesbyId,
 } from "@/app/utils/supabaseFunctions";
 import { Descript, Ingredient } from "@/app/types";
-import YtModal from "../../future_recipe_id/cook/YtModal";
-import GuideModal from "../../future_recipe_id/cook/GuideModal";
-import TimerModal from "../../future_recipe_id/cook/TimerModal";
+import YtModal from "./YtModal";
+import GuideModal from "./GuideModal";
+import TimerModal from "./TimerModal";
 import RecipeHeader from "@/app/conponents/RecipeHeader";
 import Link from "next/link";
 
