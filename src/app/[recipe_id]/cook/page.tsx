@@ -102,58 +102,67 @@ const Cook = ({
     from === "favorites"
       ? `/${params.recipe_id}?from=favorites`
       : `/${params.recipe_id}`;
+  const imageSrc = descript[page]?.image_url ?? "";
 
   return (
     <>
-      <body className="bg-white">
-        <RecipeHeader
-          bgColor="bg-orange-400"
-          textColor="text-white"
-          title={title}
-          link={recipePage}
-          iconFill="white"
-        />
-        <Speech
-          next={next}
-          back={back}
-          num={page}
-          length={length}
-          setPage={setPage}
-          setIngModalOpen={setIngModalOpen}
-          setYtModalOpen={setYtModalOpen}
-          setKeyword={setKeyword}
-          setGuideModalOpen={setGuideModalOpen}
-          setTimerModalOpen={setTimerModalOpen}
-          setStr={setStr}
-          setTimerStart={setTimerStart}
-        />
+      <RecipeHeader
+        bgColor="bg-orange-400"
+        textColor="text-white"
+        title={title}
+        link={recipePage}
+        iconFill="white"
+      />
+      <Speech
+        next={next}
+        back={back}
+        num={page}
+        length={length}
+        setPage={setPage}
+        setIngModalOpen={setIngModalOpen}
+        setYtModalOpen={setYtModalOpen}
+        setKeyword={setKeyword}
+        setGuideModalOpen={setGuideModalOpen}
+        setTimerModalOpen={setTimerModalOpen}
+        setStr={setStr}
+        setTimerStart={setTimerStart}
+      />
 
-        <div className="flex justify-center content-center">
-          <Image src="" alt="" width={500} height={400} className="shadow-lg" />
-          {/* {descript[id].image_url ? (
-          <Image
-            src={descript[id]?.image_url ?? ""}
-            sizes="100vw"
-            fill
-            className="object-cover"
-            onError={() => console.error("Image failed to load")}
-          />
+      <div className="flex justify-center content-center">
+        {imageSrc != "" ? (
+          <div className="relative" style={{ width: 500, height: 400}}>
+            <Image
+              // これの前に画像をフェッチして存在するかどうか確かめる必要があるかもしれない
+              src={imageSrc}
+              alt="recipe-image"
+              fill={true}
+              className="object-cover"
+              onError={() => console.error("Image failed to load")}
+            />
+          </div>
         ) : (
-          <FiCameraOff size={40} stroke="#737373" />
-        )} */}
-        </div>
-        <div className="mt-6 mb-10 flex justify-center">
-          <Circle length={length} page={page} />
-        </div>
-        <div
-          id="desc"
-          className="mx-5 font-mono font-black text-left text-black text-2xl break-words"
-        >
-          {descript[page]?.text ?? "読み込み中・・・"}
-        </div>
+          <div
+            className="shadow-lg content-center bg-gray-100"
+            style={{ width: 500, height: 400 }}
+          >
+            <div className="w-full">
+              <FiCameraOff size={40} stroke="#737373" className="mx-auto" />
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="mt-6 mb-10 flex justify-center">
+        <Circle length={length} page={page} />
+      </div>
+      <div
+        id="desc"
+        className="mx-5 font-mono font-black text-left text-black text-2xl break-words"
+      >
+        {descript[page]?.text ?? "読み込み中・・・"}
+      </div>
 
-        {/* 動画表示デバッグ用 */}
-        {/* <div className="w-full flex justify-between fixed bottom-14">
+      {/* 動画表示デバッグ用 */}
+      {/* <div className="w-full flex justify-between fixed bottom-14">
         <button
           onClick={() => setYtModalOpen(!ytModalOpen)}
           className="bg-black"
@@ -162,103 +171,102 @@ const Cook = ({
         </button>
       </div> */}
 
-        <div id="container">
-          {ingModalOpen && (
-            <ModalContainer>
-              <IngModal
-                modalClose={() => {
-                  setIngModalOpen(false);
-                }}
-              />
-            </ModalContainer>
-          )}
-          {ytModalOpen && (
-            <ModalContainer>
-              <YtModal
-                modalClose={() => {
-                  setYtModalOpen(false);
-                }}
-                keyword={keyword}
-              />
-            </ModalContainer>
-          )}
-          {guideModalOpen && (
-            <ModalContainer>
-              <GuideModal
-                modalClose={() => {
-                  setGuideModalOpen(false);
-                }}
-              />
-            </ModalContainer>
-          )}
-          {timerModalOpen && (
-            <ModalContainer>
-              <TimerModal
-                modalClose={() => {
-                  setTimerStart(false);
-                  setTimerModalOpen(false);
-                }}
-                str={str}
-                start={timerStart}
-                setStart={setTimerStart}
-              />
-            </ModalContainer>
-          )}
-        </div>
-        <button className="bg-black" onClick={() => setTimerModalOpen(true)}>
-          タイマー
-        </button>
-        <div className="text-white flex justify-between fixed bottom-0 z-10 w-full h-14">
-          {page == 0 ? (
-            <div className="w-20 h-14">
-              <div className="w-6 h-6 mx-7"></div>
-            </div>
-          ) : (
-            <button
-              onClick={() => setPage(page - 1)}
-              className="w-20 h-14 bg-transparent font-bold"
-            >
-              <FaArrowLeft className="w-6 h-6 mx-7" />
-              前へ
-            </button>
-          )}
-          <div className="w-full flex justify-between">
-            <button
-              onClick={() => setIngModalOpen(!ingModalOpen)}
-              className="bg-transparent font-bold"
-            >
-              <PiNoteDuotone className="w-6 h-6 mx-7" />
-              材料
-            </button>
-            <button
-              onClick={() => setGuideModalOpen(!guideModalOpen)}
-              className="bg-transparent font-bold"
-            >
-              <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-7" />
-              ガイド
-            </button>
+      <div id="container">
+        {ingModalOpen && (
+          <ModalContainer>
+            <IngModal
+              modalClose={() => {
+                setIngModalOpen(false);
+              }}
+            />
+          </ModalContainer>
+        )}
+        {ytModalOpen && (
+          <ModalContainer>
+            <YtModal
+              modalClose={() => {
+                setYtModalOpen(false);
+              }}
+              keyword={keyword}
+            />
+          </ModalContainer>
+        )}
+        {guideModalOpen && (
+          <ModalContainer>
+            <GuideModal
+              modalClose={() => {
+                setGuideModalOpen(false);
+              }}
+            />
+          </ModalContainer>
+        )}
+        {timerModalOpen && (
+          <ModalContainer>
+            <TimerModal
+              modalClose={() => {
+                setTimerStart(false);
+                setTimerModalOpen(false);
+              }}
+              str={str}
+              start={timerStart}
+              setStart={setTimerStart}
+            />
+          </ModalContainer>
+        )}
+      </div>
+      <button className="bg-black" onClick={() => setTimerModalOpen(true)}>
+        タイマー
+      </button>
+      <div className="text-white flex justify-between fixed bottom-0 z-10 w-full h-14">
+        {page == 0 ? (
+          <div className="w-20 h-14">
+            <div className="w-6 h-6 mx-7"></div>
           </div>
-          {page == length - 1 ? (
-            <Link href={recipePage} className="font-bold">
-              <FaDoorOpen className="w-6 h-6 mx-7 my-1 mb-0" />
-              <div className="text-center">終了</div>
-            </Link>
-          ) : (
-            <button
-              onClick={() => setPage(page + 1)}
-              className="w-20 h-14 bg-transparent font-bold"
-            >
-              <FaArrowRight className="w-6 h-6 mx-7" />
-              次へ
-            </button>
-          )}
+        ) : (
+          <button
+            onClick={() => setPage(page - 1)}
+            className="w-20 h-14 bg-transparent font-bold"
+          >
+            <FaArrowLeft className="w-6 h-6 mx-7" />
+            前へ
+          </button>
+        )}
+        <div className="w-full flex justify-between">
+          <button
+            onClick={() => setIngModalOpen(!ingModalOpen)}
+            className="bg-transparent font-bold"
+          >
+            <PiNoteDuotone className="w-6 h-6 mx-7" />
+            材料
+          </button>
+          <button
+            onClick={() => setGuideModalOpen(!guideModalOpen)}
+            className="bg-transparent font-bold"
+          >
+            <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-7" />
+            ガイド
+          </button>
         </div>
-        <div className="bg-orange-400 w-full fixed bottom-0 h-14 flex justify-center">
-          <div className="absolute -top-10 bg-orange-400 w-24 h-24 rounded-full flex justify-center">
-            <IoMicOutline className="relative w-12 h-12 top-6" />
-          </div>
+        {page == length - 1 ? (
+          <Link href={recipePage} className="font-bold">
+            <FaDoorOpen className="w-6 h-6 mx-7 my-1 mb-0" />
+            <div className="text-center">終了</div>
+          </Link>
+        ) : (
+          <button
+            onClick={() => setPage(page + 1)}
+            className="w-20 h-14 bg-transparent font-bold"
+          >
+            <FaArrowRight className="w-6 h-6 mx-7" />
+            次へ
+          </button>
+        )}
+      </div>
+      <div className="bg-orange-400 w-full fixed bottom-0 h-14 flex justify-center">
+        <div className="absolute -top-10 bg-orange-400 w-24 h-24 rounded-full flex justify-center">
+          <IoMicOutline className="relative w-12 h-12 top-6" />
         </div>
-      </body>
+      </div>
     </>
   );
 };
