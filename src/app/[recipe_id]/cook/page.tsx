@@ -228,7 +228,7 @@ const Cook = ({
             className="w-20 h-14 bg-transparent font-bold"
           >
             <FaArrowLeft className="w-6 h-6 mx-7" />
-            前へ
+            戻って
           </button>
         )}
         <div className="w-full flex justify-between">
@@ -237,7 +237,7 @@ const Cook = ({
             className="bg-transparent font-bold"
           >
             <PiNoteDuotone className="w-6 h-6 mx-7" />
-            材料
+            材料は?
           </button>
           <button
             onClick={() => setGuideModalOpen(!guideModalOpen)}
@@ -258,7 +258,7 @@ const Cook = ({
             className="w-20 h-14 bg-transparent font-bold"
           >
             <FaArrowRight className="w-6 h-6 mx-7" />
-            次へ
+            進んで
           </button>
         )}
       </div>
