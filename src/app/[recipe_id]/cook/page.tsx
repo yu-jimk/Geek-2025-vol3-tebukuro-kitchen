@@ -15,7 +15,7 @@ import {
   getByIngredientId,
   getRecipesbyId,
 } from "@/app/utils/supabaseFunctions";
-import { Descript, Ingredient, Recipe } from "@/app/types";
+import { Descript, Ingredient } from "@/app/types";
 import YtModal from "../../future_recipe_id/cook/YtModal";
 import GuideModal from "../../future_recipe_id/cook/GuideModal";
 import TimerModal from "../../future_recipe_id/cook/TimerModal";
@@ -65,8 +65,7 @@ const Cook = ({
       setIngredient(ing);
     };
     getRecipes();
-  }, []);
-  console.log(title)
+  }, [params.recipe_id]);
   const length = descript.length;
 
   // useEffect(() => {
@@ -146,7 +145,7 @@ const Cook = ({
         </div>
         <div
           id="desc"
-          className="mx-5 font-mono font-black text-left text-black text-2xl"
+          className="mx-5 font-mono font-black text-left text-black text-2xl break-words"
         >
           {descript[id]?.text ?? "読み込み中・・・"}
         </div>
