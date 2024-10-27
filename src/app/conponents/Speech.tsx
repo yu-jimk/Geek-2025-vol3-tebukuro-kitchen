@@ -10,11 +10,11 @@ type screenController = {
   next: (
     num: number,
     length: number,
-    setId: React.Dispatch<React.SetStateAction<number>>
+    setPage: React.Dispatch<React.SetStateAction<number>>
   ) => void;
   back: (
     num: number,
-    setId: React.Dispatch<React.SetStateAction<number>>
+    setPage: React.Dispatch<React.SetStateAction<number>>
   ) => void;
   dispModal: (
     setIngModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
@@ -27,7 +27,7 @@ const Speech = ({
   back,
   num,
   length,
-  setId,
+  setPage,
   setIngModalOpen,
   setYtModalOpen,
   setKeyword,
@@ -40,7 +40,7 @@ const Speech = ({
   back: screenController["back"];
   num: number;
   length: number;
-  setId: React.Dispatch<React.SetStateAction<number>>;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   setIngModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setYtModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setKeyword: React.Dispatch<React.SetStateAction<string>>;
@@ -56,7 +56,7 @@ const Speech = ({
       command: "*進んで*",
       //　*印は、雑音に影響されないよう命令の前後の文言を許容するため。起こる恐れのあるバグが不明のため、要検証
       callback: () => {
-        next(num, length, setId);
+        next(num, length, setPage);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -64,7 +64,7 @@ const Speech = ({
     {
       command: "*戻って*",
       callback: () => {
-        back(num, setId);
+        back(num, setPage);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },

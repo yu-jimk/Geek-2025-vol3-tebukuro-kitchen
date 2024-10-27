@@ -22,14 +22,14 @@ import TimerModal from "../../future_recipe_id/cook/TimerModal";
 import RecipeHeader from "@/app/conponents/RecipeHeader";
 
 //丸を描画する関数　length=丸の数　id=塗りつぶし判定用ページ数
-const Circle = ({ length, id }: { length: number; id: number }) => {
+const Circle = ({ length, page }: { length: number; page: number }) => {
   return (
     <>
       {Array.from({ length: length }).map((_, index) => (
         <div
           key={index}
           className={`mx-2 w-2 h-2 border border-black rounded-full ${
-            id == index ? "bg-orange-400" : ""
+            page == index ? "bg-orange-400" : ""
           }`}
         ></div>
       ))}
@@ -73,7 +73,7 @@ const Cook = ({
   //   setRecipes(sorted);
   // }, []);
 
-  const [id, setId] = useState(0); //現在のページ
+  const [page, setPage] = useState(0); //現在のページ
   const [ingModalOpen, setIngModalOpen] = useState(false);
   const [ytModalOpen, setYtModalOpen] = useState(false);
   const [guideModalOpen, setGuideModalOpen] = useState(false);
@@ -85,16 +85,16 @@ const Cook = ({
 
   const back = (
     num: number,
-    setId: React.Dispatch<React.SetStateAction<number>>
+    setPage: React.Dispatch<React.SetStateAction<number>>
   ) => {
-    num == 0 ? setId(num) : setId(num - 1);
+    num == 0 ? setPage(num) : setPage(num - 1);
   };
   const next = (
     num: number,
     page: number,
-    setId: React.Dispatch<React.SetStateAction<number>>
+    setPage: React.Dispatch<React.SetStateAction<number>>
   ) => {
-    num == page - 1 ? setId(num) : setId(num + 1);
+    num == page - 1 ? setPage(num) : setPage(num + 1);
   };
   const from = searchParams?.from;
   return (
@@ -114,9 +114,9 @@ const Cook = ({
         <Speech
           next={next}
           back={back}
-          num={id}
+          num={page}
           length={length}
-          setId={setId}
+          setPage={setPage}
           setIngModalOpen={setIngModalOpen}
           setYtModalOpen={setYtModalOpen}
           setKeyword={setKeyword}
@@ -141,13 +141,13 @@ const Cook = ({
         )} */}
         </div>
         <div className="mt-6 mb-10 flex justify-center">
-          <Circle length={length} id={id} />
+          <Circle length={length} page={page} />
         </div>
         <div
           id="desc"
           className="mx-5 font-mono font-black text-left text-black text-2xl break-words"
         >
-          {descript[id]?.text ?? "読み込み中・・・"}
+          {descript[page]?.text ?? "読み込み中・・・"}
         </div>
 
         {/* 動画表示デバッグ用 */}
@@ -208,7 +208,7 @@ const Cook = ({
         </button>
         <div className="text-white flex justify-between fixed bottom-0 z-10 w-full h-14">
           <button
-            onClick={() => (id == 0 ? setId(id) : setId(id - 1))}
+            onClick={() => (page == 0 ? setPage(page) : setPage(page - 1))}
             className="w-20 h-14 bg-transparent font-bold"
           >
             <FaArrowLeft className="w-6 h-6 mx-7" />
@@ -231,7 +231,7 @@ const Cook = ({
             </button>
           </div>
           <button
-            onClick={() => (id == length - 1 ? setId(id) : setId(id + 1))}
+            onClick={() => (page == length - 1 ? setPage(page) : setPage(page + 1))}
             className="w-20 h-14 bg-transparent font-bold"
           >
             <FaArrowRight className="w-6 h-6 mx-7" />
