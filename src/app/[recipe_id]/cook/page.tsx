@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Speech from "@/app/conponents/Speech";
 import IngModal from "../../future_recipe_id/cook/IngModal";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaDoorOpen } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import { PiNoteDuotone } from "react-icons/pi";
 import { IoChatbubbleEllipsesOutline, IoMicOutline } from "react-icons/io5";
@@ -20,6 +20,7 @@ import YtModal from "../../future_recipe_id/cook/YtModal";
 import GuideModal from "../../future_recipe_id/cook/GuideModal";
 import TimerModal from "../../future_recipe_id/cook/TimerModal";
 import RecipeHeader from "@/app/conponents/RecipeHeader";
+import Link from "next/link";
 
 //丸を描画する関数　length=丸の数　id=塗りつぶし判定用ページ数
 const Circle = ({ length, page }: { length: number; page: number }) => {
@@ -52,15 +53,15 @@ const Cook = ({
   params: { recipe_id: number };
   searchParams: { from?: string };
 }) => {
-  const [title, setTitle] = useState<string>('')
+  const [title, setTitle] = useState<string>("");
   const [descript, setDescript] = useState<Descript[]>([]);
   const [ingredient, setIngredient] = useState<Ingredient[]>([]);
   useEffect(() => {
     const getRecipes = async () => {
-      const rec = await getRecipesbyId(params.recipe_id)
+      const rec = await getRecipesbyId(params.recipe_id);
       const desc = await getByDescriptId(params.recipe_id);
       const ing = await getByIngredientId(params.recipe_id);
-      setTitle(rec[0].name)
+      setTitle(rec[0].name);
       setDescript(desc);
       setIngredient(ing);
     };
@@ -96,7 +97,12 @@ const Cook = ({
   ) => {
     num == page - 1 ? setPage(num) : setPage(num + 1);
   };
-  const from = searchParams?.from;
+  const from = searchParams?.from; // ヘッダーの戻るボタン用
+  const recipePage =
+    from === "favorites"
+      ? `/${params.recipe_id}?from=favorites`
+      : `/${params.recipe_id}`;
+
   return (
     <>
       <body className="bg-white">
@@ -104,11 +110,7 @@ const Cook = ({
           bgColor="bg-orange-400"
           textColor="text-white"
           title={title}
-          link={
-            from === "favorites"
-              ? `/${params.recipe_id}?from=favorites`
-              : `/${params.recipe_id}`
-          }
+          link={recipePage}
           iconFill="white"
         />
         <Speech
@@ -207,13 +209,19 @@ const Cook = ({
           タイマー
         </button>
         <div className="text-white flex justify-between fixed bottom-0 z-10 w-full h-14">
-          <button
-            onClick={() => (page == 0 ? setPage(page) : setPage(page - 1))}
-            className="w-20 h-14 bg-transparent font-bold"
-          >
-            <FaArrowLeft className="w-6 h-6 mx-7" />
-            前へ
-          </button>
+          {page == 0 ? (
+            <div className="w-20 h-14">
+              <div className="w-6 h-6 mx-7"></div>
+            </div>
+          ) : (
+            <button
+              onClick={() => setPage(page - 1)}
+              className="w-20 h-14 bg-transparent font-bold"
+            >
+              <FaArrowLeft className="w-6 h-6 mx-7" />
+              前へ
+            </button>
+          )}
           <div className="w-full flex justify-between">
             <button
               onClick={() => setIngModalOpen(!ingModalOpen)}
@@ -230,13 +238,20 @@ const Cook = ({
               ガイド
             </button>
           </div>
-          <button
-            onClick={() => (page == length - 1 ? setPage(page) : setPage(page + 1))}
-            className="w-20 h-14 bg-transparent font-bold"
-          >
-            <FaArrowRight className="w-6 h-6 mx-7" />
-            次へ
-          </button>
+          {page == length - 1 ? (
+            <Link href={recipePage} className="font-bold">
+              <FaDoorOpen className="w-6 h-6 mx-7 my-1 mb-0" />
+              <div className="text-center">終了</div>
+            </Link>
+          ) : (
+            <button
+              onClick={() => setPage(page + 1)}
+              className="w-20 h-14 bg-transparent font-bold"
+            >
+              <FaArrowRight className="w-6 h-6 mx-7" />
+              次へ
+            </button>
+          )}
         </div>
         <div className="bg-orange-400 w-full fixed bottom-0 h-14 flex justify-center">
           <div className="absolute -top-10 bg-orange-400 w-24 h-24 rounded-full flex justify-center">
