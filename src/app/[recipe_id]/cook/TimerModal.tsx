@@ -26,8 +26,8 @@ const TimerModal = ({
     s.current = sec;
   }, [str]);
 
-  const alarm = new Audio("/TimerAlarm.mp3");
   useEffect(() => {
+    const alarm = new Audio("/TimerAlarm.mp3");
     setDisp(num2TimerText(h.current, m.current, s.current));
     let manager: NodeJS.Timeout;
     if (start) {
@@ -55,7 +55,7 @@ const TimerModal = ({
         clearInterval(manager);
       }
     };
-  }, [hour, min, sec, setDisp, start, alarm, setStart]);
+  }, [hour, min, sec, setDisp, start, setStart]);
 
   const bgClickClose = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
