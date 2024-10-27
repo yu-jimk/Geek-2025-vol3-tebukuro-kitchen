@@ -7,14 +7,19 @@ import IngModal from "../../future_recipe_id/cook/IngModal";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import { PiNoteDuotone } from "react-icons/pi";
-import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
+import { IoChatbubbleEllipsesOutline, IoMicOutline } from "react-icons/io5";
 import { FiCameraOff } from "react-icons/fi";
 import { createPortal } from "react-dom";
-import { getByDescriptId, getByIngredientId } from "@/app/utils/supabaseFunctions";
-import { Descript, Ingredient } from "@/app/types";
+import {
+  getByDescriptId,
+  getByIngredientId,
+  getRecipesbyId,
+} from "@/app/utils/supabaseFunctions";
+import { Descript, Ingredient, Recipe } from "@/app/types";
 import YtModal from "../../future_recipe_id/cook/YtModal";
 import GuideModal from "../../future_recipe_id/cook/GuideModal";
 import TimerModal from "../../future_recipe_id/cook/TimerModal";
+import RecipeHeader from "@/app/conponents/RecipeHeader";
 
 //丸を描画する関数　length=丸の数　id=塗りつぶし判定用ページ数
 const Circle = ({ length, id }: { length: number; id: number }) => {
@@ -40,19 +45,28 @@ const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
   return createPortal(children, container);
 };
 
-const Cook = ({ params }: { params: { recipe_id: number } }) => {
+const Cook = ({
+  params,
+  searchParams,
+}: {
+  params: { recipe_id: number };
+  searchParams: { from?: string };
+}) => {
+  const [title, setTitle] = useState<string>('')
   const [descript, setDescript] = useState<Descript[]>([]);
-  const [ingredient,setIngredient] = useState<Ingredient[]>([]);
+  const [ingredient, setIngredient] = useState<Ingredient[]>([]);
   useEffect(() => {
     const getRecipes = async () => {
+      const rec = await getRecipesbyId(params.recipe_id)
       const desc = await getByDescriptId(params.recipe_id);
-      const ing = await getByIngredientId(params.recipe_id)
+      const ing = await getByIngredientId(params.recipe_id);
+      setTitle(rec[0].name)
       setDescript(desc);
-      setIngredient(ing)
+      setIngredient(ing);
     };
     getRecipes();
   }, []);
-  console.log(ingredient)
+  console.log(title)
   const length = descript.length;
 
   // useEffect(() => {
@@ -83,26 +97,39 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
   ) => {
     num == page - 1 ? setId(num) : setId(num + 1);
   };
+  const from = searchParams?.from;
   return (
     <>
-      <Speech
-        next={next}
-        back={back}
-        num={id}
-        length={length}
-        setId={setId}
-        setIngModalOpen={setIngModalOpen}
-        setYtModalOpen={setYtModalOpen}
-        setKeyword={setKeyword}
-        setGuideModalOpen={setGuideModalOpen}
-        setTimerModalOpen={setTimerModalOpen}
-        setStr={setStr}
-        setTimerStart={setTimerStart}
-      />
+      <body className="bg-white">
+        <RecipeHeader
+          bgColor="bg-orange-400"
+          textColor="text-white"
+          title={title}
+          link={
+            from === "favorites"
+              ? `/${params.recipe_id}?from=favorites`
+              : `/${params.recipe_id}`
+          }
+          iconFill="white"
+        />
+        <Speech
+          next={next}
+          back={back}
+          num={id}
+          length={length}
+          setId={setId}
+          setIngModalOpen={setIngModalOpen}
+          setYtModalOpen={setYtModalOpen}
+          setKeyword={setKeyword}
+          setGuideModalOpen={setGuideModalOpen}
+          setTimerModalOpen={setTimerModalOpen}
+          setStr={setStr}
+          setTimerStart={setTimerStart}
+        />
 
-      <div className="flex justify-center content-center">
-        <Image src="" alt="" width={500} height={400} className="shadow-lg" />
-        {/* {descript[id].image_url ? (
+        <div className="flex justify-center content-center">
+          <Image src="" alt="" width={500} height={400} className="shadow-lg" />
+          {/* {descript[id].image_url ? (
           <Image
             src={descript[id]?.image_url ?? ""}
             sizes="100vw"
@@ -113,19 +140,19 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
         ) : (
           <FiCameraOff size={40} stroke="#737373" />
         )} */}
-      </div>
-      <div className="mt-6 mb-10 flex justify-center">
-        <Circle length={length} id={id} />
-      </div>
-      <div
-        id="desc"
-        className="mx-5 font-mono font-black text-left text-black text-2xl"
-      >
-        {descript[id]?.text ?? "読み込み中・・・"}
-      </div>
+        </div>
+        <div className="mt-6 mb-10 flex justify-center">
+          <Circle length={length} id={id} />
+        </div>
+        <div
+          id="desc"
+          className="mx-5 font-mono font-black text-left text-black text-2xl"
+        >
+          {descript[id]?.text ?? "読み込み中・・・"}
+        </div>
 
-      {/* 動画表示デバッグ用 */}
-      {/* <div className="w-full flex justify-between fixed bottom-14">
+        {/* 動画表示デバッグ用 */}
+        {/* <div className="w-full flex justify-between fixed bottom-14">
         <button
           onClick={() => setYtModalOpen(!ytModalOpen)}
           className="bg-black"
@@ -134,84 +161,90 @@ const Cook = ({ params }: { params: { recipe_id: number } }) => {
         </button>
       </div> */}
 
-      <div id="container">
-        {ingModalOpen && (
-          <ModalContainer>
-            <IngModal
-              modalClose={() => {
-                setIngModalOpen(false);
-              }}
-            />
-          </ModalContainer>
-        )}
-        {ytModalOpen && (
-          <ModalContainer>
-            <YtModal
-              modalClose={() => {
-                setYtModalOpen(false);
-              }}
-              keyword={keyword}
-            />
-          </ModalContainer>
-        )}
-        {guideModalOpen && (
-          <ModalContainer>
-            <GuideModal
-              modalClose={() => {
-                setGuideModalOpen(false);
-              }}
-            />
-          </ModalContainer>
-        )}
-        {timerModalOpen && (
-          <ModalContainer>
-            <TimerModal
-              modalClose={() => {
-                setTimerStart(false);
-                setTimerModalOpen(false);
-              }}
-              str={str}
-              start={timerStart}
-              setStart={setTimerStart}
-            />
-          </ModalContainer>
-        )}
-      </div>
-      <button className="bg-black" onClick={() => setTimerModalOpen(true)}>
-        タイマー
-      </button>
-      <div className="text-white flex justify-between fixed bottom-0 z-10 w-full h-14">
-        <button
-          onClick={() => (id == 0 ? setId(id) : setId(id - 1))}
-          className="w-20 h-14 bg-transparent font-bold"
-        >
-          <FaArrowLeft className="w-6 h-6 mx-7" />
-          前へ
+        <div id="container">
+          {ingModalOpen && (
+            <ModalContainer>
+              <IngModal
+                modalClose={() => {
+                  setIngModalOpen(false);
+                }}
+              />
+            </ModalContainer>
+          )}
+          {ytModalOpen && (
+            <ModalContainer>
+              <YtModal
+                modalClose={() => {
+                  setYtModalOpen(false);
+                }}
+                keyword={keyword}
+              />
+            </ModalContainer>
+          )}
+          {guideModalOpen && (
+            <ModalContainer>
+              <GuideModal
+                modalClose={() => {
+                  setGuideModalOpen(false);
+                }}
+              />
+            </ModalContainer>
+          )}
+          {timerModalOpen && (
+            <ModalContainer>
+              <TimerModal
+                modalClose={() => {
+                  setTimerStart(false);
+                  setTimerModalOpen(false);
+                }}
+                str={str}
+                start={timerStart}
+                setStart={setTimerStart}
+              />
+            </ModalContainer>
+          )}
+        </div>
+        <button className="bg-black" onClick={() => setTimerModalOpen(true)}>
+          タイマー
         </button>
-        <div className="w-full flex justify-between">
+        <div className="text-white flex justify-between fixed bottom-0 z-10 w-full h-14">
           <button
-            onClick={() => setIngModalOpen(!ingModalOpen)}
-            className="bg-transparent font-bold"
+            onClick={() => (id == 0 ? setId(id) : setId(id - 1))}
+            className="w-20 h-14 bg-transparent font-bold"
           >
-            <PiNoteDuotone className="w-6 h-6 mx-7" />
-            材料
+            <FaArrowLeft className="w-6 h-6 mx-7" />
+            前へ
           </button>
+          <div className="w-full flex justify-between">
+            <button
+              onClick={() => setIngModalOpen(!ingModalOpen)}
+              className="bg-transparent font-bold"
+            >
+              <PiNoteDuotone className="w-6 h-6 mx-7" />
+              材料
+            </button>
+            <button
+              onClick={() => setGuideModalOpen(!guideModalOpen)}
+              className="bg-transparent font-bold"
+            >
+              <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-7" />
+              ガイド
+            </button>
+          </div>
           <button
-            onClick={() => setGuideModalOpen(!guideModalOpen)}
-            className="bg-transparent font-bold"
+            onClick={() => (id == length - 1 ? setId(id) : setId(id + 1))}
+            className="w-20 h-14 bg-transparent font-bold"
           >
-            <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-7" />
-            ガイド
+            <FaArrowRight className="w-6 h-6 mx-7" />
+            次へ
           </button>
         </div>
-        <button
-          onClick={() => (id == length - 1 ? setId(id) : setId(id + 1))}
-          className="w-20 h-14 bg-transparent font-bold"
-        >
-          <FaArrowRight className="w-6 h-6 mx-7" />
-          次へ
-        </button>
-      </div>
+        <div className="bg-orange-400 w-full fixed bottom-0 h-14 flex justify-center">
+          <div className="absolute -top-10 bg-orange-400 w-24 h-24 rounded-full flex justify-center">
+            <IoMicOutline className="relative w-12 h-12 top-6" />
+          </div>
+        </div>
+      </body>
     </>
   );
 };
