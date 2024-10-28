@@ -69,19 +69,27 @@ const TimerModal = ({
           onClick={bgClickClose}
           className="flex justify-center items-center h-full"
         >
-          <div className="bg-white mx-20 w-full shadow-lg text-black">
+          <div className="bg-white mx-20 w-full shadow-lg text-black rounded-3xl">
             <div className="flex w-full justify-end">
               <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
             </div>
             <div className="font-sans font-bold mx-5 mb-5 text-5xl text-center">
               {disp}
             </div>
-            <button
-              onClick={() => setStart(!start)}
-              className="bg-black text-white"
-            >
-              {`start:${start}`}
-            </button>
+            <div className="w-full flex justify-between">
+              <button
+                onClick={() => setStart(false)}
+                className="bg-orange-400 text-white mx-5 mb-5 rounded-full p-3"
+              >
+                ストップ
+              </button>
+              <button
+                onClick={() => setStart(true)}
+                className="bg-orange-400 text-white mx-5 mb-5 rounded-full p-3"
+              >
+                スタート
+              </button>
+            </div>
           </div>
         </div>
       </div>
