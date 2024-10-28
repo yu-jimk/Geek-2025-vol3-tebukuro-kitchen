@@ -79,13 +79,13 @@ const TimerModal = ({
             <div className="w-full flex justify-between font-bold">
               <button
                 onClick={() => setStart(false)}
-                className="bg-orange-400 text-white mx-5 mb-5 rounded-full p-3"
+                className="bg-orange-400 text-white mx-5 mb-5 rounded-full p-4"
               >
                 ストップ
               </button>
               <button
                 onClick={() => setStart(true)}
-                className="bg-orange-400 text-white mx-5 mb-5 rounded-full p-3"
+                className="bg-orange-400 text-white mx-5 mb-5 rounded-full p-4"
               >
                 スタート
               </button>

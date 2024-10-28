@@ -130,7 +130,7 @@ const Cook = ({
 
       <div className="flex justify-center content-center">
         {imageSrc != "" ? (
-          <div className="relative" style={{ width: 500, height: 400}}>
+          <div className="relative" style={{ width: 500, height: 400 }}>
             <Image
               // これの前に画像をフェッチして存在するかどうか確かめる必要があるかもしれない
               src={imageSrc}
@@ -161,15 +161,18 @@ const Cook = ({
         {descript[page]?.text ?? "読み込み中・・・"}
       </div>
 
-      {/* 動画表示デバッグ用 */}
-      {/* <div className="w-full flex justify-between fixed bottom-14">
-        <button
+      {/* 動画表示とタイマーのデバッグ用 */}
+      <div className="w-full flex justify-between fixed bottom-14">
+        {/* <button
           onClick={() => setYtModalOpen(!ytModalOpen)}
           className="bg-black"
         >
           動画表示
+        </button> */}
+        <button className="bg-black" onClick={() => setTimerModalOpen(true)}>
+          タイマー
         </button>
-      </div> */}
+      </div>
 
       <div id="container">
         {ingModalOpen && (
@@ -214,9 +217,7 @@ const Cook = ({
           </ModalContainer>
         )}
       </div>
-      <button className="bg-black" onClick={() => setTimerModalOpen(true)}>
-        タイマー
-      </button>
+
       <div className="text-white flex justify-between fixed bottom-0 z-10 w-full h-14">
         {page == 0 ? (
           <div className="w-20 h-14">
