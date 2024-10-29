@@ -26,8 +26,8 @@ const TimerModal = ({
     s.current = sec;
   }, [str]);
 
-  const alarm = new Audio("/TimerAlarm.mp3");
   useEffect(() => {
+    const alarm = new Audio("/TimerAlarm.mp3");
     setDisp(num2TimerText(h.current, m.current, s.current));
     let manager: NodeJS.Timeout;
     if (start) {
@@ -55,7 +55,7 @@ const TimerModal = ({
         clearInterval(manager);
       }
     };
-  }, [hour, min, sec, setDisp, start]);
+  }, [hour, min, sec, setDisp, start, setStart]);
 
   const bgClickClose = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -69,19 +69,42 @@ const TimerModal = ({
           onClick={bgClickClose}
           className="flex justify-center items-center h-full"
         >
-          <div className="bg-white mx-20 w-full shadow-lg text-black">
+          <div className="bg-white mx-20 w-full shadow-lg text-black rounded-3xl">
             <div className="flex w-full justify-end">
               <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
             </div>
             <div className="font-sans font-bold mx-5 mb-5 text-5xl text-center">
               {disp}
+              <div className="text-sm">　　　時間　　　　分　　　　秒</div>
             </div>
-            <button
-              onClick={() => setStart(!start)}
-              className="bg-black text-white"
-            >
-              {`start:${start}`}
-            </button>
+            <div className="w-full flex justify-between font-bold">
+              <button
+                onClick={() => h.current++}
+                className="bg-orange-400 text-white ml-5 mr-0 mb-7 mt-3 rounded-full px-4"
+              >
+                時間
+              </button>
+              <button
+                onClick={() => m.current++}
+                className="bg-orange-400 text-white mx-0 mb-7 mt-3 rounded-full px-4"
+              >
+                分
+              </button>
+              <button
+                onClick={() => s.current++}
+                className="bg-orange-400 text-white mx-0 mb-7 mt-3 rounded-full px-4"
+              >
+                秒
+              </button>
+              <button
+                onClick={() => setStart(!start)}
+                className="bg-orange-400 text-white mx-5 mb-5 rounded-full p-4"
+              >
+                スタート
+                <br />
+                ストップ
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -9,12 +9,12 @@ import { useState, useEffect } from "react";
 type screenController = {
   next: (
     num: number,
-    page: number,
-    setId: React.Dispatch<React.SetStateAction<number>>
+    length: number,
+    setPage: React.Dispatch<React.SetStateAction<number>>
   ) => void;
   back: (
     num: number,
-    setId: React.Dispatch<React.SetStateAction<number>>
+    setPage: React.Dispatch<React.SetStateAction<number>>
   ) => void;
   dispModal: (
     setIngModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
@@ -26,8 +26,8 @@ const Speech = ({
   next,
   back,
   num,
-  page,
-  setId,
+  length,
+  setPage,
   setIngModalOpen,
   setYtModalOpen,
   setKeyword,
@@ -39,8 +39,8 @@ const Speech = ({
   next: screenController["next"];
   back: screenController["back"];
   num: number;
-  page: number;
-  setId: React.Dispatch<React.SetStateAction<number>>;
+  length: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   setIngModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setYtModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setKeyword: React.Dispatch<React.SetStateAction<string>>;
@@ -56,7 +56,7 @@ const Speech = ({
       command: "*進んで*",
       //　*印は、雑音に影響されないよう命令の前後の文言を許容するため。起こる恐れのあるバグが不明のため、要検証
       callback: () => {
-        next(num, page, setId);
+        next(num, length, setPage);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -64,7 +64,7 @@ const Speech = ({
     {
       command: "*戻って*",
       callback: () => {
-        back(num, setId);
+        back(num, setPage);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -83,7 +83,7 @@ const Speech = ({
         setIngModalOpen(false);
         setYtModalOpen(false);
         setGuideModalOpen(false);
-        setTimerStart(false)
+        setTimerStart(false);
         setTimerModalOpen(false);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -108,8 +108,8 @@ const Speech = ({
     {
       command: "タイマー*セットして",
       callback: (material: string) => {
-        setStr(material.replace(/\s+/g,'')); //スペース削除
-        setResponse(material.replace(/\s+/g,''))
+        setStr(material.replace(/\s+/g, "")); //スペース削除
+        setResponse(material.replace(/\s+/g, ""));
         setTimerModalOpen(true);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -182,13 +182,14 @@ const Speech = ({
 
   return (
     <>
-      {/* デバッグ用 */}
       {/* <p className="text-black fixed top-32 bg-black bg-opacity-20">
         response : {response}
-      </p>
-      <p className="text-black fixed top-40 bg-black bg-opacity-20">
-        input : {transcript}
       </p> */}
+      <div className="w-full flex justify-center items-center">
+        <span className="z-50 flex overflow-hidden justify-end whitespace-nowrap max-w-24 h-5 text-white fixed bottom-0 bg-black bg-opacity-20">
+          {transcript}
+        </span>
+      </div>
     </>
   );
 };
