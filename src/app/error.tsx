@@ -6,15 +6,14 @@ const Error = ({ error, reset }: { error: Error; reset: () => void }) => {
     console.error(error);
   }, [error]);
   return (
-    <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mt-4 rounded shadow-md max-w-md mx-auto">
-      <h3 className="font-bold mb-2">エラー</h3>
-      <p>エラーが発生しました。</p>
+    <div className=" border-gray-800 text-gray-800 p-4 mt-4 rounded max-w-md mx-auto">
+      <h3 className="text-2xl font-bold mb-2">エラーが発生しました</h3>
       <button
-    //   再読み込み
+        //   再読み込み
         onClick={() => reset()}
-        className="bg-red-600 text-white mt-2 px-4 py-2 rounded hover:bg-red-500 transition ease-in-out duration-200"
+        className="bg-black text-white mt-2 px-4 py-2 rounded hover:bg-orange-500 transition ease-in-out duration-200"
       >
-        もう一度試す
+        再読み込み
       </button>
     </div>
   );
