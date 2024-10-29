@@ -50,14 +50,6 @@ const DescriptInputItem = ({
                     className="object-cover"
                     fill
                   />
-                  <input
-                    {...register(`descript.${index}.image`)}
-                    title="画像"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload(index)}
-                    className="absolute inset-0 opacity-0 cursor-pointer"
-                  />
                   <button
                     title="画像"
                     className="size-5 rounded-full shadow-lg absolute top-0 right-0 bg-gray-400 m-2 flex justify-center items-center"
@@ -65,19 +57,18 @@ const DescriptInputItem = ({
                     <BiPlus className="rotate-45 text-2xl text-white" />
                   </button>
                 </>
-              ) : (
-                <input
-                {...register(`descript.${index}.image`)}
-                  title="画像"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload(index)}
-                  className="absolute inset-0 opacity-0 cursor-pointer"
-                />
-              )}
+              ) : null}
               {!inputItem.image && (
                 <BiCameraOff className="text-gray-400 text-2xl" />
               )}
+              <input
+                {...register(`descript.${index}.image`)}
+                title="画像"
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload(index)}
+                className="absolute inset-0 opacity-0 cursor-pointer"
+              />
             </div>
 
             <div className="flex bg-white">
@@ -96,6 +87,7 @@ const DescriptInputItem = ({
         ))}
       </div>
       <button
+        type='button'
         onClick={addInput}
         disabled={inputItems.length >= maxInputs}
         className="flex mx-auto my-4 text-orange-400"
