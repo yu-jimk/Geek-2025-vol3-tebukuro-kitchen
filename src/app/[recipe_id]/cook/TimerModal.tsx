@@ -75,19 +75,34 @@ const TimerModal = ({
             </div>
             <div className="font-sans font-bold mx-5 mb-5 text-5xl text-center">
               {disp}
+              <div className="text-sm">　　　時間　　　　分　　　　秒</div>
             </div>
             <div className="w-full flex justify-between font-bold">
               <button
-                onClick={() => setStart(false)}
-                className="bg-orange-400 text-white mx-5 mb-5 rounded-full p-4"
+                onClick={() => h.current++}
+                className="bg-orange-400 text-white ml-5 mr-0 mb-7 mt-3 rounded-full px-4"
               >
-                ストップ
+                時間
               </button>
               <button
-                onClick={() => setStart(true)}
+                onClick={() => m.current++}
+                className="bg-orange-400 text-white mx-0 mb-7 mt-3 rounded-full px-4"
+              >
+                分
+              </button>
+              <button
+                onClick={() => s.current++}
+                className="bg-orange-400 text-white mx-0 mb-7 mt-3 rounded-full px-4"
+              >
+                秒
+              </button>
+              <button
+                onClick={() => setStart(!start)}
                 className="bg-orange-400 text-white mx-5 mb-5 rounded-full p-4"
               >
                 スタート
+                <br />
+                ストップ
               </button>
             </div>
           </div>
