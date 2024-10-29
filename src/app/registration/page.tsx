@@ -58,6 +58,7 @@ const Registration = () => {
                   fill
                 />
                 <button
+                  type='button'
                   title="a"
                   className="w-6 h-6 rounded-full shadow-lg absolute top-0 right-0 bg-gray-400 m-2 flex justify-center items-center"
                 >
@@ -73,6 +74,7 @@ const Registration = () => {
             <p>err{errors.recipe?.recipe_name?.message}</p>
             <div className="absolute right-[-16px] bottom-[-16px]">
               <button
+                type='button'
                 title="b"
                 className="w-12 h-12 rounded-full shadow-lg bg-white flex justify-center items-center"
               >
