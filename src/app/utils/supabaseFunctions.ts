@@ -6,11 +6,11 @@ import {
   Ingredient,
   InputIngredient,
   Recipe,
-  inputDescript,
 } from "../types";
 import { supabase } from "../utils/supabase";
 import { getFileExtension } from "./fileUtils";
 import { arrayShuffle } from "./supabaseFncUpdate";
+import { DescriptSchemaType, RecipeObjectSchemaType } from '../validations/schema';
 // 全レシピ取得
 export const getAllRecipes = async () => {
   const recipes = await supabase.from("Recipes").select("*");
@@ -33,15 +33,15 @@ export const getRecipesbyId = async (id: number) => {
   return recipe.data as Recipe[];
 };
 // レシピ作成
-export const addRecipe = async (recipe: Recipe) => {
+export const addRecipe = async (recipe: RecipeObjectSchemaType) => {
   const { data, error } = await supabase
     .from("Recipes")
     .insert({
-      name: recipe.name,
-      image_url: recipe?.image_url,
-      how_many: recipe?.howmany,
+      name: recipe.recipe_name,
+      image_url: recipe?.recipe_image,
+      how_many: recipe?.how_many,
       time: recipe?.time,
-      comment: recipe?.comment,
+      comment: recipe?.recipe_comment,
     })
     .select(); // 挿入されたデータを取得するために select() を使用
 
@@ -134,13 +134,13 @@ export const addDescript = async (
 // 複数個の作り方を作成
 export const addSomeDescript = async (
   recipe_id: number,
-  inputDescripts: inputDescript[]
+  descripts: DescriptSchemaType
 ) => {
-  inputDescripts.map(async (e, index) => {
-    if (e.imageFile !== undefined) {
-      const descriptExtension = getFileExtension(e.imageFile);
+  descripts.map(async (e, index) => {
+    if (e.image !== undefined) {
+      const descriptExtension = getFileExtension(e.image);
       const descriptImagePath = `${recipe_id}/Descripts/${index}.${descriptExtension}`;
-      await uploadImage(e.imageFile, descriptImagePath);
+      await uploadImage(e.image, descriptImagePath);
       const image_url = await getImageUrl(descriptImagePath);
       console.log("image_url", image_url);
       // await addDescript(recipe_id,index, image_url, e.text);
