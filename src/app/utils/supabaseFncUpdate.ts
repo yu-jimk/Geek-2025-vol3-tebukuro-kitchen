@@ -69,3 +69,18 @@ export async function ExchengeDescripts(des1: Descript, des2: Descript) {
     console.error("supabaseエラー", error.message);
   }
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function arrayShuffle(array:any[]) {
+  for(let i = (array.length - 1); 0 < i; i--){
+
+    // 0〜(i+1)の範囲で値を取得
+    const r = Math.floor(Math.random() * (i + 1));
+
+    // 要素の並び替えを実行
+    const tmp = array[i];
+    array[i] = array[r];
+    array[r] = tmp;
+  }
+  return array;
+}

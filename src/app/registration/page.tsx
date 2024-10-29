@@ -19,10 +19,11 @@ import {
   getImageUrl,
   uploadImage,
 } from "../utils/supabaseFunctions";
-import { Button } from "@mui/material";
 import { updateRecipeImage } from "../utils/supabaseFncUpdate";
 import { getFileExtension } from "../utils/fileUtils";
 import Link from "next/link";
+import { useSwipeable } from "react-swipeable";
+
 const Registration = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [recipe, setRecipe] = useState<Recipe>({ id: -1, name: "" });
@@ -37,6 +38,14 @@ const Registration = () => {
     { name: "", amount: "" },
   ]);
   const [recipeImageFile, setRecipeImageFile] = useState<File>();
+
+  const [showlist, setshowlist] = useState(true);
+
+  const handlers = useSwipeable({
+    onSwipedUp: () => setshowlist(false),
+    onSwipedDown: () => setshowlist(true),
+    delta: 10,
+  });
   // 入力された値に空文字があったらtrue,なかったらfalseを返す
   function InputIngredientsIsSpace(targetInputIngredients: InputIngredient[]) {
     const target = targetInputIngredients.find((e) => {
@@ -66,7 +75,6 @@ const Registration = () => {
       window.alert("材料名、分量を入力してください");
       return false;
     } else {
-
       const recipe_id = await addRecipe(recipe);
 
       if (recipe_id !== undefined) {
@@ -86,8 +94,8 @@ const Registration = () => {
     }
   }
   return (
-    <>
-      <main className="bg-[#FFFBF4]">
+    <div {...handlers}>
+      <main className="bg-[#FFFBF4] mb-16">
         <p className="text-center font-semibold text-lg pt-4">レシピを登録</p>
         <section className="bg-gray-100 h-56 w-9/12 mx-auto rounded-xl mt-10 mb-12 shadow-lg flex-col flex gap-y-4 justify-center items-center relative">
           {selectedImage ? (
@@ -130,9 +138,6 @@ const Registration = () => {
           </div>
         </section>
 
-        <div>
-          <span className="text-red-500 ml-3 text-2xl">*</span>
-        </div>
         <section className="flex items-center border-b border-gray-400 bg-[#FEF9EC] -mt-3">
           <FaPen className="ml-3 text-gray-400 text-2xl" />
           <input
@@ -232,17 +237,24 @@ const Registration = () => {
         </section>
 
         <Link href={""}>
-          <Button
+          <button
+            type="button"
             onClick={handleSubmit}
             className="flex justify-center text-white bg-orange-400 hover:bg-orange-400 font-semibold rounded-xl text-lg py-3 w-64 shadow-md mx-auto mt-8"
           >
             レシピを登録する
-          </Button>
+          </button>
           <div className="bg-[#FFFBF4] w-full h-8"></div>
         </Link>
       </main>
-      <Footer pathName="/registration" />
-    </>
+      <div
+        className={`fixed bottom-0 w-full z-20 transition-transform duration-200 ${
+          showlist ? "translate-y-0" : "translate-y-full"
+        }`}
+      >
+        <Footer pathName="/registration" />
+      </div>
+    </div>
   );
 };
 

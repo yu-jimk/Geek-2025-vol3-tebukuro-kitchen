@@ -114,18 +114,6 @@ export default function RecipeId({
               作り方
             </p>
             <div className="space-y-1">
-              {list.Descripts.sort((a, b) => a.id - b.id).map(
-                (descript: Descript, index) => (
-                  <DescriptItem
-                    key={descript.id}
-                    id={index + 1}
-                    text={descript.text}
-                    // image_url={`https://picsum.photos/${descript.id + 500}`}
-                    image_url={descript.image_url}
-                    recipe_id={descript.recipe_id}
-                  />
-                )
-              )}
               {list.Descripts.map((descript: Descript, index) => (
                 <DescriptItem
                   key={descript.id}

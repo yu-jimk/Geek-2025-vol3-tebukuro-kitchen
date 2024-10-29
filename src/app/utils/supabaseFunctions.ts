@@ -1,5 +1,6 @@
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import {
+
   Descript,
   DetailRecipe,
   Ingredient,
@@ -9,12 +10,21 @@ import {
 } from "../types";
 import { supabase } from "../utils/supabase";
 import { getFileExtension } from "./fileUtils";
-// import { ExchengeDescripts, ExchengeIngredient } from "./supabaseFncUpdate";
+import { arrayShuffle } from "./supabaseFncUpdate";
 // 全レシピ取得
 export const getAllRecipes = async () => {
   const recipes = await supabase.from("Recipes").select("*");
   // 強制的にRecipe[]として認識させる
   return recipes.data as Recipe[];
+};
+// // 全レシピランダム取得
+export const getAllRandomRecipes = async () => {
+  const recipes = await supabase.from("Recipes").select("*");
+  if(recipes.data !== null){
+    return arrayShuffle(recipes.data) as Recipe[];
+  }
+  // 強制的にRecipe[]として認識させる
+  return [] as Recipe[];
 };
 // レシピのidより1つのレシピ取得
 export const getRecipesbyId = async (id: number) => {
@@ -52,20 +62,21 @@ export const getByIngredientId = async (recipe_id: number) => {
     .from("Ingredients")
     .select("*")
     .eq("recipe_id", recipe_id);
-  // if (ingredients.data !== null) {
-  //   ingredients.data.sort((firstItem: Ingredient, secondItem: Ingredient) => {
-  //     if (firstItem.index !== undefined && secondItem.index !== undefined) {
-  //       return firstItem.index - secondItem.index;
-  //     } else {
-  //       return -1;
-  //     }
-  //   });
-  // }
+  if (ingredients.data !== null) {
+    ingredients.data.sort((firstItem: Ingredient, secondItem: Ingredient) => {
+      if (firstItem.index !== undefined && secondItem.index !== undefined) {
+        return firstItem.index - secondItem.index;
+      } else {
+        return -1;
+      }
+    });
+  }
   return ingredients.data as Ingredient[];
 };
 // 材料作成
 export const addIngredient = async (
   recipe_id: number,
+  index: number,
   name: string,
   amount: string
 ) => {
@@ -73,6 +84,7 @@ export const addIngredient = async (
     .from("Ingredients")
     .insert({
       recipe_id: recipe_id,
+      index: index,
       name: name,
       amount: amount,
     })
@@ -84,19 +96,9 @@ export const addSomeIngredient = async (
   recipe_id: number,
   inputIngredients: InputIngredient[]
 ) => {
-  // const { error } = await supabase
-  //   .from("Ingredients")
-  //   .insert({
-  //     recipe_id: recipe_id,
-  //     inputIngredients,
-  //   })
-  //   .select(); // 挿入されたデータからidと名前を取得
-  //   if(error){
-  //     console.error("supabaseエラー",error.message)
-  //   }
-  inputIngredients.forEach((e)=>{
-    addIngredient(recipe_id,e.name,e.amount);
-  })
+  inputIngredients.forEach((e, index) => {
+    addIngredient(recipe_id, index, e.name, e.amount);
+  });
 };
 // レシピのidより作り方取得
 export const getByDescriptId = async (recipe_id: number) => {
@@ -104,27 +106,27 @@ export const getByDescriptId = async (recipe_id: number) => {
     .from("Descripts")
     .select("*")
     .eq("recipe_id", recipe_id);
-  // if (descripts.data !== null) {
-  //   descripts.data.sort((firstItem: Descript, secondItem: Descript) => {
-  //     if (firstItem.index !== undefined && secondItem.index !== undefined) {
-  //       return firstItem.index - secondItem.index;
-  //     } else {
-  //       return -1;
-  //     }
-  //   });
-  // }
+  if (descripts.data !== null) {
+    descripts.data.sort((firstItem: Descript, secondItem: Descript) => {
+      if (firstItem.index !== undefined && secondItem.index !== undefined) {
+        return firstItem.index - secondItem.index;
+      } else {
+        return -1;
+      }
+    });
+  }
   return descripts.data as Descript[];
 };
 // 材料作成
 export const addDescript = async (
   recipe_id: number,
-  // index?: number,
+  index: number,
   image_url?: string,
   text?: string
 ) => {
   await supabase.from("Descripts").insert({
     recipe_id: recipe_id,
-    // index: index,
+    index: index,
     image_url: image_url,
     text: text,
   });
@@ -142,9 +144,9 @@ export const addSomeDescript = async (
       const image_url = await getImageUrl(descriptImagePath);
       console.log("image_url", image_url);
       // await addDescript(recipe_id,index, image_url, e.text);
-      await addDescript(recipe_id, image_url, e.text);
+      await addDescript(recipe_id, index, image_url, e.text);
     } else {
-      await addDescript(recipe_id, undefined, e.text);
+      await addDescript(recipe_id, index, undefined, e.text);
     }
   });
 };
@@ -177,20 +179,31 @@ export const getDetailRecipebyId = async (id: number) => {
     .select("*, Descripts(*), Ingredients(*)")
     .eq("id", id)
     .single();
-  // 強制的にRecipe[]として認識させる
-// =======
-//   if (detailRecipe.data?.Ingredients !== null) {
-//     detailRecipe.data?.Ingredients.sort(
-//       (firstItem: Ingredient, secondItem: Ingredient) =>
-//         firstItem.id - secondItem.id
-//     );
-//   }
-//   if (detailRecipe.data?.Descripts !== null) {
-//     detailRecipe.data?.Descripts.sort(
-//       (firstItem: Descript, secondItem: Descript) =>
-//         firstItem.id - secondItem.id
-//     );
-//   }
-// >>>>>>> main
+  console.log(detailRecipe.data);
+  if (detailRecipe.data?.Descripts !== undefined) {
+    detailRecipe.data?.Descripts.sort(
+      (firstItem: Descript, secondItem: Descript) => {
+        // 数値の比較で安全なデフォルト値を設定
+        const firstIndex = Number(firstItem.index ?? Number.MAX_SAFE_INTEGER);
+        const secondIndex = Number(secondItem.index ?? Number.MAX_SAFE_INTEGER);
+
+        console.log(firstIndex - secondIndex);
+        return firstIndex - secondIndex;
+      }
+    );
+  }
+  console.log("sortDes", detailRecipe.data?.Descripts);
+  // sort
+  if (detailRecipe.data?.Ingredients !== undefined) {
+    detailRecipe.data?.Ingredients.sort(
+      (firstItem: Ingredient, secondItem: Ingredient) => {
+        const firstIndex = Number(firstItem.index ?? Number.MAX_SAFE_INTEGER);
+        const secondIndex = Number(secondItem.index ?? Number.MAX_SAFE_INTEGER);
+        console.log(firstIndex - secondIndex);
+        return firstIndex - secondIndex;
+      }
+    );
+    console.log("sortING", detailRecipe.data?.Ingredients);
+  }
   return detailRecipe.data as DetailRecipe;
 };
