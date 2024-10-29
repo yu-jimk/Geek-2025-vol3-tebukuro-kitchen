@@ -81,7 +81,7 @@ const Cook = ({
   const [timerModalOpen, setTimerModalOpen] = useState(false);
   const [keyword, setKeyword] = useState("");
 
-  const [str, setStr] = useState("5分30秒");
+  const [str, setStr] = useState("");
   const [timerStart, setTimerStart] = useState(false);
 
   const back = (
