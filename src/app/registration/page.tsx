@@ -1,6 +1,6 @@
 "use client";
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useEffect } from "react";
+import React from "react";
 import { FaPen } from "react-icons/fa";
 import { WiTime4 } from "react-icons/wi";
 // import { BiBookmark } from "react-icons/bi";
@@ -43,9 +43,6 @@ const Registration = () => {
     }
   };
   const { register, onSubmit, errors } = useRecipeFormTop();
-  useEffect(() => {
-    console.error(errors);
-  }, [errors]);
   return (
     <form onSubmit={onSubmit}>
       <div {...handlers}>
