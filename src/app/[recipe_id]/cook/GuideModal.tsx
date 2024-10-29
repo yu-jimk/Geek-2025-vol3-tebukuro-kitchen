@@ -36,7 +36,7 @@ const IngModal = ({ modalClose }: { modalClose: () => void }) => {
               <div className="font-bold text-lg text-orange-400">「~ってどうするの?」</div>
               　切り方等をYoutubeで検索し、動画を再生します。
               <br />
-              <div className="font-bold text-lg text-orange-400">「タイマーxxセット」</div>
+              <div className="font-bold text-lg text-orange-400">「タイマーxxセットして」</div>
               　タイマーをxxの時間セットして、表示します。
               <br />
               <div className="font-bold text-lg text-orange-400">「閉じて」</div>
