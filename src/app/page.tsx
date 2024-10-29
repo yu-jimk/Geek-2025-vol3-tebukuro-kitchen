@@ -12,13 +12,14 @@ import SearchRecipe from "./conponents/SearchRecipe";
 
 export default function Home() {
   const pathName = usePathname()
-  const [RecipesBase,setRecipesBase]=useState<Recipe[]>([])
-  const [RecipesList,setRecipesList]=useState<Recipe[]>([])
-  const [showlist,setshowlist] = useState(true)
+  const [RecipesBase,setRecipesBase]=useState<Recipe[]>([]) //一番最初に映るレシピ
+  const [RecipesList,setRecipesList]=useState<Recipe[]>([]) //現在写しているレシピ
+  const [showHeadFooter,setshowshowHeadFooter] = useState(true)
 
+  //スクロールを検知する
   const handlers = useSwipeable({
-    onSwipedUp:() => setshowlist(false),
-    onSwipedDown:()=> setshowlist(true),
+    onSwipedUp:() => setshowshowHeadFooter(false),
+    onSwipedDown:()=> setshowshowHeadFooter(true),
     delta: 10,
   });
 
@@ -30,23 +31,25 @@ export default function Home() {
       setAllRecipes()
   },[]);
 
+  //検索用コンポーネントに渡す用のセット関数
+  //現在映しているレシピをセットするようにしてください
   const recipessetter = (newrecipeslist:Recipe[])=>{
     setRecipesList(newrecipeslist)
   }
 
   return (
-    <div {...handlers} className="min-h-screen flex flex-col">
-      <div className={`bg-white fixed top-0 px-2 w-full z-20 border-b-2 border-black transition-transform duration-200 ${showlist? 'translate-y-0':'-translate-y-full'}`}>
+    <div {...handlers} className="min-h-screen flex flex-colbg-[#FFFBF4]">
+      <div className={`bg-white fixed top-0 px-2 w-full z-20 border-b-2 border-black transition-transform duration-200 ${showHeadFooter? 'translate-y-0':'-translate-y-full'}`}>
         <SearchRecipe recipes={RecipesBase} setlist={recipessetter} />
         <Header pathName={pathName}/>
       </div>
-      <div className={`bg-[#FFFBF4] order-none flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 auto-rows-min gap-5 p-5`}>
+      <div className={`bg-[#FFFBF4] order-none flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 auto-rows-min gap-5 mt-28 p-5`}>
         {RecipesList.map((recipe:Recipe)=>(
-          <ArticleCard recipe={recipe}/>
+          <ArticleCard key={recipe.id} recipe={recipe}/>
         ))}
       </div>
-      <div className={`fixed bottom-0 w-full z-20 transition-transform duration-200 ${showlist? 'translate-y-0':'translate-y-full'}`}>
-          <Footer pathName={pathName}/>
+      <div className={`fixed bottom-0 w-full z-20 transition-transform duration-200 ${showHeadFooter? 'translate-y-0':'translate-y-full'}`}>
+        <Footer pathName={pathName}/>
       </div>
     </div>
   );
