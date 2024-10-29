@@ -83,7 +83,7 @@ const Speech = ({
         setIngModalOpen(false);
         setYtModalOpen(false);
         setGuideModalOpen(false);
-        setTimerStart(false)
+        setTimerStart(false);
         setTimerModalOpen(false);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -108,8 +108,8 @@ const Speech = ({
     {
       command: "タイマー*セットして",
       callback: (material: string) => {
-        setStr(material.replace(/\s+/g,'')); //スペース削除
-        setResponse(material.replace(/\s+/g,''))
+        setStr(material.replace(/\s+/g, "")); //スペース削除
+        setResponse(material.replace(/\s+/g, ""));
         setTimerModalOpen(true);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -182,13 +182,14 @@ const Speech = ({
 
   return (
     <>
-      {/* デバッグ用 */}
       {/* <p className="text-black fixed top-32 bg-black bg-opacity-20">
         response : {response}
-      </p>
-      <p className="text-black fixed top-40 bg-black bg-opacity-20">
-        input : {transcript}
       </p> */}
+      <div className="w-full flex justify-center items-center">
+        <span className="z-50 flex overflow-hidden justify-end whitespace-nowrap max-w-24 h-5 text-white fixed bottom-0 bg-black bg-opacity-20">
+          {transcript}
+        </span>
+      </div>
     </>
   );
 };
