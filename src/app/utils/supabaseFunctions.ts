@@ -1,27 +1,30 @@
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
-import {
-
-  Descript,
-  DetailRecipe,
-  Ingredient,
-  InputIngredient,
-  Recipe,
-} from "../types";
+import { Descript, DetailRecipe, Ingredient, Recipe } from "../types";
 import { supabase } from "../utils/supabase";
 import { getFileExtension } from "./fileUtils";
 import { arrayShuffle } from "./supabaseFncUpdate";
-import { DescriptSchemaType, RecipeObjectSchemaType } from '../validations/schema';
+import {
+  DescriptSchemaType,
+  IngredientSchemaType,
+  RecipeObjectSchemaType,
+} from "../validations/schema";
 // 全レシピ取得
 export const getAllRecipes = async () => {
   const recipes = await supabase.from("Recipes").select("*");
+  if (recipes.error) {
+    console.error("supabaseエラー", recipes.error);
+  }
   // 強制的にRecipe[]として認識させる
   return recipes.data as Recipe[];
 };
 // // 全レシピランダム取得
 export const getAllRandomRecipes = async () => {
   const recipes = await supabase.from("Recipes").select("*");
-  if(recipes.data !== null){
+  if (recipes.data !== null) {
     return arrayShuffle(recipes.data) as Recipe[];
+  }
+  if (recipes.error) {
+    console.error("supabaseエラー", recipes.error);
   }
   // 強制的にRecipe[]として認識させる
   return [] as Recipe[];
@@ -29,6 +32,9 @@ export const getAllRandomRecipes = async () => {
 // レシピのidより1つのレシピ取得
 export const getRecipesbyId = async (id: number) => {
   const recipe = await supabase.from("Recipes").select("*").eq("id", id);
+  if (recipe.error) {
+    console.error("supabaseエラー", recipe.error);
+  }
   // 強制的にRecipe[]として認識させる
   return recipe.data as Recipe[];
 };
@@ -71,6 +77,9 @@ export const getByIngredientId = async (recipe_id: number) => {
       }
     });
   }
+  if (ingredients.error) {
+    console.error("supabaseエラー", ingredients.error);
+  }
   return ingredients.data as Ingredient[];
 };
 // 材料作成
@@ -80,7 +89,7 @@ export const addIngredient = async (
   name: string,
   amount: string
 ) => {
-  await supabase
+  const { error } = await supabase
     .from("Ingredients")
     .insert({
       recipe_id: recipe_id,
@@ -89,12 +98,15 @@ export const addIngredient = async (
       amount: amount,
     })
     .select(); // 挿入されたデータを取得するために select() を使用
+  if (error) {
+    console.error("supabaseエラー", error);
+  }
 };
 
 // 複数個の材料作成
 export const addSomeIngredient = async (
   recipe_id: number,
-  inputIngredients: InputIngredient[]
+  inputIngredients: IngredientSchemaType
 ) => {
   inputIngredients.forEach((e, index) => {
     addIngredient(recipe_id, index, e.name, e.amount);
@@ -114,6 +126,9 @@ export const getByDescriptId = async (recipe_id: number) => {
         return -1;
       }
     });
+  }
+  if (descripts.error) {
+    console.error("supabaseエラー", descripts.error);
   }
   return descripts.data as Descript[];
 };
@@ -164,7 +179,9 @@ export const uploadImage = async (
 };
 // 画像名より画像のurl取得
 export const getImageUrl = async (filePath: string) => {
-  const { data } = supabase.storage.from("images").getPublicUrl(filePath);
+  const { data } = supabase.storage
+    .from("images")
+    .getPublicUrl(filePath);
   if (data === null) {
     console.error("画像が見つかりません");
     return "";
@@ -179,6 +196,9 @@ export const getDetailRecipebyId = async (id: number) => {
     .select("*, Descripts(*), Ingredients(*)")
     .eq("id", id)
     .single();
+  if (detailRecipe.error) {
+    console.error("supabaseエラー", detailRecipe.error);
+  }
   console.log(detailRecipe.data);
   if (detailRecipe.data?.Descripts !== undefined) {
     detailRecipe.data?.Descripts.sort(
@@ -204,6 +224,9 @@ export const getDetailRecipebyId = async (id: number) => {
       }
     );
     console.log("sortING", detailRecipe.data?.Ingredients);
+  }
+  if (detailRecipe.error) {
+    console.error("supabaseエラー", detailRecipe.error);
   }
   return detailRecipe.data as DetailRecipe;
 };
