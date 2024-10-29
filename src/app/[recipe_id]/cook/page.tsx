@@ -1,28 +1,28 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
+import Link from "next/link";
 import Speech from "@/app/conponents/Speech";
 import IngModal from "./IngModal";
-import { FaArrowLeft, FaDoorOpen } from "react-icons/fa";
-import { FaArrowRight } from "react-icons/fa";
-import { PiNoteDuotone } from "react-icons/pi";
-import { IoChatbubbleEllipsesOutline, IoMicOutline } from "react-icons/io5";
-import { FiCameraOff } from "react-icons/fi";
-import { createPortal } from "react-dom";
+import YtModal from "./YtModal";
+import GuideModal from "./GuideModal";
+import TimerModal from "./TimerModal";
+import RecipeHeader from "@/app/conponents/RecipeHeader";
 import {
   getByDescriptId,
   getByIngredientId,
   getRecipesbyId,
 } from "@/app/utils/supabaseFunctions";
 import { Descript, Ingredient } from "@/app/types";
-import YtModal from "./YtModal";
-import GuideModal from "./GuideModal";
-import TimerModal from "./TimerModal";
-import RecipeHeader from "@/app/conponents/RecipeHeader";
-import Link from "next/link";
+import { FaArrowLeft, FaDoorOpen } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
+import { PiNoteDuotone } from "react-icons/pi";
+import { IoChatbubbleEllipsesOutline, IoMicOutline } from "react-icons/io5";
+import { FiCameraOff } from "react-icons/fi";
 
-//丸を描画する関数　length=丸の数　id=塗りつぶし判定用ページ数
+//丸を描画する　length=丸の数　page=塗りつぶし判定用ページ数
 const Circle = ({ length, page }: { length: number; page: number }) => {
   return (
     <>
