@@ -21,6 +21,12 @@ const SearchRecipe: React.FC<propsType> = (props: propsType) => {
             props.setlist(filteredRecipes)
         }
     }
+    
+     //ばつボタン用のリスト初期化関数
+     const resetRicipes = ()=>{
+            setinput('')
+            props.setlist(props.recipes)
+        };
 
     return (
             <div className="mt-2 px-1 w-full flex items-center bg-gray-200 rounded-2xl">
@@ -34,7 +40,7 @@ const SearchRecipe: React.FC<propsType> = (props: propsType) => {
                 className='ps-2 pe-6 w-full text-lg border-spacing-4 bg-gray-200 border-gray-50 rounded-2xl focus:outline-none'
             />
             <button className='mr-4 ml-3 right-10' 
-                onClick={()=>{setinput('')}}>✕</button>
+                onClick={resetRicipes}>✕</button>
             </div>
     )
 }
