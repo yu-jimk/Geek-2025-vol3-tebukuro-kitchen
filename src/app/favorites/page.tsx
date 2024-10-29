@@ -8,22 +8,43 @@ import { getFavoriteRecipes } from "@/app/utils/localstorageFunction";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FiHeart } from "react-icons/fi";
+import SearchRecipe from "../conponents/SearchRecipe";
+import { useSwipeable } from "react-swipeable";
 
 const Favorites = () => {
   const pathName = usePathname();
 
+  const [listBase,setlistBase] = useState<Recipe[]>([]);
   const [list, setList] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showHeadFooter,setshowshowHeadFooter] = useState(true)
+
+  //スクロールを検知する
+  const handlers = useSwipeable({
+    onSwipedUp:() => setshowshowHeadFooter(false),
+    onSwipedDown:()=> setshowshowHeadFooter(true),
+    delta: 10,
+  });
 
   useEffect(() => {
     const favoriteRecipes: Recipe[] = getFavoriteRecipes();
-    if (favoriteRecipes.length > 0) setList(favoriteRecipes);
+    if (favoriteRecipes.length > 0) {
+      setList(favoriteRecipes);
+      setlistBase(favoriteRecipes)
+    }
     setLoading(false);
   }, []);
 
+  const setshowlist = (newrecipeslist:Recipe[])=>{
+    setList(newrecipeslist);
+  }
+
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header pathName={pathName} />
+    <div {...handlers} className="min-h-screen flex flex-col">
+      <div  className={`bg-white fixed top-0 px-2 w-full z-20 border-b-2 border-black transition-transform duration-200 ${showHeadFooter? 'translate-y-0':'-translate-y-full'}`}>
+        <SearchRecipe  recipes={listBase} setlist={setshowlist}/>
+        <Header pathName={pathName} />
+      </div>
 
       {loading ? (
         <section className="bg-[#FFFBF4] flex-grow"></section>
@@ -44,7 +65,9 @@ const Favorites = () => {
         </section>
       )}
 
-      <Footer pathName={pathName} />
+      <div className={`fixed bottom-0 w-full z-20 transition-transform duration-200 ${showHeadFooter? 'translate-y-0':'translate-y-full'}`}>
+        <Footer pathName={pathName}/>
+      </div>
     </div>
   );
 };
