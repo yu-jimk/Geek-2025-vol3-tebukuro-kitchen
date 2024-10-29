@@ -1,12 +1,21 @@
 "use client";
 import { InputIngredient } from "@/app/types";
+import { RecipeSchemaType } from "@/app/validations/schema";
 import { Dispatch, SetStateAction } from "react";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { BiPlus } from "react-icons/bi";
 interface IngredientInputItem {
-  inputs:InputIngredient[],
-  setInputs:Dispatch<SetStateAction<InputIngredient[]>>,
-} 
-const IngredientInputItem = ({inputs,setInputs}:IngredientInputItem) => {
+  errors: FieldErrors<RecipeSchemaType>;
+  register: UseFormRegister<RecipeSchemaType>;
+  inputs: InputIngredient[];
+  setInputs: Dispatch<SetStateAction<InputIngredient[]>>;
+}
+const IngredientInputItem = ({
+  errors,
+  register,
+  inputs,
+  setInputs,
+}: IngredientInputItem) => {
   const maxInputs = 5;
 
   const addInput = () => {
@@ -21,42 +30,42 @@ const IngredientInputItem = ({inputs,setInputs}:IngredientInputItem) => {
   //     setInputs(newInputs);
   //   };
 
-  const handleInputChange = (
-    index: number,
-    field: keyof InputIngredient,
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const newInputs = [...inputs];
-    newInputs[index][field] = event.target.value;
-    setInputs(newInputs);
-  };
-
   return (
     <div className="mt-4">
       {inputs.map((input, index) => (
         <div key={index} className="flex gap-4 items-center">
           <input
+            {...register(`ingredient.${index}.name`)}
             type="text"
-            name={`ingredient${index}`}
-            id={`ingredient${index}`}
-            value={input.name}
+            name={`ingredient.${index}.name`}
+            id={`ingredient.${index}.name`}
             style={{ outline: "none" }}
-            onChange={(e) => handleInputChange(index, "name", e)}
             placeholder="材料  /例  たまご"
             className="w-full border-b border-gray-400 pl-3 bg-[#FEF9EC] h-[40px]"
           />
-
+          {errors?.ingredient !== undefined ? (
+            errors?.ingredient[index]?.name !== undefined ? (
+              <div className="text-red-500">
+                {errors?.ingredient[index]?. name?.message}
+              </div>
+            ) : null
+          ) : null}
           <input
+            {...register(`ingredient.${index}.amount`)}
             type="text"
-            name={`quantity${index}`}
-            id={`quantity${index}`}
-            value={input.amount}
+            name={`ingredient.${index}.amount`}
+            id={`ingredient.${index}.amount`}
             style={{ outline: "none" }}
-            onChange={(e) => handleInputChange(index, "amount", e)}
             placeholder="分量  /例  2個"
             className="w-1/2 border-b border-gray-400 pl-3 bg-[#FEF9EC] h-[40px]"
           />
-
+          {errors?.ingredient !== undefined ? (
+            errors?.ingredient[index]?.amount !== undefined ? (
+              <div className="text-red-500">
+                {errors?.ingredient[index]?.amount?.message}
+              </div>
+            ) : null
+          ) : null}
           {/* 削除用ボタン */}
           {/* <button onClick={() => removeInput(index)} className="text-red-500">
             

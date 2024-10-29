@@ -1,12 +1,16 @@
 "use client";
 import { inputDescript } from "@/app/types";
+import { RecipeSchemaType } from "@/app/validations/schema";
 import Image from "next/image";
+import { UseFormRegister } from "react-hook-form";
 import { BiCameraOff, BiPlus } from "react-icons/bi";
 interface DescriptInputItem {
+  register: UseFormRegister<RecipeSchemaType>;
   inputItems: inputDescript[];
   setInputItems: React.Dispatch<React.SetStateAction<inputDescript[]>>;
 }
 const DescriptInputItem = ({
+  register,
   inputItems,
   setInputItems,
 }: DescriptInputItem) => {
@@ -32,13 +36,6 @@ const DescriptInputItem = ({
         reader.readAsDataURL(file);
       }
     };
-
-  const handleInputChange = (index: number, value: string) => {
-    const newInputItems = [...inputItems];
-    newInputItems[index].text = value; // 入力内容を更新
-    setInputItems(newInputItems);
-  };
-
   return (
     <>
       <div className="grid grid-cols-2 gap-4 p-4">
@@ -54,6 +51,7 @@ const DescriptInputItem = ({
                     fill
                   />
                   <input
+                    {...register(`descript.${index}.image`)}
                     title="画像"
                     type="file"
                     accept="image/*"
@@ -69,6 +67,7 @@ const DescriptInputItem = ({
                 </>
               ) : (
                 <input
+                {...register(`descript.${index}.image`)}
                   title="画像"
                   type="file"
                   accept="image/*"
@@ -86,11 +85,11 @@ const DescriptInputItem = ({
                 {index + 1} {/* 番号表示 */}
               </p>
               <textarea
+                {...register(`descript.${index}.text`)}
                 className="h-16 w-full pt-1 text-[10px] resize-none"
                 placeholder="フライパンに油をひき、卵を割る。白身が白くなったらお米を入れる。"
-                value={inputItem.text}
                 style={{ outline: "none" }}
-                onChange={(e) => handleInputChange(index, e.target.value)} // 入力変更ハンドラー
+                // onChange={(e) => handleInputChange(index, e.target.value)} // 入力変更ハンドラー
               />
             </div>
           </div>
