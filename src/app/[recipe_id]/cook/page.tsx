@@ -101,13 +101,26 @@ const Cook = ({
 
   return (
     <>
-      <RecipeHeader
-        bgColor="bg-orange-400"
-        textColor="text-white"
-        title={title}
-        link={recipePage}
-        iconFill="white"
-      />
+      <div className="flex flex-row-reverse">
+        <RecipeHeader
+          bgColor="bg-orange-400"
+          textColor="text-white"
+          title={title}
+          link={recipePage}
+          iconFill="white"
+        />
+        {title != "" ? ( //ヘッダーのタイトルのロードが完了したら表示（より自然に）
+          <button
+            onClick={() => setGuideModalOpen(!guideModalOpen)}
+            className="bg-transparent font-bold fixed z-50 p-3.5"
+          >
+            <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-7" />
+            ガイド
+          </button>
+        ) : (
+          <div></div>
+        )}
+      </div>
       <Speech
         next={next}
         back={back}
@@ -234,13 +247,6 @@ const Cook = ({
           >
             <PiNoteDuotone className="w-6 h-6 mx-7" />
             材料は?
-          </button>
-          <button
-            onClick={() => setGuideModalOpen(!guideModalOpen)}
-            className="bg-transparent font-bold"
-          >
-            <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-7" />
-            ガイド
           </button>
         </div>
         {page == length - 1 ? (
