@@ -106,7 +106,7 @@ const Speech = ({
       },
     },
     {
-      command: "タイマー*セットして",
+      command: "タイマー*セット",
       callback: (material: string) => {
         setStr(material.replace(/\s+/g, "")); //スペース削除
         setResponse(material.replace(/\s+/g, ""));
@@ -185,8 +185,8 @@ const Speech = ({
       {/* <p className="text-black fixed top-32 bg-black bg-opacity-20">
         response : {response}
       </p> */}
-      <div className="w-full flex justify-center items-center">
-        <span className="z-50 flex overflow-hidden justify-end whitespace-nowrap max-w-24 h-5 text-white fixed bottom-0 bg-black bg-opacity-20">
+      <div className="w-full flex justify-end items-center font-bold">
+        <span className="text-base flex overflow-hidden justify-end whitespace-nowrap w-56 h-6 mb-14 text-white fixed bottom-0 bg-black bg-opacity-30">
           {transcript}
         </span>
       </div>
