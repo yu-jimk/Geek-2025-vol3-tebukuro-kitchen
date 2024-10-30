@@ -1,3 +1,20 @@
+/*
+  inputTime = 音声で入力された時間（５分半とか）
+  音声認識で表示させる場合はこれを使って時間を設定する。
+  そうでない場合、つまり手で直接時間を入力する場合は、
+  inputTimeが空の時なので、条件分岐して別途方法を作る。（今のところは既存のモーダルを活用する予定）
+  
+  理想
+    もし　音声認識で時間が入力されたなら、
+      inputTimeを時間に変換しh,m,sに代入、タイマーを設定して左下に小さく表示
+    でなければ
+      時間設定用のモーダルを表示、内容をh,m,sに代入
+      スタートボタンを押したら、左下に小さく表示する。押される前に閉じられたら、何もせず入力をリセットする
+  
+  共通事項
+    左下に小さく表示されたタイマーは、タップするとモーダルが表示される。
+*/
+
 import { SetStateAction, useEffect, useRef, useState } from "react";
 import { num2TimerText, str2TimerText } from "./timerFunc";
 import { IoMdClose } from "react-icons/io";
