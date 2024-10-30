@@ -4,27 +4,27 @@ import { IoMdClose } from "react-icons/io";
 
 const TimerModal = ({
   modalClose,
-  str,
+  inputTime,
   start,
   setStart,
 }: {
   modalClose: () => void;
-  str: string;
+  inputTime: string;
   start: boolean;
   setStart: React.Dispatch<SetStateAction<boolean>>;
 }) => {
   const [disp, setDisp] = useState("");
-  const { hour, min, sec } = str2TimerText(str);
+  const { hour, min, sec } = str2TimerText(inputTime);
   const h = useRef(hour);
   const m = useRef(min);
   const s = useRef(sec);
 
   useEffect(() => {
-    const { hour, min, sec } = str2TimerText(str);
+    const { hour, min, sec } = str2TimerText(inputTime);
     h.current = hour;
     m.current = min;
     s.current = sec;
-  }, [str]);
+  }, [inputTime]);
 
   useEffect(() => {
     const alarm = new Audio("/TimerAlarm.mp3");

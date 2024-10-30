@@ -33,7 +33,7 @@ const Speech = ({
   setKeyword,
   setGuideModalOpen,
   setTimerModalOpen,
-  setStr,
+  setInputTime,
   setTimerStart,
 }: {
   next: screenController["next"];
@@ -46,7 +46,7 @@ const Speech = ({
   setKeyword: React.Dispatch<React.SetStateAction<string>>;
   setGuideModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setTimerModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setStr: React.Dispatch<React.SetStateAction<string>>;
+  setInputTime: React.Dispatch<React.SetStateAction<string>>;
   setTimerStart: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [response, setResponse] = useState("");
@@ -108,7 +108,7 @@ const Speech = ({
     {
       command: "タイマー*セット",
       callback: (material: string) => {
-        setStr(material.replace(/\s+/g, "")); //スペース削除
+        setInputTime(material.replace(/\s+/g, "")); //スペース削除
         setResponse(material.replace(/\s+/g, ""));
         setTimerModalOpen(true);
         resetTranscript();

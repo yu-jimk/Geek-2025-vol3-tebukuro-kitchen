@@ -77,7 +77,7 @@ const Cook = ({
   const [timerModalOpen, setTimerModalOpen] = useState(false);
   const [keyword, setKeyword] = useState("");
 
-  const [str, setStr] = useState("");
+  const [inputTime, setInputTime] = useState("");
   const [timerStart, setTimerStart] = useState(false);
 
   const back = (
@@ -133,7 +133,7 @@ const Cook = ({
         setKeyword={setKeyword}
         setGuideModalOpen={setGuideModalOpen}
         setTimerModalOpen={setTimerModalOpen}
-        setStr={setStr}
+        setInputTime={setInputTime}
         setTimerStart={setTimerStart}
       />
 
@@ -215,7 +215,7 @@ const Cook = ({
                 setTimerStart(false);
                 setTimerModalOpen(false);
               }}
-              str={str}
+              inputTime={inputTime}
               start={timerStart}
               setStart={setTimerStart}
             />
