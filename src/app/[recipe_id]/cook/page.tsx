@@ -69,11 +69,6 @@ const Cook = ({
   }, [params.recipe_id]);
   const length = descript.length;
 
-  // useEffect(() => {
-  //   const sorted = recipes.sort((a: Descript, b: Descript) => a.id - b.id);
-  //   setRecipes(sorted);
-  // }, []);
-
   const [page, setPage] = useState(0); //現在のページ
   const [ingModalOpen, setIngModalOpen] = useState(false);
   const [ytModalOpen, setYtModalOpen] = useState(false);
