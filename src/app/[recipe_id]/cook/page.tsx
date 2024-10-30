@@ -21,6 +21,7 @@ import { FaArrowRight } from "react-icons/fa";
 import { PiNoteDuotone } from "react-icons/pi";
 import { IoChatbubbleEllipsesOutline, IoMicOutline } from "react-icons/io5";
 import { FiCameraOff } from "react-icons/fi";
+import { MdOutlineTimer } from "react-icons/md";
 
 //丸を描画する　length=丸の数　page=塗りつぶし判定用ページ数
 const Circle = ({ length, page }: { length: number; page: number }) => {
@@ -169,18 +170,15 @@ const Cook = ({
         {descript[page]?.text ?? "読み込み中・・・"}
       </div>
 
-      {/* 動画表示とタイマーのデバッグ用 */}
-      <div className="w-full flex justify-between fixed bottom-14">
-        {/* <button
+      {/* 動画表示デバッグ用 */}
+      {/* <div className="w-full flex justify-between fixed bottom-14">
+        <button
           onClick={() => setYtModalOpen(!ytModalOpen)}
           className="bg-black"
         >
           動画表示
-        </button> */}
-        <button className="bg-black" onClick={() => setTimerModalOpen(true)}>
-          タイマー
         </button>
-      </div>
+      </div> */}
 
       <div id="container">
         {ingModalOpen && (
@@ -247,6 +245,17 @@ const Cook = ({
           >
             <PiNoteDuotone className="w-6 h-6 mx-7" />
             材料は?
+          </button>
+          <button
+            onClick={() => setTimerModalOpen(true)}
+            className="bg-transparent font-bold"
+          >
+            <MdOutlineTimer className="w-6 h-6 mx-7" />
+            <p className="text-xs tracking-tighter leading-none">
+              タイマー
+              <br />
+              XXセット
+            </p>
           </button>
         </div>
         {page == length - 1 ? (
