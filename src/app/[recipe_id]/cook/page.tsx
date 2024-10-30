@@ -113,7 +113,7 @@ const Cook = ({
         {title != "" ? ( //ヘッダーのタイトルのロードが完了したら表示（より自然に）
           <button
             onClick={() => setGuideModalOpen(!guideModalOpen)}
-            className="bg-transparent font-bold fixed z-50 p-3.5"
+            className="bg-transparent font-bold fixed z-50 p-3.5 hidden button:block"
           >
             <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-7" />
             ガイド
@@ -143,7 +143,7 @@ const Cook = ({
             <Image
               // これの前に画像をフェッチして存在するかどうか確かめる必要があるかもしれない
               src={imageSrc}
-              alt="recipe-image"
+              alt={title}
               fill={true}
               className="object-cover"
               onError={() => console.error("Image failed to load")}
@@ -151,8 +151,7 @@ const Cook = ({
           </div>
         ) : (
           <div
-            className="shadow-lg content-center bg-gray-100"
-            style={{ width: 500, height: 400 }}
+            className="shadow-lg content-center bg-gray-100 w-[100vw] h-[42vh]"
           >
             <div className="w-full">
               <FiCameraOff size={40} stroke="#737373" className="mx-auto" />
@@ -241,14 +240,14 @@ const Cook = ({
         <div className="w-full flex justify-between">
           <button
             onClick={() => setIngModalOpen(!ingModalOpen)}
-            className="bg-transparent font-bold"
+            className="bg-transparent font-bold hidden button:block"
           >
             <PiNoteDuotone className="w-6 h-6 mx-7" />
             材料は?
           </button>
           <button
-            onClick={() => setTimerModalOpen(true)}
-            className="bg-transparent font-bold"
+            onClick={() => setTimerModalOpen(!timerModalOpen)}
+            className="bg-transparent font-bold hidden button:block"
           >
             <MdOutlineTimer className="w-6 h-6 mx-7" />
             <p className="text-xs tracking-tighter leading-none">
