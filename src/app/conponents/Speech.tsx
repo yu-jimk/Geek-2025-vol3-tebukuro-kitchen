@@ -186,7 +186,7 @@ const Speech = ({
         response : {response}
       </p> */}
       <div className="w-full flex justify-end items-center font-bold">
-        <span className="text-base flex overflow-hidden justify-end whitespace-nowrap w-56 h-6 mb-14 text-white fixed bottom-0 bg-black bg-opacity-30">
+        <span className="text-base flex overflow-hidden justify-end whitespace-nowrap w-[50vw] h-6 mb-14 text-white fixed bottom-0 bg-black bg-opacity-30">
           {transcript}
         </span>
       </div>
