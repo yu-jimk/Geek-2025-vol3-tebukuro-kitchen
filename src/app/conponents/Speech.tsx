@@ -53,7 +53,7 @@ const Speech = ({
 
   const commands = [
     {
-      command: "*進んで*",
+      command: /.*(進んで|進む|次へ|次).*/,
       //　*印は、雑音に影響されないよう命令の前後の文言を許容するため。起こる恐れのあるバグが不明のため、要検証
       callback: () => {
         next(num, length, setPage);
@@ -62,7 +62,7 @@ const Speech = ({
       },
     },
     {
-      command: "*戻って*",
+      command: /.*(戻って|戻る|前へ|前).*/,
       callback: () => {
         back(num, setPage);
         resetTranscript();
@@ -106,8 +106,9 @@ const Speech = ({
       },
     },
     {
-      command: "タイマー*セット",
+      command: /.*タイマー(.*)セット.*/,
       callback: (material: string) => {
+        console.log(material)
         setInputTime(material.replace(/\s+/g, "")); //スペース削除
         setResponse(material.replace(/\s+/g, ""));
         setTimerModalOpen(true);
@@ -124,7 +125,7 @@ const Speech = ({
       },
     },
     {
-      command: "*ってどうするの",
+      command: /(.*)ってどうするの.*/,
       callback: (material: string) => {
         setKeyword(material);
         setYtModalOpen(true);
