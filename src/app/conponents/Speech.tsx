@@ -16,10 +16,6 @@ type screenController = {
     num: number,
     setPage: React.Dispatch<React.SetStateAction<number>>
   ) => void;
-  dispModal: (
-    setIngModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    status: boolean
-  ) => void;
 };
 
 const Speech = ({
