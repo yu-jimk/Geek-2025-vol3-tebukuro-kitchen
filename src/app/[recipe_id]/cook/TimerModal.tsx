@@ -13,6 +13,8 @@
   
   共通事項
     左下に小さく表示されたタイマーは、タップするとモーダルが表示される。
+
+  数字をボタンではなくいiphoneのアラームみたいにスライドで設定できるようにしたい（優先度は低め）
 */
 
 import { SetStateAction, useEffect, useRef, useState } from "react";
@@ -32,7 +34,8 @@ const TimerModal = ({
   start: boolean;
   setStart: React.Dispatch<SetStateAction<boolean>>;
 }) => {
-  const [disp, setDisp] = useState("");
+  const [disp, setDisp] = useState(""); // 表示
+  const [update, setUpdate] = useState(false); // 値更新検出用
   const h = useRef(0);
   const m = useRef(0);
   const s = useRef(0);
@@ -44,9 +47,14 @@ const TimerModal = ({
       h.current = hour;
       m.current = min;
       s.current = sec;
+      setUpdate(!update);
       setInputTime(""); //一旦毎回リセットするようにする
     }
   }, [inputTime]);
+
+  useEffect(() => {
+      setDisp(num2TimerText(h.current, m.current, s.current));
+  }, [update]);
 
   useEffect(() => {
     const alarm = new Audio("/TimerAlarm.mp3");
@@ -83,6 +91,8 @@ const TimerModal = ({
     h.current = 0;
     m.current = 0;
     s.current = 0;
+    setStart(false)
+    setUpdate(!update);
   };
   const bgClickClose = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -112,19 +122,28 @@ const TimerModal = ({
             </div>
             <div className="w-full flex justify-between font-bold mb-2">
               <button
-                onClick={() => h.current++}
+                onClick={() => {
+                  h.current++;
+                  setUpdate(!update);
+                }}
                 className="bg-orange-400 text-white ml-5 rounded-full px-2 w-16 h-16 mt-2"
               >
                 時間
               </button>
               <button
-                onClick={() => m.current++}
+                onClick={() => {
+                  m.current++;
+                  setUpdate(!update);
+                }}
                 className="bg-orange-400 text-white rounded-full px-2 mx-3 w-16 h-16 mt-2"
               >
                 分
               </button>
               <button
-                onClick={() => s.current++}
+                onClick={() => {
+                  s.current++;
+                  setUpdate(!update);
+                }}
                 className="bg-orange-400 text-white rounded-full px-2 w-16 h-16 mt-2 mr-5"
               >
                 秒
