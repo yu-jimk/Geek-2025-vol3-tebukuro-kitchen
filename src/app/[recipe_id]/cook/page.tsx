@@ -139,12 +139,12 @@ const Cook = ({
 
       <div className="flex justify-center content-center">
         {imageSrc != "" ? (
-          <div className="relative" style={{ width: 500, height: 400 }}>
+          <div className="relative w-[100vw] h-[42vh]">
             <Image
               // これの前に画像をフェッチして存在するかどうか確かめる必要があるかもしれない
               src={imageSrc}
               alt={title}
-              fill={true}
+              fill
               className="object-cover"
               onError={() => console.error("Image failed to load")}
             />
@@ -216,6 +216,7 @@ const Cook = ({
                 setTimerModalOpen(false);
               }}
               inputTime={inputTime}
+              setInputTime={setInputTime}
               start={timerStart}
               setStart={setTimerStart}
             />
@@ -223,7 +224,7 @@ const Cook = ({
         )}
       </div>
 
-      <div className="text-white flex justify-between fixed bottom-0 z-10 w-full h-14">
+      <div className="text-white flex justify-between fixed bottom-0 z-30 w-full h-14">
         {page == 0 ? (
           <div className="w-20 h-14">
             <div className="w-6 h-6 mx-7"></div>
@@ -272,7 +273,7 @@ const Cook = ({
           </button>
         )}
       </div>
-      <div className="bg-orange-400 w-full fixed bottom-0 h-14 flex justify-center">
+      <div className="z-20 bg-orange-400 w-full fixed bottom-0 h-14 flex justify-center">
         <div className="absolute -top-10 bg-orange-400 w-24 h-24 rounded-full flex justify-center">
           <IoMicOutline className="relative w-12 h-12 top-6" />
         </div>

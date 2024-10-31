@@ -22,25 +22,30 @@ import { IoMdClose } from "react-icons/io";
 const TimerModal = ({
   modalClose,
   inputTime,
+  setInputTime,
   start,
   setStart,
 }: {
   modalClose: () => void;
   inputTime: string;
+  setInputTime: React.Dispatch<SetStateAction<string>>;
   start: boolean;
   setStart: React.Dispatch<SetStateAction<boolean>>;
 }) => {
   const [disp, setDisp] = useState("");
-  const { hour, min, sec } = str2TimerText(inputTime);
-  const h = useRef(hour);
-  const m = useRef(min);
-  const s = useRef(sec);
+  const h = useRef(0);
+  const m = useRef(0);
+  const s = useRef(0);
 
+  // 音声入力された時のみ変換して初期化
   useEffect(() => {
-    const { hour, min, sec } = str2TimerText(inputTime);
-    h.current = hour;
-    m.current = min;
-    s.current = sec;
+    if (inputTime != "") {
+      const { hour, min, sec } = str2TimerText(inputTime);
+      h.current = hour;
+      m.current = min;
+      s.current = sec;
+      setInputTime(""); //一旦毎回リセットするようにする
+    }
   }, [inputTime]);
 
   useEffect(() => {
@@ -72,8 +77,13 @@ const TimerModal = ({
         clearInterval(manager);
       }
     };
-  }, [hour, min, sec, setDisp, start, setStart]);
+  }, [setDisp, start, setStart]);
 
+  const reset = () => {
+    h.current = 0;
+    m.current = 0;
+    s.current = 0;
+  };
   const bgClickClose = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       modalClose();
@@ -87,35 +97,41 @@ const TimerModal = ({
           className="flex justify-center items-center h-full"
         >
           <div className="bg-white mx-20 w-full shadow-lg text-black rounded-3xl">
-            <div className="flex w-full justify-end">
+            <div className="flex w-full justify-between mb-3">
+              <button
+                onClick={() => reset()}
+                className="bg-orange-400 text-white text-sm tracking-tighter ml-2 rounded-full px-2 w-20 mt-2 font-bold"
+              >
+                リセット
+              </button>
               <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
             </div>
             <div className="font-sans font-bold mx-5 mb-5 text-5xl text-center">
               {disp}
               <div className="text-sm">　　　時間　　　　分　　　　秒</div>
             </div>
-            <div className="w-full flex justify-between font-bold">
+            <div className="w-full flex justify-between font-bold mb-5">
               <button
                 onClick={() => h.current++}
-                className="bg-orange-400 text-white ml-5 mr-0 mb-7 mt-3 rounded-full px-4"
+                className="bg-orange-400 text-white ml-5 rounded-full px-2 w-16 h-16 mt-2"
               >
                 時間
               </button>
               <button
                 onClick={() => m.current++}
-                className="bg-orange-400 text-white mx-0 mb-7 mt-3 rounded-full px-4"
+                className="bg-orange-400 text-white rounded-full px-2 mx-3 w-16 h-16 mt-2"
               >
                 分
               </button>
               <button
                 onClick={() => s.current++}
-                className="bg-orange-400 text-white mx-0 mb-7 mt-3 rounded-full px-4"
+                className="bg-orange-400 text-white rounded-full px-2 w-16 h-16 mt-2 mr-5"
               >
                 秒
               </button>
               <button
                 onClick={() => setStart(!start)}
-                className="bg-orange-400 text-white mx-5 mb-5 rounded-full p-4"
+                className="text-sm tracking-tighter leading-none bg-orange-400 text-white mx-5 rounded-full px-2 py-2 w-24 h-20"
               >
                 スタート
                 <br />
