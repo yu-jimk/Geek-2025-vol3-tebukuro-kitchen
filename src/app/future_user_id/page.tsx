@@ -1,5 +1,5 @@
+import Footer from "@/app/conponents/Footer";
 import { FiUser } from "react-icons/fi";
-import Footer from "../conponents/Footer";
 
 const UserId = () => {
   return (
