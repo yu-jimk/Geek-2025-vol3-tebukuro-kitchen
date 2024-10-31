@@ -110,7 +110,7 @@ const TimerModal = ({
               {disp}
               <div className="text-sm">　　　時間　　　　分　　　　秒</div>
             </div>
-            <div className="w-full flex justify-between font-bold mb-5">
+            <div className="w-full flex justify-between font-bold mb-2">
               <button
                 onClick={() => h.current++}
                 className="bg-orange-400 text-white ml-5 rounded-full px-2 w-16 h-16 mt-2"
