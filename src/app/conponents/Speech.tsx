@@ -117,14 +117,6 @@ const Speech = ({
       },
     },
     {
-      command: "*の量は",
-      callback: (material: string) => {
-        setResponse(`${material}`);
-        resetTranscript();
-        SpeechRecognition.startListening({ continuous: true });
-      },
-    },
-    {
       command: /(.*)ってどうするの.*/,
       callback: (material: string) => {
         setKeyword(material);
