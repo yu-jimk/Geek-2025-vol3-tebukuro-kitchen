@@ -74,6 +74,7 @@ const IngredientInputItem = ({
         </div>
       ))}
       <button
+        type="button"
         onClick={addInput}
         disabled={inputs.length >= maxInputs}
         className="flex mx-auto my-4 text-orange-400"
