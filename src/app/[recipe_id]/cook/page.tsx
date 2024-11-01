@@ -139,7 +139,7 @@ const Cook = ({
 
       <div className="flex justify-center content-center">
         {imageSrc != "" ? (
-          <div className="relative w-[100vw] h-[42vh]">
+          <div className="relative w-[90vw] h-[42vh]">
             <Image
               // これの前に画像をフェッチして存在するかどうか確かめる必要があるかもしれない
               src={imageSrc}
