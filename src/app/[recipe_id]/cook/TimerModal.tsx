@@ -54,7 +54,7 @@ const TimerModal = ({
   }, [inputTime, setInputTime, update]);
 
   useEffect(() => {
-      setDisp(num2TimerText(h.current, m.current, s.current));
+    setDisp(num2TimerText(h.current, m.current, s.current));
   }, [update]);
 
   useEffect(() => {
@@ -92,7 +92,7 @@ const TimerModal = ({
     h.current = 0;
     m.current = 0;
     s.current = 0;
-    setStart(false)
+    setStart(false);
     setUpdate(!update);
   };
   const bgClickClose = (e: React.MouseEvent) => {
@@ -126,6 +126,7 @@ const TimerModal = ({
                 onClick={() => {
                   h.current++;
                   setUpdate(!update);
+                  if (start) setStart(false);
                 }}
                 className="bg-orange-400 text-white ml-5 rounded-full px-2 w-16 h-16 mt-2"
               >
@@ -135,6 +136,7 @@ const TimerModal = ({
                 onClick={() => {
                   m.current++;
                   setUpdate(!update);
+                  if (start) setStart(false);
                 }}
                 className="bg-orange-400 text-white rounded-full px-2 mx-3 w-16 h-16 mt-2"
               >
@@ -144,6 +146,7 @@ const TimerModal = ({
                 onClick={() => {
                   s.current++;
                   setUpdate(!update);
+                  if (start) setStart(false);
                 }}
                 className="bg-orange-400 text-white rounded-full px-2 w-16 h-16 mt-2 mr-5"
               >
@@ -153,9 +156,7 @@ const TimerModal = ({
                 onClick={() => setStart(!start)}
                 className="text-sm tracking-tighter leading-none bg-orange-400 text-white mx-5 rounded-full px-2 py-2 w-24 h-20"
               >
-                スタート
-                <br />
-                ストップ
+                {start ? "ストップ" : "スタート"}
               </button>
             </div>
           </div>

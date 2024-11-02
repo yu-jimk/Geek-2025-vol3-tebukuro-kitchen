@@ -22,7 +22,7 @@ export const parseStr2sec = (str: string): number => {
     const unit = match[2];
     if (unitToMs[unit]) {
       miliSec += value * unitToMs[unit];
-      if (unit == "分半"|| unit == "時間半") {
+      if (unit == "分半" || unit == "時間半") {
         miliSec += unitToMs[unit] / 2;
       }
     }
@@ -32,12 +32,28 @@ export const parseStr2sec = (str: string): number => {
 
 export const num2TimerText = (hour: number, min: number, sec: number) => {
   let timerText: string = "";
-  if (hour < 10) timerText += `0${hour}:`;
-  else timerText += `${hour}:`;
-  if (min < 10) timerText += `0${min}:`;
-  else timerText += `${min}:`;
-  if (sec < 10) timerText += `0${sec}`;
-  else timerText += `${sec}`;
+  let h = hour;
+  let m = min;
+  let s = sec;
+  
+  if (s >= 60) {
+    const multi: number = Math.round(s / 60);
+    s = s - multi * 60;
+    m++;
+  }
+  if (m >= 60) {
+    const multi: number = Math.round(m / 60);
+    console.log(multi);
+    m = m - multi * 60;
+    h++;
+  }
+
+  if (h < 10) timerText += `0${h}:`;
+  else timerText += `${h}:`;
+  if (m < 10) timerText += `0${m}:`;
+  else timerText += `${m}:`;
+  if (s < 10) timerText += `0${s}`;
+  else timerText += `${s}`;
   return timerText;
 };
 
