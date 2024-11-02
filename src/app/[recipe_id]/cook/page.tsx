@@ -186,6 +186,7 @@ const Cook = ({
               modalClose={() => {
                 setIngModalOpen(false);
               }}
+              ingredient={ingredient}
             />
           </ModalContainer>
         )}
