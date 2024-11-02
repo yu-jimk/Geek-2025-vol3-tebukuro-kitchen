@@ -235,7 +235,7 @@ const Cook = ({
       {inUse ? (
         <div
           onClick={() => setTimerModalOpen(true)}
-          className="text-[6vw] w-[30vw] fixed bottom-16 bg-orange-100 text-black text-center rounded-full p-1 shadow-md"
+          className="text-3xl w-36 fixed bottom-24 timer:bottom-16 bg-orange-100 text-black text-center rounded-full p-1 ml-2 shadow-lg"
         >
           {timerDisp}
         </div>
