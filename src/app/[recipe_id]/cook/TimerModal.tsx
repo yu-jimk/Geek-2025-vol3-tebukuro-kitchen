@@ -51,7 +51,7 @@ const TimerModal = ({
       setUpdate(!update);
       setInputTime(""); //一旦毎回リセットするようにする
     }
-  }, [inputTime]);
+  }, [inputTime, setInputTime, update]);
 
   useEffect(() => {
       setDisp(num2TimerText(h.current, m.current, s.current));
