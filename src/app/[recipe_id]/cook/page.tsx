@@ -124,7 +124,7 @@ const Cook = ({
             ガイド
           </button>
         ) : (
-          <div></div>
+          <span></span>
         )}
       </div>
       <Speech
@@ -234,9 +234,13 @@ const Cook = ({
       </div>
       
       {/* タイマー小さく表示するとこ */}
-      <div className="text-[6vw] w-[30vw] fixed bottom-16 bg-orange-100 text-black text-center rounded-full p-1 shadow-md">
-        {inUse ? timerDisp : "" }
+      {inUse ? (
+        <div className="text-[6vw] w-[30vw] fixed bottom-16 bg-orange-100 text-black text-center rounded-full p-1 shadow-md">
+        {timerDisp}
       </div>
+      ) : (
+        <span></span>
+      )}
 
       <div className="text-white flex justify-between fixed bottom-0 z-30 w-full h-14">
         {page == 0 ? (
