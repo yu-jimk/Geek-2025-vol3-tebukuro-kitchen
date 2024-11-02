@@ -77,7 +77,7 @@ const Cook = ({
   const [ytModalOpen, setYtModalOpen] = useState(false);
   const [guideModalOpen, setGuideModalOpen] = useState(false);
   const [timerModalOpen, setTimerModalOpen] = useState(false);
-  const [timerDisp, setTimerDisp] = useState("")
+  const [timerDisp, setTimerDisp] = useState("");
 
   const [keyword, setKeyword] = useState(""); // 動画検索ワード　YtModal(youtube)用
 
@@ -155,9 +155,7 @@ const Cook = ({
             />
           </div>
         ) : (
-          <div
-            className="shadow-lg content-center bg-gray-100 w-[100vw] h-[42vh]"
-          >
+          <div className="shadow-lg content-center bg-gray-100 w-[100vw] h-[42vh]">
             <div className="w-full">
               <FiCameraOff size={40} stroke="#737373" className="mx-auto" />
             </div>
@@ -232,12 +230,15 @@ const Cook = ({
           </ModalContainer>
         )}
       </div>
-      
+
       {/* タイマー小さく表示するとこ */}
       {inUse ? (
-        <div className="text-[6vw] w-[30vw] fixed bottom-16 bg-orange-100 text-black text-center rounded-full p-1 shadow-md">
-        {timerDisp}
-      </div>
+        <div
+          onClick={() => setTimerModalOpen(true)}
+          className="text-[6vw] w-[30vw] fixed bottom-16 bg-orange-100 text-black text-center rounded-full p-1 shadow-md"
+        >
+          {timerDisp}
+        </div>
       ) : (
         <span></span>
       )}
