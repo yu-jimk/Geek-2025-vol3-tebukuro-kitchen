@@ -35,17 +35,19 @@ export const num2TimerText = (hour: number, min: number, sec: number) => {
   let h = hour;
   let m = min;
   let s = sec;
-  
+
   if (s >= 60) {
-    const multi: number = Math.round(s / 60);
+    const multi: number = Math.floor(s / 60);
     s = s - multi * 60;
-    m++;
+    if (multi <= 1) m++;
+    else m += multi;
   }
+  
   if (m >= 60) {
-    const multi: number = Math.round(m / 60);
-    console.log(multi);
+    const multi: number = Math.floor(m / 60);
     m = m - multi * 60;
-    h++;
+    if (multi <= 1) h++;
+    else h += multi;
   }
 
   if (h < 10) timerText += `0${h}:`;
