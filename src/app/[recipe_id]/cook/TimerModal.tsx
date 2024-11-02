@@ -15,7 +15,10 @@
   共通事項
     左下に小さく表示されたタイマーは、タップするとモーダルが表示される。
 
-  数字をボタンではなくいiphoneのアラームみたいにスライドで設定できるようにしたい（優先度は低め）
+  数字をボタンではなくiphoneのアラームみたいにスライドで設定できるようにしたい（優先度は低め）
+
+  FIXME
+  左下に表示する小さいタイマーは、このモーダルと別の場所にあるため、モーダルを閉じるとタイマーが止まってしまう
 */
 
 import { SetStateAction, useEffect, useRef, useState } from "react";
@@ -28,14 +31,19 @@ const TimerModal = ({
   setInputTime,
   start,
   setStart,
+  timerDisp,
+  setTimerDisp,
+  setInUse,
 }: {
   modalClose: () => void;
   inputTime: string;
   setInputTime: React.Dispatch<SetStateAction<string>>;
   start: boolean;
   setStart: React.Dispatch<SetStateAction<boolean>>;
+  timerDisp: string;
+  setTimerDisp: React.Dispatch<SetStateAction<string>>;
+  setInUse: React.Dispatch<SetStateAction<boolean>>;
 }) => {
-  const [disp, setDisp] = useState(""); // 表示
   const [update, setUpdate] = useState(false); // 値更新検出用
   const h = useRef(0);
   const m = useRef(0);
@@ -48,18 +56,24 @@ const TimerModal = ({
       h.current = hour;
       m.current = min;
       s.current = sec;
+      setInUse(true);
       setUpdate(!update);
       setInputTime(""); //一旦毎回リセットするようにする
     }
-  }, [inputTime, setInputTime, update]);
+  }, [inputTime, setInputTime, setInUse, update]);
 
   useEffect(() => {
-    setDisp(num2TimerText(h.current, m.current, s.current));
-  }, [update]);
+    setTimerDisp(num2TimerText(h.current, m.current, s.current));
+    if(h.current == 0 && m.current == 0 && s.current == 0){
+      setInUse(false)
+    } else {
+      setInUse(true)
+    }
+  }, [update, setTimerDisp, setInUse]);
 
   useEffect(() => {
     const alarm = new Audio("/TimerAlarm.mp3");
-    setDisp(num2TimerText(h.current, m.current, s.current));
+    setTimerDisp(num2TimerText(h.current, m.current, s.current));
     let manager: NodeJS.Timeout;
     if (start) {
       manager = setInterval(() => {
@@ -78,7 +92,7 @@ const TimerModal = ({
             }
           }
         }
-        setDisp(num2TimerText(h.current, m.current, s.current));
+        setTimerDisp(num2TimerText(h.current, m.current, s.current));
       }, 1000);
     }
     return () => {
@@ -86,7 +100,7 @@ const TimerModal = ({
         clearInterval(manager);
       }
     };
-  }, [setDisp, start, setStart]);
+  }, [setTimerDisp, start, setStart]);
 
   const reset = () => {
     h.current = 0;
@@ -118,7 +132,7 @@ const TimerModal = ({
               <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
             </div>
             <div className="font-sans font-bold mx-5 mb-5 text-5xl text-center">
-              {disp}
+              {timerDisp}
               <div className="text-sm">　　　時間　　　　分　　　　秒</div>
             </div>
             <div className="w-full flex justify-between font-bold mb-2">

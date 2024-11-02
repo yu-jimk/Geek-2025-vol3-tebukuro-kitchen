@@ -54,9 +54,9 @@ const Cook = ({
   params: { recipe_id: number };
   searchParams: { from?: string };
 }) => {
-  const [title, setTitle] = useState<string>("");
-  const [descript, setDescript] = useState<Descript[]>([]);
-  const [ingredient, setIngredient] = useState<Ingredient[]>([]);
+  const [title, setTitle] = useState<string>(""); // 料理画面　上部タイトル
+  const [descript, setDescript] = useState<Descript[]>([]); // レシピの説明文　データベースから取得
+  const [ingredient, setIngredient] = useState<Ingredient[]>([]); // 材料　データベースから取得
   useEffect(() => {
     const getRecipes = async () => {
       const rec = await getRecipesbyId(params.recipe_id);
@@ -70,15 +70,20 @@ const Cook = ({
   }, [params.recipe_id]);
   const length = descript.length;
 
-  const [page, setPage] = useState(0); //現在のページ
+  const [page, setPage] = useState(0); //現在のページ（番号）
+
+  // モーダル開閉の判定
   const [ingModalOpen, setIngModalOpen] = useState(false);
   const [ytModalOpen, setYtModalOpen] = useState(false);
   const [guideModalOpen, setGuideModalOpen] = useState(false);
   const [timerModalOpen, setTimerModalOpen] = useState(false);
-  const [keyword, setKeyword] = useState("");
+  const [timerDisp, setTimerDisp] = useState("")
 
-  const [inputTime, setInputTime] = useState("");
-  const [timerStart, setTimerStart] = useState(false);
+  const [keyword, setKeyword] = useState(""); // 動画検索ワード　YtModal(youtube)用
+
+  const [inputTime, setInputTime] = useState(""); // 音声で認識したタイマーの時間
+  const [timerStart, setTimerStart] = useState(false); // タイマーがスタートされているかどうか
+  const [inUse, setInUse] = useState(false); //タイマーの使用中判定（左下表示判定用）
 
   const back = (
     num: number,
@@ -220,9 +225,17 @@ const Cook = ({
               setInputTime={setInputTime}
               start={timerStart}
               setStart={setTimerStart}
+              timerDisp={timerDisp}
+              setTimerDisp={setTimerDisp}
+              setInUse={setInUse}
             />
           </ModalContainer>
         )}
+      </div>
+      
+      {/* タイマー小さく表示するとこ */}
+      <div className="text-[6vw] w-[30vw] fixed bottom-16 bg-orange-100 text-black text-center rounded-full p-1 shadow-md">
+        {inUse ? timerDisp : "" }
       </div>
 
       <div className="text-white flex justify-between fixed bottom-0 z-30 w-full h-14">
