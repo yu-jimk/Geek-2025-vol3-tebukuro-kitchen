@@ -47,6 +47,17 @@ const Speech = ({
 }) => {
   const [response, setResponse] = useState("");
 
+  // useStateすごい
+  // const [lastModalStateAction, setLastModalStateAction] = useState<
+  //   React.Dispatch<React.SetStateAction<boolean>> | undefined
+  // >(undefined);
+  // useEffect(() => {
+  //   setLastModalStateAction(() => setIngModalOpen);
+  //   if (lastModalStateAction) {
+  //     lastModalStateAction(true);
+  //   }
+  // }, [lastModalStateAction, setLastModalStateAction, setIngModalOpen]);
+
   const commands = [
     {
       command: /.*(進んで|進む|次へ|次).*/,
@@ -104,7 +115,7 @@ const Speech = ({
     {
       command: /.*タイマー(.*)セット.*/,
       callback: (material: string) => {
-        console.log(material)
+        console.log(material);
         setInputTime(material.replace(/\s+/g, "")); //スペース削除
         setResponse(material.replace(/\s+/g, ""));
         setTimerModalOpen(true);
