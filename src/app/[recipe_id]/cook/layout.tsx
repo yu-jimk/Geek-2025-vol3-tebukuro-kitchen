@@ -5,5 +5,5 @@ export default function CookLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <body className="bg-white">{children}</body>;
+  return <div className="bg-white fixed inset-x-0 top-0 bottom-0 -z-50">{children}</div>;
 }
