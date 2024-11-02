@@ -77,13 +77,13 @@ const Cook = ({
   const [ytModalOpen, setYtModalOpen] = useState(false);
   const [guideModalOpen, setGuideModalOpen] = useState(false);
   const [timerModalOpen, setTimerModalOpen] = useState(false);
-  const [timerDisp, setTimerDisp] = useState("");
-
+  
   const [keyword, setKeyword] = useState(""); // 動画検索ワード　YtModal(youtube)用
-
+  
   const [inputTime, setInputTime] = useState(""); // 音声で認識したタイマーの時間
   const [timerStart, setTimerStart] = useState(false); // タイマーがスタートされているかどうか
-  const [inUse, setInUse] = useState(false); //タイマーの使用中判定（左下表示判定用）
+  const [inUse, setInUse] = useState(false); // タイマーの使用中判定（左下表示判定用）
+  const [timerDisp, setTimerDisp] = useState(""); // タイマーのテキスト (左下表示用）
 
   const back = (
     num: number,
