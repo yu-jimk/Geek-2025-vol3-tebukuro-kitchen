@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+// import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import Speech from "@/app/conponents/Speech";
@@ -39,13 +39,13 @@ const Circle = ({ length, page }: { length: number; page: number }) => {
   );
 };
 
-const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
-  const container = document.getElementById("container");
-  if (!container) {
-    return null;
-  }
-  return createPortal(children, container);
-};
+// const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
+//   const container = document.getElementById("container");
+//   if (!container) {
+//     return null;
+//   }
+//   return createPortal(children, container);
+// };
 
 const Cook = ({
   params,
@@ -77,12 +77,11 @@ const Cook = ({
   const [ytModalOpen, setYtModalOpen] = useState(false);
   const [guideModalOpen, setGuideModalOpen] = useState(false);
   const [timerModalOpen, setTimerModalOpen] = useState(false);
-  
+
   const [keyword, setKeyword] = useState(""); // 動画検索ワード　YtModal(youtube)用
-  
+
   const [inputTime, setInputTime] = useState(""); // 音声で認識したタイマーの時間
   const [timerStart, setTimerStart] = useState(false); // タイマーがスタートされているかどうか
-  const [inUse, setInUse] = useState(false); // タイマーの使用中判定（左下表示判定用）
   const [timerDisp, setTimerDisp] = useState(""); // タイマーのテキスト (左下表示用）
 
   const back = (
@@ -184,55 +183,43 @@ const Cook = ({
 
       <div id="container">
         {ingModalOpen && (
-          <ModalContainer>
-            <IngModal
-              modalClose={() => {
-                setIngModalOpen(false);
-              }}
-              ingredient={ingredient}
-            />
-          </ModalContainer>
+          <IngModal
+            modalClose={() => {
+              setIngModalOpen(false);
+            }}
+            ingredient={ingredient}
+          />
         )}
         {ytModalOpen && (
-          <ModalContainer>
-            <YtModal
-              modalClose={() => {
-                setYtModalOpen(false);
-              }}
-              keyword={keyword}
-            />
-          </ModalContainer>
+          <YtModal
+            modalClose={() => {
+              setYtModalOpen(false);
+            }}
+            keyword={keyword}
+          />
         )}
         {guideModalOpen && (
-          <ModalContainer>
-            <GuideModal
-              modalClose={() => {
-                setGuideModalOpen(false);
-              }}
-            />
-          </ModalContainer>
+          <GuideModal
+            modalClose={() => {
+              setGuideModalOpen(false);
+            }}
+          />
         )}
-        {timerModalOpen && (
-          <ModalContainer>
-            <TimerModal
-              modalClose={() => {
-                setTimerStart(false);
-                setTimerModalOpen(false);
-              }}
-              inputTime={inputTime}
-              setInputTime={setInputTime}
-              start={timerStart}
-              setStart={setTimerStart}
-              timerDisp={timerDisp}
-              setTimerDisp={setTimerDisp}
-              setInUse={setInUse}
-            />
-          </ModalContainer>
-        )}
+        <TimerModal
+          timerModalOpen={timerModalOpen}
+          setTimerModalOpen={setTimerModalOpen}
+          modalClose={() => setTimerModalOpen(false)}
+          inputTime={inputTime}
+          setInputTime={setInputTime}
+          start={timerStart}
+          setStart={setTimerStart}
+          timerDisp={timerDisp}
+          setTimerDisp={setTimerDisp}
+        />
       </div>
 
       {/* タイマー小さく表示するとこ */}
-      {inUse ? (
+      {/* {inUse ? (
         <div
           onClick={() => setTimerModalOpen(true)}
           className="text-3xl w-36 fixed bottom-24 timer:bottom-16 bg-orange-100 text-black text-center rounded-full p-1 ml-2 shadow-lg"
@@ -241,7 +228,7 @@ const Cook = ({
         </div>
       ) : (
         <span></span>
-      )}
+      )} */}
 
       <div className="text-white flex justify-between fixed bottom-0 z-30 w-full h-14">
         {page == 0 ? (

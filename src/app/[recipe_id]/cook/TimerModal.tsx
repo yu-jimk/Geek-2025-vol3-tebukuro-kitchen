@@ -26,6 +26,8 @@ import { num2TimerText, str2TimerText } from "./timerFunc";
 import { IoMdClose } from "react-icons/io";
 
 const TimerModal = ({
+  timerModalOpen,
+  setTimerModalOpen,
   modalClose,
   inputTime,
   setInputTime,
@@ -33,8 +35,9 @@ const TimerModal = ({
   setStart,
   timerDisp,
   setTimerDisp,
-  setInUse,
 }: {
+  timerModalOpen: boolean;
+  setTimerModalOpen: React.Dispatch<SetStateAction<boolean>>;
   modalClose: () => void;
   inputTime: string;
   setInputTime: React.Dispatch<SetStateAction<string>>;
@@ -42,8 +45,8 @@ const TimerModal = ({
   setStart: React.Dispatch<SetStateAction<boolean>>;
   timerDisp: string;
   setTimerDisp: React.Dispatch<SetStateAction<string>>;
-  setInUse: React.Dispatch<SetStateAction<boolean>>;
 }) => {
+  const [inUse, setInUse] = useState(false); // タイマーの使用中判定（左下表示判定用）
   const [update, setUpdate] = useState(false); // 値更新検出用
   const h = useRef(0);
   const m = useRef(0);
@@ -64,10 +67,10 @@ const TimerModal = ({
 
   useEffect(() => {
     setTimerDisp(num2TimerText(h.current, m.current, s.current));
-    if(h.current == 0 && m.current == 0 && s.current == 0){
-      setInUse(false)
+    if (h.current == 0 && m.current == 0 && s.current == 0) {
+      setInUse(false);
     } else {
-      setInUse(true)
+      setInUse(true);
     }
   }, [update, setTimerDisp, setInUse]);
 
@@ -100,7 +103,7 @@ const TimerModal = ({
         clearInterval(manager);
       }
     };
-  }, [setTimerDisp, start, setStart]);
+  }, [setTimerDisp, start, setStart, inUse]);
 
   const reset = () => {
     h.current = 0;
@@ -116,66 +119,79 @@ const TimerModal = ({
   };
   return (
     <>
-      <div className="bg-black bg-opacity-50 fixed inset-x-0 top-0 bottom-0">
-        <div
-          onClick={bgClickClose}
-          className="flex justify-center items-center h-full"
-        >
-          <div className="bg-white mx-20 w-full shadow-lg text-black rounded-3xl">
-            <div className="flex w-full justify-between mb-3">
-              <button
-                onClick={() => reset()}
-                className="bg-orange-400 text-white text-sm tracking-tighter ml-2 rounded-full px-2 w-20 mt-2 font-bold"
-              >
-                リセット
-              </button>
-              <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
-            </div>
-            <div className="font-sans font-bold mx-5 mb-5 text-5xl text-center">
-              {timerDisp}
-              <div className="text-sm">　　　時間　　　　分　　　　秒</div>
-            </div>
-            <div className="w-full flex justify-between font-bold mb-2">
-              <button
-                onClick={() => {
-                  h.current++;
-                  setUpdate(!update);
-                  if (start) setStart(false);
-                }}
-                className="bg-orange-400 text-white ml-5 rounded-full px-2 w-16 h-16 mt-2"
-              >
-                時間
-              </button>
-              <button
-                onClick={() => {
-                  m.current++;
-                  setUpdate(!update);
-                  if (start) setStart(false);
-                }}
-                className="bg-orange-400 text-white rounded-full px-2 mx-3 w-16 h-16 mt-2"
-              >
-                分
-              </button>
-              <button
-                onClick={() => {
-                  s.current++;
-                  setUpdate(!update);
-                  if (start) setStart(false);
-                }}
-                className="bg-orange-400 text-white rounded-full px-2 w-16 h-16 mt-2 mr-5"
-              >
-                秒
-              </button>
-              <button
-                onClick={() => setStart(!start)}
-                className="text-sm tracking-tighter leading-none bg-orange-400 text-white mx-5 rounded-full px-2 py-2 w-24 h-20"
-              >
-                {start ? "ストップ" : "スタート"}
-              </button>
+      <div className={timerModalOpen ? "block" : "hidden"}>
+        <div className="bg-black bg-opacity-50 fixed inset-x-0 top-0 bottom-0">
+          <div
+            onClick={bgClickClose}
+            className="flex justify-center items-center h-full"
+          >
+            <div className="bg-white mx-20 w-full shadow-lg text-black rounded-3xl">
+              <div className="flex w-full justify-between mb-3">
+                <button
+                  onClick={() => reset()}
+                  className="bg-orange-400 text-white text-sm tracking-tighter ml-2 rounded-full px-2 w-20 mt-2 font-bold"
+                >
+                  リセット
+                </button>
+                <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
+              </div>
+              <div className="font-sans font-bold mx-5 mb-5 text-5xl text-center">
+                {timerDisp}
+                <div className="text-sm">　　　時間　　　　分　　　　秒</div>
+              </div>
+              <div className="w-full flex justify-between font-bold mb-2">
+                <button
+                  onClick={() => {
+                    h.current++;
+                    setUpdate(!update);
+                    if (start) setStart(false);
+                  }}
+                  className="bg-orange-400 text-white ml-5 rounded-full px-2 w-16 h-16 mt-2"
+                >
+                  時間
+                </button>
+                <button
+                  onClick={() => {
+                    m.current++;
+                    setUpdate(!update);
+                    if (start) setStart(false);
+                  }}
+                  className="bg-orange-400 text-white rounded-full px-2 mx-3 w-16 h-16 mt-2"
+                >
+                  分
+                </button>
+                <button
+                  onClick={() => {
+                    s.current++;
+                    setUpdate(!update);
+                    if (start) setStart(false);
+                  }}
+                  className="bg-orange-400 text-white rounded-full px-2 w-16 h-16 mt-2 mr-5"
+                >
+                  秒
+                </button>
+                <button
+                  onClick={() => setStart(!start)}
+                  className="text-sm tracking-tighter leading-none bg-orange-400 text-white mx-5 rounded-full px-2 py-2 w-24 h-20"
+                >
+                  {start ? "ストップ" : "スタート"}
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      {inUse ? (
+        <div
+          onClick={() => setTimerModalOpen(true)}
+          className="text-3xl w-36 fixed bottom-24 timer:bottom-16 bg-orange-100 text-black text-center rounded-full p-1 ml-2 shadow-lg"
+        >
+          {timerDisp}
+        </div>
+      ) : (
+        <div></div>
+      )}
     </>
   );
 };
