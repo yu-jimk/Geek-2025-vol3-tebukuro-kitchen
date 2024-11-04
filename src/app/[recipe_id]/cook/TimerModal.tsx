@@ -192,7 +192,7 @@ const TimerModal = ({
           {timerDisp}
         </div>
       ) : (
-        <div></div>
+        <span></span>
       )}
     </>
   );
