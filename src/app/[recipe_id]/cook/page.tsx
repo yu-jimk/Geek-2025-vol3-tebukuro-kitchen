@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-// import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import Speech from "@/app/conponents/Speech";
@@ -38,14 +37,6 @@ const Circle = ({ length, page }: { length: number; page: number }) => {
     </>
   );
 };
-
-// const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
-//   const container = document.getElementById("container");
-//   if (!container) {
-//     return null;
-//   }
-//   return createPortal(children, container);
-// };
 
 const Cook = ({
   params,
@@ -217,18 +208,6 @@ const Cook = ({
           setTimerDisp={setTimerDisp}
         />
       </div>
-
-      {/* タイマー小さく表示するとこ */}
-      {/* {inUse ? (
-        <div
-          onClick={() => setTimerModalOpen(true)}
-          className="text-3xl w-36 fixed bottom-24 timer:bottom-16 bg-orange-100 text-black text-center rounded-full p-1 ml-2 shadow-lg"
-        >
-          {timerDisp}
-        </div>
-      ) : (
-        <span></span>
-      )} */}
 
       <div className="text-white flex justify-between fixed bottom-0 z-30 w-full h-14">
         {page == 0 ? (
