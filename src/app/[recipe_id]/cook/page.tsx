@@ -97,73 +97,74 @@ const Cook = ({
 
   return (
     <>
-      <div className="flex flex-row-reverse">
-        <RecipeHeader
-          bgColor="bg-orange-400"
-          textColor="text-white"
-          title={title}
-          link={recipePage}
-          iconFill="white"
+      <div className="bg-white fixed inset-x-0 top-0 bottom-0 -z-50">
+        <div className="flex flex-row-reverse">
+          <RecipeHeader
+            bgColor="bg-orange-400"
+            textColor="text-white"
+            title={title}
+            link={recipePage}
+            iconFill="white"
+          />
+          {title != "" ? ( //ヘッダーのタイトルのロードが完了したら表示（より自然に）
+            <button
+              onClick={() => setGuideModalOpen(!guideModalOpen)}
+              className="bg-transparent font-bold fixed z-50 p-3.5 hidden button:block"
+            >
+              <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-7" />
+              ガイド
+            </button>
+          ) : (
+            <span></span>
+          )}
+        </div>
+        <Speech
+          next={next}
+          back={back}
+          num={page}
+          length={length}
+          setPage={setPage}
+          setIngModalOpen={setIngModalOpen}
+          setYtModalOpen={setYtModalOpen}
+          setKeyword={setKeyword}
+          setGuideModalOpen={setGuideModalOpen}
+          setTimerModalOpen={setTimerModalOpen}
+          setInputTime={setInputTime}
+          setTimerStart={setTimerStart}
         />
-        {title != "" ? ( //ヘッダーのタイトルのロードが完了したら表示（より自然に）
-          <button
-            onClick={() => setGuideModalOpen(!guideModalOpen)}
-            className="bg-transparent font-bold fixed z-50 p-3.5 hidden button:block"
-          >
-            <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-7" />
-            ガイド
-          </button>
-        ) : (
-          <span></span>
-        )}
-      </div>
-      <Speech
-        next={next}
-        back={back}
-        num={page}
-        length={length}
-        setPage={setPage}
-        setIngModalOpen={setIngModalOpen}
-        setYtModalOpen={setYtModalOpen}
-        setKeyword={setKeyword}
-        setGuideModalOpen={setGuideModalOpen}
-        setTimerModalOpen={setTimerModalOpen}
-        setInputTime={setInputTime}
-        setTimerStart={setTimerStart}
-      />
 
-      <div className="flex justify-center content-center">
-        {imageSrc != "" ? (
-          <div className="relative w-[90vw] h-[42vh]">
-            <Image
-              // これの前に画像をフェッチして存在するかどうか確かめる必要があるかもしれない
-              src={imageSrc}
-              alt={title}
-              fill
-              className="object-cover"
-              onError={() => console.error("Image failed to load")}
-            />
-          </div>
-        ) : (
-          <div className="shadow-lg content-center bg-gray-100 w-[100vw] h-[42vh]">
-            <div className="w-full">
-              <FiCameraOff size={40} stroke="#737373" className="mx-auto" />
+        <div className="flex justify-center content-center">
+          {imageSrc != "" ? (
+            <div className="relative w-[100vw] h-[42vh]">
+              <Image
+                // これの前に画像をフェッチして存在するかどうか確かめる必要があるかもしれない
+                src={imageSrc}
+                alt={title}
+                fill
+                className="object-cover shadow-lg"
+                onError={() => console.error("Image failed to load")}
+              />
             </div>
-          </div>
-        )}
-      </div>
-      <div className="mt-6 mb-10 flex justify-center">
-        <Circle length={length} page={page} />
-      </div>
-      <div
-        id="desc"
-        className="mx-5 font-mono font-black text-left text-black text-2xl break-words"
-      >
-        {descript[page]?.text ?? "読み込み中・・・"}
-      </div>
+          ) : (
+            <div className="shadow-lg content-center bg-gray-100 w-[100vw] h-[42vh]">
+              <div className="w-full">
+                <FiCameraOff size={40} stroke="#737373" className="mx-auto" />
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="mt-6 mb-10 flex justify-center">
+          <Circle length={length} page={page} />
+        </div>
+        <div
+          id="desc"
+          className="mx-5 font-mono font-black text-left text-black text-2xl break-words"
+        >
+          {descript[page]?.text ?? "読み込み中・・・"}
+        </div>
 
-      {/* 動画表示デバッグ用 */}
-      {/* <div className="w-full flex justify-between fixed bottom-14">
+        {/* 動画表示デバッグ用 */}
+        {/* <div className="w-full flex justify-between fixed bottom-14">
         <button
           onClick={() => setYtModalOpen(!ytModalOpen)}
           className="bg-black"
@@ -172,95 +173,96 @@ const Cook = ({
         </button>
       </div> */}
 
-      <div id="container">
-        {ingModalOpen && (
-          <IngModal
-            modalClose={() => {
-              setIngModalOpen(false);
-            }}
-            ingredient={ingredient}
+        <div id="container">
+          {ingModalOpen && (
+            <IngModal
+              modalClose={() => {
+                setIngModalOpen(false);
+              }}
+              ingredient={ingredient}
+            />
+          )}
+          {ytModalOpen && (
+            <YtModal
+              modalClose={() => {
+                setYtModalOpen(false);
+              }}
+              keyword={keyword}
+            />
+          )}
+          {guideModalOpen && (
+            <GuideModal
+              modalClose={() => {
+                setGuideModalOpen(false);
+              }}
+            />
+          )}
+          <TimerModal
+            timerModalOpen={timerModalOpen}
+            setTimerModalOpen={setTimerModalOpen}
+            modalClose={() => setTimerModalOpen(false)}
+            inputTime={inputTime}
+            setInputTime={setInputTime}
+            start={timerStart}
+            setStart={setTimerStart}
+            timerDisp={timerDisp}
+            setTimerDisp={setTimerDisp}
           />
-        )}
-        {ytModalOpen && (
-          <YtModal
-            modalClose={() => {
-              setYtModalOpen(false);
-            }}
-            keyword={keyword}
-          />
-        )}
-        {guideModalOpen && (
-          <GuideModal
-            modalClose={() => {
-              setGuideModalOpen(false);
-            }}
-          />
-        )}
-        <TimerModal
-          timerModalOpen={timerModalOpen}
-          setTimerModalOpen={setTimerModalOpen}
-          modalClose={() => setTimerModalOpen(false)}
-          inputTime={inputTime}
-          setInputTime={setInputTime}
-          start={timerStart}
-          setStart={setTimerStart}
-          timerDisp={timerDisp}
-          setTimerDisp={setTimerDisp}
-        />
-      </div>
-
-      <div className="text-white flex justify-between fixed bottom-0 z-30 w-full h-14">
-        {page == 0 ? (
-          <div className="w-20 h-14">
-            <div className="w-6 h-6 mx-7"></div>
-          </div>
-        ) : (
-          <button
-            onClick={() => setPage(page - 1)}
-            className="w-20 h-14 bg-transparent font-bold"
-          >
-            <FaArrowLeft className="w-6 h-6 mx-7" />
-            戻って
-          </button>
-        )}
-        <div className="w-full flex justify-between">
-          <button
-            onClick={() => setIngModalOpen(!ingModalOpen)}
-            className="bg-transparent font-bold hidden button:block"
-          >
-            <PiNoteDuotone className="w-6 h-6 mx-7" />
-            材料は?
-          </button>
-          <button
-            onClick={() => setTimerModalOpen(!timerModalOpen)}
-            className="bg-transparent font-bold hidden button:block"
-          >
-            <MdOutlineTimer className="w-6 h-6 mx-7" />
-            <p className="text-xs tracking-tighter leading-none">
-              タイマー
-              <br />
-              XXセット
-            </p>
-          </button>
         </div>
-        {page == length - 1 ? (
-          <Link href={recipePage} className="font-bold">
-            <FaDoorOpen className="w-6 h-6 mx-7 my-1 mb-0" />
-            <div className="text-center">終了</div>
-          </Link>
-        ) : (
-          <button
-            onClick={() => setPage(page + 1)}
-            className="w-20 h-14 bg-transparent font-bold"
-          >
-            <FaArrowRight className="w-6 h-6 mx-7" />
-            進んで
-          </button>
-        )}
-      </div>
-      <div className="z-20 bg-orange-400 w-full fixed bottom-0 h-14 flex justify-center">
-        <div className="absolute -top-10 bg-orange-400 w-24 h-24 rounded-full flex justify-center">
-          <IoMicOutline className="relative w-12 h-12 top-6" />
+
+        <div className="text-white flex justify-between fixed bottom-0 z-30 w-full h-14">
+          {page == 0 ? (
+            <div className="w-20 h-14">
+              <div className="w-6 h-6 mx-7"></div>
+            </div>
+          ) : (
+            <button
+              onClick={() => setPage(page - 1)}
+              className="w-20 h-14 bg-transparent font-bold"
+            >
+              <FaArrowLeft className="w-6 h-6 mx-7" />
+              戻って
+            </button>
+          )}
+          <div className="w-full flex justify-between">
+            <button
+              onClick={() => setIngModalOpen(!ingModalOpen)}
+              className="bg-transparent font-bold hidden button:block"
+            >
+              <PiNoteDuotone className="w-6 h-6 mx-7" />
+              材料は?
+            </button>
+            <button
+              onClick={() => setTimerModalOpen(!timerModalOpen)}
+              className="bg-transparent font-bold hidden button:block"
+            >
+              <MdOutlineTimer className="w-6 h-6 mx-7" />
+              <p className="text-xs tracking-tighter leading-none">
+                タイマー
+                <br />
+                XXセット
+              </p>
+            </button>
+          </div>
+          {page == length - 1 ? (
+            <Link href={recipePage} className="font-bold">
+              <FaDoorOpen className="w-6 h-6 mx-7 my-1 mb-0" />
+              <div className="text-center">終了</div>
+            </Link>
+          ) : (
+            <button
+              onClick={() => setPage(page + 1)}
+              className="w-20 h-14 bg-transparent font-bold"
+            >
+              <FaArrowRight className="w-6 h-6 mx-7" />
+              進んで
+            </button>
+          )}
+        </div>
+        <div className="z-20 bg-orange-400 w-full fixed bottom-0 h-14 flex justify-center">
+          <div className="absolute -top-10 bg-orange-400 w-24 h-24 rounded-full flex justify-center">
+            <IoMicOutline className="relative w-12 h-12 top-6" />
+          </div>
         </div>
       </div>
     </>
