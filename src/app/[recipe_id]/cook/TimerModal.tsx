@@ -16,9 +16,6 @@
     左下に小さく表示されたタイマーは、タップするとモーダルが表示される。
 
   数字をボタンではなくiphoneのアラームみたいにスライドで設定できるようにしたい（優先度は低め）
-
-  FIXME
-  左下に表示する小さいタイマーは、このモーダルと別の場所にあるため、モーダルを閉じるとタイマーが止まってしまう
 */
 
 import { SetStateAction, useEffect, useRef, useState } from "react";
@@ -103,7 +100,7 @@ const TimerModal = ({
         clearInterval(manager);
       }
     };
-  }, [setTimerDisp, start, setStart, inUse]);
+  }, [setTimerDisp, start, setStart]);
 
   const reset = () => {
     h.current = 0;

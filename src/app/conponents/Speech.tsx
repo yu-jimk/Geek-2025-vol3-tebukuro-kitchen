@@ -87,6 +87,7 @@ const Speech = ({
     {
       command: "*閉じて*",
       callback: () => {
+        // TODO 最前面のモーダルだけ閉じるようにしたい
         setIngModalOpen(false);
         setYtModalOpen(false);
         setGuideModalOpen(false);
@@ -118,7 +119,6 @@ const Speech = ({
         console.log(material);
         setInputTime(material.replace(/\s+/g, "")); //スペース削除
         setResponse(material.replace(/\s+/g, ""));
-        setTimerModalOpen(true);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
