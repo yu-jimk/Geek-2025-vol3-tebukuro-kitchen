@@ -15,7 +15,7 @@ const IngModal = ({ modalClose }: { modalClose: () => void }) => {
           onClick={bgClickClose}
           className="flex justify-center items-center h-full"
         >
-          <div className="bg-white mx-10 shadow-lg text-black">
+          <div className="bg-white mx-10 shadow-lg text-black rounded-3xl">
             <div className="flex w-full justify-end">
               <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
             </div>
@@ -26,31 +26,32 @@ const IngModal = ({ modalClose }: { modalClose: () => void }) => {
               <div className="font-bold text-lg text-orange-400">
                 「進んで」
               </div>
-              <div className="ml-8">ページを進めます。</div>
+              <div className="ml-8 mb-2">1ページ進みます。</div>
               <div className="font-bold text-lg text-orange-400">
                 「戻って」
               </div>
-              <div className="ml-8">ページを戻します。</div>
+              <div className="ml-8 mb-2">1ページ戻ります。</div>
               <div className="font-bold text-lg text-orange-400">
                 「材料は?」
               </div>
-              <div className="ml-8">必要な材料を一覧表示します。</div>
+              <div className="ml-8 mb-2">材料を表示します。</div>
               <div className="font-bold text-lg text-orange-400">
                 「~ってどうするの?」
               </div>
-              <div className="ml-8">
-                切り方等をYoutubeで検索し、動画を再生します。
+              <div className="ml-8 mb-2">
+                切り方の動画を再生します。
               </div>
               <div className="font-bold text-lg text-orange-400">
-                「タイマーxxセットして」
+                「タイマーxxセット」
               </div>
-              <div className="ml-8">
+              <div className="ml-8 mb-2">
                 タイマーをxxの時間セットして、表示します。
+                <div className="text-sm text-gray-500">{"(例) タイマー3分セット"}</div>
               </div>
               <div className="font-bold text-lg text-orange-400">
                 「閉じて」
               </div>
-              <div className="ml-8">材料一覧や動画などの表示を閉じます。</div>
+              <div className="ml-8">表示を閉じます。</div>
             </div>
           </div>
         </div>

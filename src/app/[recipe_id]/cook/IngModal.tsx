@@ -24,7 +24,7 @@ const IngModal = ({
           onClick={bgClickClose}
           className="flex justify-center items-center h-full"
         >
-          <div className="bg-white mx-10 shadow-lg text-black">
+          <div className="bg-white mx-10 shadow-lg text-black rounded-3xl">
             <div className="flex w-full justify-end">
               <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
             </div>
