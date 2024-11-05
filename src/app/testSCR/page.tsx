@@ -1,9 +1,7 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, SetStateAction, Dispatch } from "react";
 import { supabase } from "../utils/supabase";
 import { Recipe } from "../types";
-import { arrayShuffle } from "../utils/supabaseFncUpdate";
-
 const PAGE_SIZE = 10;
 
 export default function MyComponent() {
@@ -16,18 +14,25 @@ export default function MyComponent() {
       .from("Recipes")
       .select("*")
       .range((pageNumber - 1) * PAGE_SIZE, pageNumber * PAGE_SIZE - 1);
-    if (recipes.data !== null) {
-        recipes.data = arrayShuffle(recipes.data) as Recipe[];
-    }
+    // if (recipes.data !== null) {
+    //     recipes.data = arrayShuffle(recipes.data) as Recipe[];
+    // }
     if (recipes.error) {
       console.error("supabaseエラー", recipes.error);
+      return [] as Recipe[];
     }
-    else setPageRecipe([...pageRecipe,...recipes.data as Recipe[]] as Recipe[])
+    return [...pageRecipe,...recipes.data as Recipe[]] as Recipe[]
+    //  setPageRecipe([...pageRecipe,...recipes.data as Recipe[]] as Recipe[])
     // 強制的にRecipe[]として認識させる
   };
+   const setPageRecipeFnc = async (setPageRecipe: Dispatch<SetStateAction<Recipe[]>>) =>{
+    const a = await getPageRecipes(page,pageRecipe)
+    setPageRecipe(a);
+  }
 
   useEffect(() => {
-    getPageRecipes(page,pageRecipe)
+    setPageRecipeFnc(setPageRecipe)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   useEffect(() => {
