@@ -16,7 +16,13 @@ import { useSwipeable } from "react-swipeable";
 import { useRecipeFormTop } from "../validations/useFormUtils";
 import { SubmitHandler } from "react-hook-form";
 import { RecipeSchemaType } from "../validations/schema";
-import { addRecipe, addSomeDescript, addSomeIngredient, getImageUrl, uploadImage } from "../utils/supabaseFunctions";
+import {
+  addRecipe,
+  addSomeDescript,
+  addSomeIngredient,
+  getImageUrl,
+  uploadImage,
+} from "../utils/supabaseFunctions";
 import { getFileExtension } from "../utils/fileUtils";
 import { updateRecipeImage } from "../utils/supabaseFncUpdate";
 
@@ -67,7 +73,7 @@ const Registration = () => {
     setLoading(false);
     return true;
   };
-  const { register, handleSubmit ,errors } = useRecipeFormTop();
+  const { register, handleSubmit, errors } = useRecipeFormTop();
 
   useEffect(() => {
     return () => {
@@ -130,25 +136,26 @@ const Registration = () => {
                   />
                 </div>
               </section>
-
-              <section className="flex items-center border-b border-gray-400 bg-[#FEF9EC] -mt-3">
-                <FaPen className="ml-3 text-gray-400 text-2xl" />
-                <input
-                  {...register("recipe.recipe_name")}
-                  type="text"
-                  name="recipe.recipe_name"
-                  id="recipe_name"
-                  // onChange={(e) => {
-                  //   setRecipe((prev) => ({ ...prev, name: e.target.value }));
-                  // }}
-                  placeholder="タイトル /例  基本のチャーハン"
-                  style={{ height: "40px", outline: "none" }}
-                  className="w-full bg-[#FEF9EC] pl-3"
-                />
+              <section className="items-center border-b border-gray-400 bg-[#FEF9EC]">
+                <section className='flex'>
+                  <FaPen className="ml-3 text-gray-400 text-2xl" />
+                  <input
+                    {...register("recipe.recipe_name")}
+                    type="text"
+                    name="recipe.recipe_name"
+                    id="recipe_name"
+                    // onChange={(e) => {
+                    //   setRecipe((prev) => ({ ...prev, name: e.target.value }));
+                    // }}
+                    placeholder="タイトル /例  基本のチャーハン"
+                    style={{ height: "40px", outline: "none" }}
+                    className="w-full bg-[#FEF9EC] pl-3"
+                  />
+                </section>
+                <div className="text-red-500">
+                  {errors.recipe?.recipe_name?.message}
+                </div>
               </section>
-              <div className="text-red-500">
-                {errors.recipe?.recipe_name?.message}
-              </div>
               <section
                 className="flex items-center w-1/5 border-b border-gray-400 bg-[#FEF9EC] mt-3"
                 style={{ width: "200px" }}

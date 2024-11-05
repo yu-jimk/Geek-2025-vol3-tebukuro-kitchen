@@ -8,7 +8,7 @@ import { z } from "zod";
 // };
 const imageSchema = z
   // z.inferでSchemaを定義したときに型がつくようにするため
-  .custom<FileList>()
+  .custom<File[]>()
   // //   必須にしたい場合
   //   .refine((file) => file.length !== 0, { message: '必須です' })
   // このあとのrefine()で扱いやすくするために整形
