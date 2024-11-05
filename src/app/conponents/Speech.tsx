@@ -77,7 +77,7 @@ const Speech = ({
       },
     },
     {
-      command: "*材料は*",
+      command: /.*(材料).*/,
       callback: () => {
         setIngModalOpen(true);
         resetTranscript();
@@ -85,7 +85,7 @@ const Speech = ({
       },
     },
     {
-      command: "*閉じて*",
+      command: /.*(閉じて|閉じる).*/,
       callback: () => {
         // TODO 最前面のモーダルだけ閉じるようにしたい
         setIngModalOpen(false);
@@ -98,7 +98,7 @@ const Speech = ({
       },
     },
     {
-      command: "*スタート*",
+      command: /.*(スタート).*/,
       callback: () => {
         setTimerStart(true);
         resetTranscript();
@@ -106,7 +106,7 @@ const Speech = ({
       },
     },
     {
-      command: "*ストップ*",
+      command: /.*(ストップ).*/,
       callback: () => {
         setTimerStart(false);
         SpeechRecognition.startListening({ continuous: true });
@@ -135,7 +135,7 @@ const Speech = ({
       },
     },
     {
-      command: "*ガイド*",
+      command: /.*(ガイド).*/,
       callback: () => {
         setGuideModalOpen(true);
         setResponse(`guide`);
