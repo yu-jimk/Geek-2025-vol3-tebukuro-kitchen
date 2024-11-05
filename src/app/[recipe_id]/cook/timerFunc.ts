@@ -4,12 +4,11 @@ type unit = {
 
 export const parseStr2sec = (str: string): number => {
   //                      優先度 高->低
-  const regex = /(\d+)\s*(秒|分半|分|時間半|時間|日)/g;
+  const regex = /(\d+)\s*(秒|分半|分|時間半|時間)/g;
   let match: RegExpExecArray | null;
   let miliSec: number = 0;
 
   const unitToMs: unit = {
-    日: 86400000,
     時間半: 3600000,
     時間: 3600000,
     分半: 60000,
@@ -30,9 +29,8 @@ export const parseStr2sec = (str: string): number => {
   return Math.trunc(miliSec / 1000); //小数点以下切り捨て
 };
 
-export const num2TimerText = (hour: number, min: number, sec: number) => {
+export const num2TimerText = (min: number, sec: number) => {
   let timerText: string = "";
-  let h = hour;
   let m = min;
   let s = sec;
 
@@ -42,16 +40,7 @@ export const num2TimerText = (hour: number, min: number, sec: number) => {
     if (multi <= 1) m++;
     else m += multi;
   }
-  
-  if (m >= 60) {
-    const multi: number = Math.floor(m / 60);
-    m = m - multi * 60;
-    if (multi <= 1) h++;
-    else h += multi;
-  }
 
-  if (h < 10) timerText += `0${h}:`;
-  else timerText += `${h}:`;
   if (m < 10) timerText += `0${m}:`;
   else timerText += `${m}:`;
   if (s < 10) timerText += `0${s}`;
@@ -61,10 +50,8 @@ export const num2TimerText = (hour: number, min: number, sec: number) => {
 
 export const str2TimerText = (str: string) => {
   let sec: number = parseStr2sec(str);
-  const hour = Math.floor(sec / 3600);
-  sec -= hour * 3600;
   const min = Math.floor(sec / 60);
   sec -= min * 60;
 
-  return { hour, min, sec };
+  return { min, sec };
 };

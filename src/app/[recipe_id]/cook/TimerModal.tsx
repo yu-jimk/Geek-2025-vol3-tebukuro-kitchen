@@ -50,15 +50,13 @@ const TimerModal = ({
 }) => {
   const [inUse, setInUse] = useState(false); // タイマーの使用中判定（左下表示判定用）
   const [update, setUpdate] = useState(false); // 値更新検出用
-  const h = useRef(0);
   const m = useRef(0);
   const s = useRef(0);
 
   // 音声入力された時のみ変換して初期化
   useEffect(() => {
     if (inputTime != "") {
-      const { hour, min, sec } = str2TimerText(inputTime);
-      h.current = hour;
+      const { min, sec } = str2TimerText(inputTime);
       m.current = min;
       s.current = sec;
       setInUse(true);
@@ -68,8 +66,8 @@ const TimerModal = ({
   }, [inputTime, setInputTime, setInUse, update]);
 
   useEffect(() => {
-    setTimerDisp(num2TimerText(h.current, m.current, s.current));
-    if (h.current == 0 && m.current == 0 && s.current == 0) {
+    setTimerDisp(num2TimerText(m.current, s.current));
+    if (m.current == 0 && s.current == 0) {
       setInUse(false);
     } else {
       setInUse(true);
@@ -78,11 +76,11 @@ const TimerModal = ({
 
   useEffect(() => {
     const alarm = new Audio("/TimerAlarm.mp3");
-    setTimerDisp(num2TimerText(h.current, m.current, s.current));
+    setTimerDisp(num2TimerText(m.current, s.current));
     let manager: NodeJS.Timeout;
     if (start) {
       manager = setInterval(() => {
-        if (s.current <= 0 && m.current == 0 && h.current == 0) {
+        if (s.current <= 0 && m.current == 0) {
           clearInterval(manager);
           setStart(false);
           alarm.play();
@@ -91,13 +89,9 @@ const TimerModal = ({
           if (s.current == -1) {
             s.current = 59;
             m.current--;
-            if (m.current == -1) {
-              m.current = 59;
-              h.current--;
-            }
           }
         }
-        setTimerDisp(num2TimerText(h.current, m.current, s.current));
+        setTimerDisp(num2TimerText(m.current, s.current));
       }, 1000);
     }
     return () => {
@@ -108,7 +102,6 @@ const TimerModal = ({
   }, [setTimerDisp, start, setStart]);
 
   const reset = () => {
-    h.current = 0;
     m.current = 0;
     s.current = 0;
     setStart(false);
@@ -139,19 +132,9 @@ const TimerModal = ({
               </div>
               <div className="font-sans font-bold mx-5 mb-5 text-5xl text-center">
                 {timerDisp}
-                <div className="text-sm">　　　時間　　　　分　　　　秒</div>
+                <div className="text-sm">　　　分　　　　秒</div>
               </div>
               <div className="w-full flex justify-between font-bold mb-2">
-                <button
-                  onClick={() => {
-                    h.current++;
-                    setUpdate(!update);
-                    if (start) setStart(false);
-                  }}
-                  className="bg-orange-400 text-white ml-5 rounded-full px-2 w-16 h-16 mt-2"
-                >
-                  時間
-                </button>
                 <button
                   onClick={() => {
                     m.current++;
