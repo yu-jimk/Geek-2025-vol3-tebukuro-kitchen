@@ -8,6 +8,7 @@ import {
   IngredientSchemaType,
   RecipeObjectSchemaType,
 } from "../validations/schema";
+import { Dispatch, SetStateAction } from "react";
 // 全レシピ取得
 export const getAllRecipes = async () => {
   const recipes = await supabase.from("Recipes").select("*");
@@ -29,6 +30,21 @@ export const getAllRandomRecipes = async () => {
   // 強制的にRecipe[]として認識させる
   return [] as Recipe[];
 };
+const PAGE_SIZE = 10;
+export const getPageRecipes = async (pageNumber: number,pageRecipe: Recipe[],setPageRecipe: Dispatch<SetStateAction<Recipe[]>>) => {
+  const recipes = await supabase
+    .from("Recipes")
+    .select("*")
+    .range((pageNumber - 1) * PAGE_SIZE, pageNumber * PAGE_SIZE - 1);
+  // if (recipes.data !== null) {
+  //     recipes.data = arrayShuffle(recipes.data) as Recipe[];
+  // }
+  if (recipes.error) {
+    console.error("supabaseエラー", recipes.error);
+  }
+  else setPageRecipe([...pageRecipe,...recipes.data as Recipe[]] as Recipe[]);
+};
+
 // レシピのidより1つのレシピ取得
 export const getRecipesbyId = async (id: number) => {
   const recipe = await supabase.from("Recipes").select("*").eq("id", id);
