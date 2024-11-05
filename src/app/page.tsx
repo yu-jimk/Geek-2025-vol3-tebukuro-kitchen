@@ -20,7 +20,7 @@ export default function Home() {
   const handlers = useSwipeable({
     onSwipedUp:() => setshowshowHeadFooter(false),
     onSwipedDown:()=> setshowshowHeadFooter(true),
-    delta: 10,
+    delta: 60,
   });
 
   useEffect (()=> {
@@ -38,17 +38,17 @@ export default function Home() {
   }
 
   return (
-    <div {...handlers} className="min-h-screen flex flex-colbg-[#FFFBF4]">
-      <div className={`bg-white fixed top-0 px-2 w-full z-20 border-b-2 border-black transition-transform duration-200 ${showHeadFooter? 'translate-y-0':'-translate-y-full'}`}>
+    <div {...handlers} className="min-h-screen flex flex-col contain-paint bg-[#FFFBF4]">
+      <div className={`bg-white sticky top-0 px-2 w-full z-20 border-b-2 border-black transition-transform duration-200 ${showHeadFooter? 'translate-y-0':'-translate-y-full'}`}>
         <SearchRecipe recipes={RecipesBase} setlist={recipessetter} />
         <Header pathName={pathName}/>
       </div>
-      <div className={`bg-[#FFFBF4] order-none flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 auto-rows-min gap-5 mt-28 p-5`}>
+      <div className={`bg-[#FFFBF4] border-none flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 auto-rows-min gap-5 p-5`}>
         {RecipesList.map((recipe:Recipe)=>(
           <ArticleCard key={recipe.id} recipe={recipe}/>
         ))}
       </div>
-      <div className={`fixed bottom-0 w-full z-20 transition-transform duration-200 ${showHeadFooter? 'translate-y-0':'translate-y-full'}`}>
+      <div className={`sticky bottom-0 w-full z-20 transition-transform duration-200 ${showHeadFooter? 'translate-y-0':'translate-y-full'}`}>
         <Footer pathName={pathName}/>
       </div>
     </div>

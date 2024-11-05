@@ -21,7 +21,7 @@ const Favorites = () => {
 
   //スクロールを検知する
   const handlers = useSwipeable({
-    onSwipedUp:() => setshowshowHeadFooter(false),
+    onSwipedUp:() => setshowshowHeadFooter(list.length > 4? false:true),
     onSwipedDown:()=> setshowshowHeadFooter(true),
     delta: 10,
   });
@@ -40,8 +40,8 @@ const Favorites = () => {
   }
 
   return (
-    <div {...handlers} className="min-h-screen flex flex-col">
-      <div  className={`bg-white fixed top-0 px-2 w-full z-20 border-b-2 border-black transition-transform duration-200 ${showHeadFooter? 'translate-y-0':'-translate-y-full'}`}>
+    <div {...handlers} className="min-h-screen flex flex-col contain-paint bg-[#FFFBF4]">
+      <div  className={`bg-white sticky top-0 px-2 w-full z-20 border-b-2 border-black transition-transform duration-200 ${showHeadFooter? 'translate-y-0':'-translate-y-full'}`}>
         <SearchRecipe  recipes={listBase} setlist={setshowlist}/>
         <Header pathName={pathName} />
       </div>
@@ -65,7 +65,7 @@ const Favorites = () => {
         </section>
       )}
 
-      <div className={`fixed bottom-0 w-full z-20 transition-transform duration-200 ${showHeadFooter? 'translate-y-0':'translate-y-full'}`}>
+      <div className={`sticky bottom-0 w-full z-20 transition-transform duration-200 ${showHeadFooter? 'translate-y-0':'translate-y-full'}`}>
         <Footer pathName={pathName}/>
       </div>
     </div>
