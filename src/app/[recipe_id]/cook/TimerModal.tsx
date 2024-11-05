@@ -121,46 +121,69 @@ const TimerModal = ({
             className="flex justify-center items-center h-full"
           >
             <div className="bg-white mx-20 w-full shadow-lg text-black rounded-3xl">
-              <div className="flex w-full justify-between mb-3">
-                <button
-                  onClick={() => reset()}
-                  className="bg-orange-400 text-white text-sm tracking-tighter ml-2 rounded-full px-2 w-20 mt-2 font-bold"
-                >
-                  リセット
-                </button>
+              <div className="flex w-full justify-end mb-3">
                 <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
               </div>
-              <div className="font-sans font-bold mx-5 mb-5 text-5xl text-center">
+              <div className="font-sans font-bold mx-5 mb-5 text-8xl text-center">
                 {timerDisp}
-                <div className="text-sm">　　　分　　　　秒</div>
               </div>
-              <div className="w-full flex justify-between font-bold mb-2">
-                <button
-                  onClick={() => {
-                    m.current++;
-                    setUpdate(!update);
-                    if (start) setStart(false);
-                  }}
-                  className="bg-orange-400 text-white rounded-full px-2 mx-3 w-16 h-16 mt-2"
-                >
-                  分
-                </button>
-                <button
-                  onClick={() => {
-                    s.current++;
-                    setUpdate(!update);
-                    if (start) setStart(false);
-                  }}
-                  className="bg-orange-400 text-white rounded-full px-2 w-16 h-16 mt-2 mr-5"
-                >
-                  秒
-                </button>
-                <button
-                  onClick={() => setStart(!start)}
-                  className="text-sm tracking-tighter leading-none bg-orange-400 text-white mx-5 rounded-full px-2 py-2 w-24 h-20"
-                >
-                  {start ? "ストップ" : "スタート"}
-                </button>
+              <div className="w-full font-bold mb-2">
+                <div className="flex justify-between mx-5 mb-5 leading-none">
+                  <button
+                    onClick={() => {
+                      m.current += 10;
+                      setUpdate(!update);
+                      if (start) setStart(false);
+                    }}
+                    className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
+                  >
+                    +10分
+                  </button>
+                  <button
+                    onClick={() => {
+                      m.current += 5;
+                      setUpdate(!update);
+                      if (start) setStart(false);
+                    }}
+                    className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
+                  >
+                    +5分
+                  </button>
+                  <button
+                    onClick={() => {
+                      m.current += 1;
+                      setUpdate(!update);
+                      if (start) setStart(false);
+                    }}
+                    className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
+                  >
+                    +1分
+                  </button>
+                  <button
+                    onClick={() => {
+                      s.current += 10;
+                      setUpdate(!update);
+                      if (start) setStart(false);
+                    }}
+                    className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
+                  >
+                    +10秒
+                  </button>
+                </div>
+                <div className="flex justify-between mx-5 mb-5">
+                  <button
+                    onClick={() => setStart(!start)}
+                    className="text-2xl tracking-tighter leading-none bg-orange-400 text-white rounded-full w-40 h-20 mr-5"
+                  >
+                    {start ? "ストップ" : "スタート"}
+                  </button>
+                  <button
+                    onClick={() => reset()}
+                    className="text-2xl tracking-tighter bg-orange-100 text-orange-400 rounded-full w-40 h-20"
+                  >
+                    リセット
+                  </button>
+                </div>
               </div>
             </div>
           </div>
