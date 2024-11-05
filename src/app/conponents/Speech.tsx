@@ -109,7 +109,6 @@ const Speech = ({
       command: "*ストップ*",
       callback: () => {
         setTimerStart(false);
-        resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
@@ -126,9 +125,11 @@ const Speech = ({
     {
       command: /(.*)ってどうするの.*/,
       callback: (material: string) => {
+        // FIXME いちょう切りが胃腸切りになっちゃう
         setKeyword(material);
         setYtModalOpen(true);
         setResponse(`${material}`);
+        console.log("get",material)
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
