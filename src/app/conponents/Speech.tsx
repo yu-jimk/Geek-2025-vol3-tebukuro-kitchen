@@ -16,10 +16,6 @@ type screenController = {
     num: number,
     setPage: React.Dispatch<React.SetStateAction<number>>
   ) => void;
-  dispModal: (
-    setIngModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    status: boolean
-  ) => void;
 };
 
 const Speech = ({
@@ -33,7 +29,7 @@ const Speech = ({
   setKeyword,
   setGuideModalOpen,
   setTimerModalOpen,
-  setStr,
+  setInputTime,
   setTimerStart,
 }: {
   next: screenController["next"];
@@ -46,14 +42,25 @@ const Speech = ({
   setKeyword: React.Dispatch<React.SetStateAction<string>>;
   setGuideModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setTimerModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setStr: React.Dispatch<React.SetStateAction<string>>;
+  setInputTime: React.Dispatch<React.SetStateAction<string>>;
   setTimerStart: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [response, setResponse] = useState("");
 
+  // useStateすごい
+  // const [lastModalStateAction, setLastModalStateAction] = useState<
+  //   React.Dispatch<React.SetStateAction<boolean>> | undefined
+  // >(undefined);
+  // useEffect(() => {
+  //   setLastModalStateAction(() => setIngModalOpen);
+  //   if (lastModalStateAction) {
+  //     lastModalStateAction(true);
+  //   }
+  // }, [lastModalStateAction, setLastModalStateAction, setIngModalOpen]);
+
   const commands = [
     {
-      command: "*進んで*",
+      command: /.*(進んで|進む|次へ|次).*/,
       //　*印は、雑音に影響されないよう命令の前後の文言を許容するため。起こる恐れのあるバグが不明のため、要検証
       callback: () => {
         next(num, length, setPage);
@@ -62,7 +69,7 @@ const Speech = ({
       },
     },
     {
-      command: "*戻って*",
+      command: /.*(戻って|戻る|前へ|前).*/,
       callback: () => {
         back(num, setPage);
         resetTranscript();
@@ -70,7 +77,7 @@ const Speech = ({
       },
     },
     {
-      command: "*材料は*",
+      command: /.*(材料).*/,
       callback: () => {
         setIngModalOpen(true);
         resetTranscript();
@@ -78,8 +85,9 @@ const Speech = ({
       },
     },
     {
-      command: "*閉じて*",
+      command: /.*(閉じて|閉じる).*/,
       callback: () => {
+        // TODO 最前面のモーダルだけ閉じるようにしたい
         setIngModalOpen(false);
         setYtModalOpen(false);
         setGuideModalOpen(false);
@@ -90,7 +98,7 @@ const Speech = ({
       },
     },
     {
-      command: "*スタート*",
+      command: /.*(スタート).*/,
       callback: () => {
         setTimerStart(true);
         resetTranscript();
@@ -98,43 +106,36 @@ const Speech = ({
       },
     },
     {
-      command: "*ストップ*",
+      command: /.*(ストップ).*/,
       callback: () => {
         setTimerStart(false);
-        resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
-      command: "タイマー*セットして",
+      command: /.*タイマー(.*)セット.*/,
       callback: (material: string) => {
-        setStr(material.replace(/\s+/g, "")); //スペース削除
+        console.log(material);
+        setInputTime(material.replace(/\s+/g, "")); //スペース削除
         setResponse(material.replace(/\s+/g, ""));
-        setTimerModalOpen(true);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
-      command: "*の量は",
+      command: /(.*)ってどうするの.*/,
       callback: (material: string) => {
-        setResponse(`${material}`);
-        resetTranscript();
-        SpeechRecognition.startListening({ continuous: true });
-      },
-    },
-    {
-      command: "*ってどうするの",
-      callback: (material: string) => {
+        // FIXME いちょう切りが胃腸切りになっちゃう
         setKeyword(material);
         setYtModalOpen(true);
         setResponse(`${material}`);
+        console.log("get",material)
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
-      command: "*ガイド*",
+      command: /.*(ガイド).*/,
       callback: () => {
         setGuideModalOpen(true);
         setResponse(`guide`);
@@ -185,8 +186,8 @@ const Speech = ({
       {/* <p className="text-black fixed top-32 bg-black bg-opacity-20">
         response : {response}
       </p> */}
-      <div className="w-full flex justify-center items-center">
-        <span className="z-50 flex overflow-hidden justify-end whitespace-nowrap max-w-24 h-5 text-white fixed bottom-0 bg-black bg-opacity-20">
+      <div className="w-full flex justify-end items-center font-mono">
+        <span className="z-10 flex overflow-hidden justify-end whitespace-nowrap w-[50vw] h-6 mb-14 text-white fixed bottom-0 bg-black bg-opacity-30">
           {transcript}
         </span>
       </div>

@@ -12,6 +12,10 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      screens: {
+        'button':'320px',
+        'timer':'390px'
+      },
     },
   },
   plugins: [],

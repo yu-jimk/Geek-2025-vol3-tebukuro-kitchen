@@ -15,32 +15,43 @@ const IngModal = ({ modalClose }: { modalClose: () => void }) => {
           onClick={bgClickClose}
           className="flex justify-center items-center h-full"
         >
-          <div className="bg-white mx-10 shadow-lg text-black">
+          <div className="bg-white mx-10 shadow-lg text-black rounded-3xl">
             <div className="flex w-full justify-end">
               <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
             </div>
             <div className="font-bold mx-5 w-52 text-xl border-b-2 border-orange-400">
               音声認識ガイド
             </div>
-            <div className="mx-5 mt-5 mb-5">
-              <span className="font-bold text-lg text-orange-400">「進んで」</span>
-              　ページを進めます。
-              <br />
-              <span className="font-bold text-lg text-orange-400">「戻って」</span>
-              　ページを戻します。
-              <br />
-              <br />
-              <span className="font-bold text-lg text-orange-400">「材料は?」</span>
-              　必要な材料を一覧表示します。
-              <br />
-              <div className="font-bold text-lg text-orange-400">「~ってどうするの?」</div>
-              　切り方等をYoutubeで検索し、動画を再生します。
-              <br />
-              <div className="font-bold text-lg text-orange-400">「タイマーxxセットして」</div>
-              　タイマーをxxの時間セットして、表示します。
-              <br />
-              <div className="font-bold text-lg text-orange-400">「閉じて」</div>
-              　材料一覧や動画などの表示を閉じます。
+            <div className="mx-2 mt-5 mb-5">
+              <div className="font-bold text-lg text-orange-400">
+                「進んで」
+              </div>
+              <div className="ml-8 mb-2">1ページ進みます。</div>
+              <div className="font-bold text-lg text-orange-400">
+                「戻って」
+              </div>
+              <div className="ml-8 mb-2">1ページ戻ります。</div>
+              <div className="font-bold text-lg text-orange-400">
+                「材料は?」
+              </div>
+              <div className="ml-8 mb-2">材料を表示します。</div>
+              <div className="font-bold text-lg text-orange-400">
+                「~ってどうするの?」
+              </div>
+              <div className="ml-8 mb-2">切り方の動画を再生します。</div>
+              <div className="font-bold text-lg text-orange-400">
+                「タイマーxxセット」
+              </div>
+              <div className="ml-8 mb-2">
+                タイマーをxxの時間セットして、表示します。
+                <div className="text-sm text-gray-500">
+                  {"(例) タイマー3分セット"}
+                </div>
+              </div>
+              <div className="font-bold text-lg text-orange-400">
+                「閉じて」
+              </div>
+              <div className="ml-8">表示を閉じます。</div>
             </div>
           </div>
         </div>
