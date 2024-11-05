@@ -46,6 +46,7 @@ const Cook = ({
   searchParams: { from?: string };
 }) => {
   const [title, setTitle] = useState<string>(""); // 料理画面　上部タイトル
+  const [howMany, setHowMany] = useState<string>(""); // 材料表示　何人前
   const [descript, setDescript] = useState<Descript[]>([]); // レシピの説明文　データベースから取得
   const [ingredient, setIngredient] = useState<Ingredient[]>([]); // 材料　データベースから取得
   useEffect(() => {
@@ -54,6 +55,7 @@ const Cook = ({
       const desc = await getByDescriptId(params.recipe_id);
       const ing = await getByIngredientId(params.recipe_id);
       setTitle(rec[0].name);
+      rec[0].howmany ? setHowMany(rec[0].howmany) : setHowMany("")
       setDescript(desc);
       setIngredient(ing);
     };
@@ -180,6 +182,7 @@ const Cook = ({
                 setIngModalOpen(false);
               }}
               ingredient={ingredient}
+              howMany = {howMany}
             />
           )}
           {ytModalOpen && (
