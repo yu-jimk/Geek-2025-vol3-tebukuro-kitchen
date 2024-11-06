@@ -23,7 +23,7 @@
   num2TimerTextにh,m,sの参照をそのまま渡せば対処できると思うが、果たしてそれは適切なのかどうか...
 */
 
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 import { num2TimerText, str2TimerText } from "./timerFunc";
 import { IoMdClose } from "react-icons/io";
 
@@ -52,6 +52,10 @@ const TimerModal = ({
   const [update, setUpdate] = useState(false); // 値更新検出用
   const [min, setMin] = useState(0);
   const [sec, setSec] = useState(0);
+  const alarm = useRef<HTMLAudioElement>();
+  useEffect(() => {
+    alarm.current = new Audio("/TimerAlarm.mp3");
+  }, [alarm]);
 
   // 音声入力された時のみ変換して初期化
   useEffect(() => {
@@ -75,15 +79,22 @@ const TimerModal = ({
     }
   }, [update, setTimerDisp, setInUse]);
 
+  // アラーム終了時の処理
+  if (alarm.current) {
+    alarm.current.onended = () => {
+      setStart(false);
+      reset();
+    };
+  }
+
   useEffect(() => {
-    const alarm = new Audio("/TimerAlarm.mp3");
     setTimerDisp(num2TimerText(min, sec, setMin, setSec, false));
     let manager: NodeJS.Timeout;
     if (start) {
       manager = setInterval(() => {
         if (sec <= 0 && min == 0) {
           clearInterval(manager);
-          alarm.play();
+          if (alarm.current) alarm.current.play();
         } else {
           setSec(sec - 1);
           if (sec == 0) {
@@ -102,6 +113,10 @@ const TimerModal = ({
   }, [setTimerDisp, start, setStart, min, sec]);
 
   const reset = () => {
+    if (alarm.current) {
+      alarm.current.pause();
+      alarm.current.currentTime = 0;
+    }
     setMin(0);
     setSec(0);
     setStart(false);
