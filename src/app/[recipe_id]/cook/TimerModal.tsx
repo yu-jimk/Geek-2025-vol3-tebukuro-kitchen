@@ -50,36 +50,34 @@ const TimerModal = ({
 }) => {
   const [inUse, setInUse] = useState(false); // タイマーの使用中判定（左下表示判定用）
   const [update, setUpdate] = useState(false); // 値更新検出用
-  const [min, setMin] = useState(0)
-  const [sec, setSec] = useState(0)
+  const [min, setMin] = useState(0);
+  const [sec, setSec] = useState(0);
 
   // 音声入力された時のみ変換して初期化
   useEffect(() => {
     if (inputTime != "") {
       const { m, s } = str2TimerText(inputTime);
-      setMin(m)
-      setSec(s)
+      setMin(m);
+      setSec(s);
       setInUse(true);
       setUpdate(!update);
       setInputTime(""); //一旦毎回リセットするようにする
     }
   }, [inputTime, setInputTime, setInUse, update]);
 
+  // タイマー更新関数
   useEffect(() => {
-    setTimerDisp(num2TimerText(min, sec));
+    setTimerDisp(num2TimerText(min, sec, setMin, setSec, true));
     if (min == 0 && sec == 0) {
       setInUse(false);
     } else {
       setInUse(true);
     }
   }, [update, setTimerDisp, setInUse]);
-  useEffect(() => {
-    console.log(min,sec)
-  },[min,sec])
 
   useEffect(() => {
     const alarm = new Audio("/TimerAlarm.mp3");
-    setTimerDisp(num2TimerText(min, sec));
+    setTimerDisp(num2TimerText(min, sec, setMin, setSec, false));
     let manager: NodeJS.Timeout;
     if (start) {
       manager = setInterval(() => {
@@ -87,13 +85,13 @@ const TimerModal = ({
           clearInterval(manager);
           alarm.play();
         } else {
-          setSec(sec-1)
+          setSec(sec - 1);
           if (sec == 0) {
-            setSec(59)
-            setMin(min-1)
+            setSec(59);
+            setMin(min - 1);
           }
         }
-        setTimerDisp(num2TimerText(min, sec));
+        setTimerDisp(num2TimerText(min, sec, setMin, setSec, false));
       }, 1000);
     }
     return () => {
@@ -101,11 +99,11 @@ const TimerModal = ({
         clearInterval(manager);
       }
     };
-  }, [setTimerDisp, start, setStart,min,sec]);
+  }, [setTimerDisp, start, setStart, min, sec]);
 
   const reset = () => {
-    setMin(0)
-    setSec(0)
+    setMin(0);
+    setSec(0);
     setStart(false);
     setUpdate(!update);
   };
@@ -133,7 +131,7 @@ const TimerModal = ({
                 <div className="flex justify-between mx-5 mb-5 leading-none">
                   <button
                     onClick={() => {
-                      setMin(min+10)
+                      setMin(min + 10);
                       setUpdate(!update);
                       if (start) setStart(false);
                     }}
@@ -143,7 +141,7 @@ const TimerModal = ({
                   </button>
                   <button
                     onClick={() => {
-                      setMin(min+5)
+                      setMin(min + 5);
                       setUpdate(!update);
                       if (start) setStart(false);
                     }}
@@ -153,7 +151,7 @@ const TimerModal = ({
                   </button>
                   <button
                     onClick={() => {
-                      setMin(min+1)
+                      setMin(min + 1);
                       setUpdate(!update);
                       if (start) setStart(false);
                     }}
@@ -163,7 +161,7 @@ const TimerModal = ({
                   </button>
                   <button
                     onClick={() => {
-                      setSec(sec+10)
+                      setSec(sec + 10);
                       setUpdate(!update);
                       if (start) setStart(false);
                     }}

@@ -29,7 +29,19 @@ export const parseStr2sec = (str: string): number => {
   return Math.trunc(miliSec / 1000); //小数点以下切り捨て
 };
 
-export const num2TimerText = (min: number, sec: number) => {
+export const num2TimerText = (
+  min: number,
+  sec: number,
+  setMin: React.Dispatch<React.SetStateAction<number>>,
+  setSec: React.Dispatch<React.SetStateAction<number>>,
+  init: boolean 
+  /* 
+    init : 初期化True or 更新False
+    初期化の時は値変更ごとにstateを更新する。
+    更新の時はstateをここでは書き換えない。
+    手動操作による表示される値と内部の値との相違を防止するための引数
+  */
+) => {
   let timerText: string = "";
   let m = min;
   let s = sec;
@@ -40,7 +52,10 @@ export const num2TimerText = (min: number, sec: number) => {
     if (multi <= 1) m++;
     else m += multi;
   }
-
+  if (init) {
+    setMin(m);
+    setSec(s);
+  }
   if (m < 10) timerText += `0${m}:`;
   else timerText += `${m}:`;
   if (s < 10) timerText += `0${s}`;
