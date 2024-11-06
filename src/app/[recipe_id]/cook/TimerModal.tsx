@@ -23,7 +23,7 @@
   num2TimerTextにh,m,sの参照をそのまま渡せば対処できると思うが、果たしてそれは適切なのかどうか...
 */
 
-import { SetStateAction, useEffect, useRef, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { num2TimerText, str2TimerText } from "./timerFunc";
 import { IoMdClose } from "react-icons/io";
 
@@ -50,10 +50,9 @@ const TimerModal = ({
 }) => {
   const [inUse, setInUse] = useState(false); // タイマーの使用中判定（左下表示判定用）
   const [update, setUpdate] = useState(false); // 値更新検出用
-  // const m = useRef(0);
   const [min, setMin] = useState(0)
   const [sec, setSec] = useState(0)
-  // const s = useRef(0);
+
   // 音声入力された時のみ変換して初期化
   useEffect(() => {
     if (inputTime != "") {
