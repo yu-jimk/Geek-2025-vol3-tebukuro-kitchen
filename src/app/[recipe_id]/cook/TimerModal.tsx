@@ -50,15 +50,16 @@ const TimerModal = ({
 }) => {
   const [inUse, setInUse] = useState(false); // タイマーの使用中判定（左下表示判定用）
   const [update, setUpdate] = useState(false); // 値更新検出用
-  const m = useRef(0);
-  const s = useRef(0);
-
+  // const m = useRef(0);
+  const [min, setMin] = useState(0)
+  const [sec, setSec] = useState(0)
+  // const s = useRef(0);
   // 音声入力された時のみ変換して初期化
   useEffect(() => {
     if (inputTime != "") {
-      const { min, sec } = str2TimerText(inputTime);
-      m.current = min;
-      s.current = sec;
+      const { m, s } = str2TimerText(inputTime);
+      setMin(m)
+      setSec(s)
       setInUse(true);
       setUpdate(!update);
       setInputTime(""); //一旦毎回リセットするようにする
@@ -66,32 +67,34 @@ const TimerModal = ({
   }, [inputTime, setInputTime, setInUse, update]);
 
   useEffect(() => {
-    setTimerDisp(num2TimerText(m.current, s.current));
-    if (m.current == 0 && s.current == 0) {
+    setTimerDisp(num2TimerText(min, sec));
+    if (min == 0 && sec == 0) {
       setInUse(false);
     } else {
       setInUse(true);
     }
   }, [update, setTimerDisp, setInUse]);
+  useEffect(() => {
+    console.log(min,sec)
+  },[min,sec])
 
   useEffect(() => {
     const alarm = new Audio("/TimerAlarm.mp3");
-    setTimerDisp(num2TimerText(m.current, s.current));
+    setTimerDisp(num2TimerText(min, sec));
     let manager: NodeJS.Timeout;
     if (start) {
       manager = setInterval(() => {
-        if (s.current <= 0 && m.current == 0) {
+        if (sec <= 0 && min == 0) {
           clearInterval(manager);
-          setStart(false);
           alarm.play();
         } else {
-          s.current--;
-          if (s.current == -1) {
-            s.current = 59;
-            m.current--;
+          setSec(sec-1)
+          if (sec == 0) {
+            setSec(59)
+            setMin(min-1)
           }
         }
-        setTimerDisp(num2TimerText(m.current, s.current));
+        setTimerDisp(num2TimerText(min, sec));
       }, 1000);
     }
     return () => {
@@ -99,11 +102,11 @@ const TimerModal = ({
         clearInterval(manager);
       }
     };
-  }, [setTimerDisp, start, setStart]);
+  }, [setTimerDisp, start, setStart,min,sec]);
 
   const reset = () => {
-    m.current = 0;
-    s.current = 0;
+    setMin(0)
+    setSec(0)
     setStart(false);
     setUpdate(!update);
   };
@@ -131,7 +134,7 @@ const TimerModal = ({
                 <div className="flex justify-between mx-5 mb-5 leading-none">
                   <button
                     onClick={() => {
-                      m.current += 10;
+                      setMin(min+10)
                       setUpdate(!update);
                       if (start) setStart(false);
                     }}
@@ -141,7 +144,7 @@ const TimerModal = ({
                   </button>
                   <button
                     onClick={() => {
-                      m.current += 5;
+                      setMin(min+5)
                       setUpdate(!update);
                       if (start) setStart(false);
                     }}
@@ -151,7 +154,7 @@ const TimerModal = ({
                   </button>
                   <button
                     onClick={() => {
-                      m.current += 1;
+                      setMin(min+1)
                       setUpdate(!update);
                       if (start) setStart(false);
                     }}
@@ -161,7 +164,7 @@ const TimerModal = ({
                   </button>
                   <button
                     onClick={() => {
-                      s.current += 10;
+                      setSec(sec+10)
                       setUpdate(!update);
                       if (start) setStart(false);
                     }}

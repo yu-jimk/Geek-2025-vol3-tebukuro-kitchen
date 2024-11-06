@@ -49,9 +49,9 @@ export const num2TimerText = (min: number, sec: number) => {
 };
 
 export const str2TimerText = (str: string) => {
-  let sec: number = parseStr2sec(str);
-  const min = Math.floor(sec / 60);
-  sec -= min * 60;
+  let s: number = parseStr2sec(str);
+  const m = Math.floor(s / 60);
+  s -= m * 60;
 
-  return { min, sec };
+  return { m, s };
 };
