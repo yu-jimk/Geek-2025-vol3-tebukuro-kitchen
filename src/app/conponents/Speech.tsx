@@ -109,13 +109,13 @@ const Speech = ({
       command: /.*(ストップ).*/,
       callback: () => {
         setTimerStart(false);
+        resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
     },
     {
       command: /.*タイマー(.*)セット.*/,
       callback: (material: string) => {
-        console.log(material);
         setInputTime(material.replace(/\s+/g, "")); //スペース削除
         setResponse(material.replace(/\s+/g, ""));
         resetTranscript();
@@ -129,7 +129,7 @@ const Speech = ({
         setKeyword(material);
         setYtModalOpen(true);
         setResponse(`${material}`);
-        console.log("get",material)
+        console.log("[get]",material)
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },

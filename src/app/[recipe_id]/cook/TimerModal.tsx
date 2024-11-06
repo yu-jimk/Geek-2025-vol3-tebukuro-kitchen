@@ -112,6 +112,10 @@ const TimerModal = ({
     };
   }, [setTimerDisp, start, setStart, min, sec]);
 
+  const start_stop = () => {
+    if (min !== 0 || sec !== 0) setStart(!start);
+    else reset();
+  };
   const reset = () => {
     if (alarm.current) {
       alarm.current.pause();
@@ -187,7 +191,7 @@ const TimerModal = ({
                 </div>
                 <div className="flex justify-between mx-5 mb-5">
                   <button
-                    onClick={() => setStart(!start)}
+                    onClick={() => start_stop()}
                     className="text-2xl tracking-tighter leading-none bg-orange-400 text-white rounded-full w-40 h-20 mr-5"
                   >
                     {start ? "ストップ" : "スタート"}
