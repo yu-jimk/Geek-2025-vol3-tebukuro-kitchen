@@ -49,6 +49,8 @@ const Cook = ({
   const [howMany, setHowMany] = useState<string>(""); // 材料表示　何人前
   const [descript, setDescript] = useState<Descript[]>([]); // レシピの説明文　データベースから取得
   const [ingredient, setIngredient] = useState<Ingredient[]>([]); // 材料　データベースから取得
+
+  // データベースからデータの取得
   useEffect(() => {
     const getRecipes = async () => {
       const rec = await getRecipesbyId(params.recipe_id);
@@ -61,7 +63,7 @@ const Cook = ({
     };
     getRecipes();
   }, [params.recipe_id]);
-  const length = descript.length;
+  const length = descript.length; // 説明文のページ数
 
   const [page, setPage] = useState(0); //現在のページ（番号）
 
@@ -75,8 +77,9 @@ const Cook = ({
 
   const [inputTime, setInputTime] = useState(""); // 音声で認識したタイマーの時間
   const [timerStart, setTimerStart] = useState(false); // タイマーがスタートされているかどうか
-  const [timerDisp, setTimerDisp] = useState(""); // タイマーのテキスト (左下表示用）
+  const [timerDisp, setTimerDisp] = useState(""); // タイマーのテキスト
 
+  // 音声認識コンポーネントでのページ操作用関数
   const back = (
     num: number,
     setPage: React.Dispatch<React.SetStateAction<number>>
@@ -90,12 +93,15 @@ const Cook = ({
   ) => {
     num == page - 1 ? setPage(num) : setPage(num + 1);
   };
-  const from = searchParams?.from; // ヘッダーの戻るボタン用
+
+  // ヘッダーの戻るボタン用
+  const from = searchParams?.from;
   const recipePage =
     from === "favorites"
       ? `/${params.recipe_id}?from=favorites`
       : `/${params.recipe_id}`;
-  const imageSrc = descript[page]?.image_url ?? "";
+
+  const imageSrc = descript[page]?.image_url ?? ""; // 画像のＵＲＬ
 
   return (
     <>

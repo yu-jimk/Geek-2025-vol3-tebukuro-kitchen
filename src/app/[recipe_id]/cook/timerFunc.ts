@@ -2,6 +2,7 @@ type unit = {
   [key: string]: number;
 };
 
+// 文字列をミリ秒に変換する関数
 export const parseStr2sec = (str: string): number => {
   //                      優先度 高->低
   const regex = /(\d+)\s*(秒|分半|分|時間半|時間)/g;
@@ -29,6 +30,7 @@ export const parseStr2sec = (str: string): number => {
   return Math.trunc(miliSec / 1000); //小数点以下切り捨て
 };
 
+// 分、秒の数字をタイマーのテキストに変換する関数
 export const num2TimerText = (
   min: number,
   sec: number,
@@ -63,6 +65,7 @@ export const num2TimerText = (
   return timerText;
 };
 
+// 文字列をタイマーのテキストに変換する関数
 export const str2TimerText = (str: string) => {
   let s: number = parseStr2sec(str);
   const m = Math.floor(s / 60);

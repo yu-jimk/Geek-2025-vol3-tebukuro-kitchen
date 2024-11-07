@@ -2,6 +2,7 @@ import React from "react";
 import { IoMdClose } from "react-icons/io";
 
 const IngModal = ({ modalClose }: { modalClose: () => void }) => {
+  // 背景押したら閉じるやつ
   const bgClickClose = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       modalClose();

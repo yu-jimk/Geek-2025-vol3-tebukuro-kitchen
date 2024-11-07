@@ -25,10 +25,13 @@ const TimerModal = ({
 }) => {
   const [inUse, setInUse] = useState(false); // タイマーの使用中判定（左下表示判定用）
   const [update, setUpdate] = useState(false); // 値更新検出用
-  const [min, setMin] = useState(0);
-  const [sec, setSec] = useState(0);
-  const alarm = useRef<HTMLAudioElement>();
-  const [playing, setPlaying] = useState(false);
+
+  const [min, setMin] = useState(0); // 分
+  const [sec, setSec] = useState(0); // 秒
+
+  const alarm = useRef<HTMLAudioElement>(); // アラーム用変数
+  const [playing, setPlaying] = useState(false); // アラームが再生しているかどうか
+  // アラームの初期化
   useEffect(() => {
     alarm.current = new Audio("/TimerAlarm.mp3");
   }, [alarm]);
@@ -55,7 +58,7 @@ const TimerModal = ({
     }
   }, [update, setTimerDisp, setInUse]);
 
-  // アラーム終了時の処理
+  // アラーム終了時の処理　（終了するまではstart判定はtrueのまま）
   if (alarm.current) {
     alarm.current.onended = () => {
       setStart(false);
@@ -63,6 +66,7 @@ const TimerModal = ({
     };
   }
 
+  // タイマーのインターバル処理
   useEffect(() => {
     setTimerDisp(num2TimerText(min, sec, setMin, setSec, false));
     let manager: NodeJS.Timeout;
@@ -91,6 +95,7 @@ const TimerModal = ({
     };
   }, [setTimerDisp, start, setStart, min, sec]);
 
+  // リセットボタン
   const reset = () => {
     if (alarm.current) {
       alarm.current.pause();
@@ -103,20 +108,24 @@ const TimerModal = ({
     setUpdate(!update);
   };
 
+  // スタート、ストップボタン
   const start_stop = () => {
     if (min !== 0 || sec !== 0) setStart(!start);
     else reset();
   };
 
+  // アラームが鳴っている時のストップボタン
   useEffect(() => {
     if (playing && (min == 0 || sec == 0)) reset();
   }, [start]);
 
+  // 背景押したら閉じるやつ
   const bgClickClose = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       modalClose();
     }
   };
+
   return (
     <>
       <div className={timerModalOpen ? "block" : "hidden"}>
@@ -195,6 +204,7 @@ const TimerModal = ({
         </div>
       </div>
 
+      {/* 左下のミニタイマー */}
       {inUse ? (
         <div
           onClick={() => setTimerModalOpen(true)}

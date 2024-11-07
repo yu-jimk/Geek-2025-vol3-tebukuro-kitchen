@@ -2,6 +2,7 @@ import { Ingredient } from "@/app/types";
 import React from "react";
 import { IoMdClose } from "react-icons/io";
 
+// ハイライトする材料の配列番号を検出する関数
 const highLight = (descript: string, ingredient: Ingredient[]) => {
   const foundIndex: number[] = [];
   for (let i = 0; i < ingredient.length; i++) {
@@ -25,12 +26,14 @@ const IngModal = ({
   descript?: string;
   howMany: string;
 }) => {
+  // 背景押したら閉じるやつ
   const bgClickClose = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       modalClose();
     }
   };
 
+  // ハイライトする配列番号の取得
   let highLightWord: number[];
   if (descript) {
     highLightWord = highLight(descript, ingredient);
