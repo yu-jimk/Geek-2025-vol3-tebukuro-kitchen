@@ -53,6 +53,7 @@ const TimerModal = ({
   const [min, setMin] = useState(0);
   const [sec, setSec] = useState(0);
   const alarm = useRef<HTMLAudioElement>();
+  const [playing, setPlaying] = useState(false);
   useEffect(() => {
     alarm.current = new Audio("/TimerAlarm.mp3");
   }, [alarm]);
@@ -94,7 +95,10 @@ const TimerModal = ({
       manager = setInterval(() => {
         if (sec <= 0 && min == 0) {
           clearInterval(manager);
-          if (alarm.current) alarm.current.play();
+          if (alarm.current) {
+            alarm.current.play();
+            setPlaying(true);
+          }
         } else {
           setSec(sec - 1);
           if (sec == 0) {
@@ -112,20 +116,27 @@ const TimerModal = ({
     };
   }, [setTimerDisp, start, setStart, min, sec]);
 
-  const start_stop = () => {
-    if (min !== 0 || sec !== 0) setStart(!start);
-    else reset();
-  };
   const reset = () => {
     if (alarm.current) {
       alarm.current.pause();
       alarm.current.currentTime = 0;
+      setPlaying(false)
     }
     setMin(0);
     setSec(0);
     setStart(false);
     setUpdate(!update);
   };
+
+  const start_stop = () => {
+    if (min !== 0 || sec !== 0) setStart(!start);
+    else reset();
+  };
+
+  useEffect(() => {
+    if ((playing && min == 0) || sec == 0) reset();
+  }, [start]);
+
   const bgClickClose = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       modalClose();
