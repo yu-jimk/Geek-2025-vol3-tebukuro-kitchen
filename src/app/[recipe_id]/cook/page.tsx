@@ -55,7 +55,7 @@ const Cook = ({
       const desc = await getByDescriptId(params.recipe_id);
       const ing = await getByIngredientId(params.recipe_id);
       setTitle(rec[0].name);
-      rec[0].howmany ? setHowMany(rec[0].howmany) : setHowMany("")
+      rec[0].howmany ? setHowMany(rec[0].howmany) : setHowMany("");
       setDescript(desc);
       setIngredient(ing);
     };
@@ -111,7 +111,7 @@ const Cook = ({
           {title != "" ? ( //ヘッダーのタイトルのロードが完了したら表示（より自然に）
             <button
               onClick={() => setGuideModalOpen(!guideModalOpen)}
-              className="bg-transparent font-bold fixed z-50 p-3.5 hidden button:block"
+              className="bg-transparent font-bold fixed z-50 p-3.5 hidden button:block text-white"
             >
               <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-7" />
               ガイド
@@ -183,7 +183,7 @@ const Cook = ({
               }}
               ingredient={ingredient}
               descript={descript[page]?.text}
-              howMany = {howMany}
+              howMany={howMany}
             />
           )}
           {ytModalOpen && (
@@ -263,7 +263,7 @@ const Cook = ({
             </button>
           )}
         </div>
-        <div className="z-20 bg-orange-400 w-full fixed bottom-0 h-14 flex justify-center">
+        <div className="z-20 bg-orange-400 w-full fixed bottom-0 h-14 flex justify-center text-white">
           <div className="absolute -top-10 bg-orange-400 w-24 h-24 rounded-full flex justify-center">
             <IoMicOutline className="relative w-12 h-12 top-6" />
           </div>

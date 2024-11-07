@@ -6,10 +6,9 @@ const highLight = (descript: string, ingredient: Ingredient[]) => {
   const foundIndex: number[] = [];
   for (let i = 0; i < ingredient.length; i++) {
     const regex = new RegExp(ingredient[i].name);
-    console.log(regex.exec(descript));
     const match = regex.exec(descript);
     if (match !== null) {
-      foundIndex.push(match.index);
+      foundIndex.push(i);
     }
   }
   return foundIndex;
@@ -39,7 +38,7 @@ const IngModal = ({
 
   return (
     <>
-      <div className="bg-black bg-opacity-50 fixed inset-x-0 top-0 bottom-0">
+      <div className="bg-black bg-opacity-50 fixed inset-x-0 top-0 bottom-0 font-mono">
         <div
           onClick={bgClickClose}
           className="flex justify-center items-center h-full"
@@ -52,7 +51,6 @@ const IngModal = ({
               {`材料${howMany == "" ? "" : `${howMany}人前`}`}
             </div>
             <div className="mb-5">
-              {/* filter?\ */}
               {ingredient.map((ing: Ingredient) => (
                 <div
                   key={ing.index}
@@ -63,7 +61,24 @@ const IngModal = ({
                   }
                   `}
                 >
-                  <span className="ml-3 mb-1 text-black">{ing.name}</span>
+                  {highLightWord.length !== 0 ? (
+                    highLightWord.map((index: number) =>
+                      ing.index == index ? (
+                        <span
+                          key={index}
+                          className="ml-3 mb-1 text-orange-400 font-bold"
+                        >
+                          {ing.name}
+                        </span>
+                      ) : (
+                        <span key={index} className="ml-3 mb-1 text-black">
+                          {ing.name}
+                        </span>
+                      )
+                    )
+                  ) : (
+                    <span className="ml-3 mb-1 text-black">{ing.name}</span>
+                  )}
                   <span className="mr-3 text-black">{ing.amount}</span>
                 </div>
               ))}
