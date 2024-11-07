@@ -67,6 +67,7 @@ const Speech = ({
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
     },
     {
       command: /.*(戻って|戻る|前へ|前).*/,
@@ -75,6 +76,7 @@ const Speech = ({
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
     },
     {
       command: /.*(材料).*/,
@@ -83,6 +85,7 @@ const Speech = ({
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
     },
     {
       command: /.*(閉じて|閉じる).*/,
@@ -96,6 +99,7 @@ const Speech = ({
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
     },
     {
       command: /.*(スタート).*/,
@@ -104,6 +108,7 @@ const Speech = ({
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
     },
     {
       command: /.*(ストップ).*/,
@@ -112,6 +117,7 @@ const Speech = ({
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
     },
     {
       command: /.*タイマー(.*)セット.*/,
@@ -121,6 +127,7 @@ const Speech = ({
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
     },
     {
       command: /(.*)ってどうするの.*/,
@@ -129,10 +136,11 @@ const Speech = ({
         setKeyword(material);
         setYtModalOpen(true);
         setResponse(`${material}`);
-        console.log("[get]",material)
+        console.log("[get]", material);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
     },
     {
       command: /.*(ガイド).*/,
@@ -142,6 +150,7 @@ const Speech = ({
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
     },
   ];
 
