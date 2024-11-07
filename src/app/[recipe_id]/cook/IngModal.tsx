@@ -2,13 +2,28 @@ import { Ingredient } from "@/app/types";
 import React from "react";
 import { IoMdClose } from "react-icons/io";
 
+const highLight = (descript: string, ingredient: Ingredient[]) => {
+  let foundIndex: number[] = [];
+  for (let i = 0; i < ingredient.length; i++) {
+    const regex = new RegExp(ingredient[i].name);
+    console.log(regex.exec(descript));
+    const match = regex.exec(descript);
+    if (match !== null) {
+      foundIndex.push(match.index);
+    }
+  }
+  return foundIndex;
+};
+
 const IngModal = ({
   modalClose,
   ingredient,
+  descript,
   howMany,
 }: {
   modalClose: () => void;
   ingredient: Ingredient[];
+  descript?: string;
   howMany: string;
 }) => {
   const bgClickClose = (e: React.MouseEvent) => {
@@ -16,6 +31,11 @@ const IngModal = ({
       modalClose();
     }
   };
+
+  let highLightWord: number[];
+  if (descript) {
+    highLightWord = highLight(descript, ingredient);
+  }
 
   return (
     <>
@@ -32,6 +52,7 @@ const IngModal = ({
               {`材料${howMany == "" ? "" : `${howMany}人前`}`}
             </div>
             <div className="mb-5">
+              {/* filter?\ */}
               {ingredient.map((ing: Ingredient) => (
                 <div
                   key={ing.index}
@@ -39,11 +60,10 @@ const IngModal = ({
                     ing.index == ingredient.length - 1
                       ? ""
                       : "border-b-2 border-dotted border-gray-500"
-                  }`}
+                  }
+                  `}
                 >
-                  <span className="ml-3 mb-1 text-black">
-                    {ing.name}
-                  </span>
+                  <span className="ml-3 mb-1 text-black">{ing.name}</span>
                   <span className="mr-3 text-black">{ing.amount}</span>
                 </div>
               ))}

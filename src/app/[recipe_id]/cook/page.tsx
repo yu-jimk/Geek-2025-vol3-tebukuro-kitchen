@@ -182,6 +182,7 @@ const Cook = ({
                 setIngModalOpen(false);
               }}
               ingredient={ingredient}
+              descript={descript[page]?.text}
               howMany = {howMany}
             />
           )}
