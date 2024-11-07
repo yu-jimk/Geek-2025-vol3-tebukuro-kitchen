@@ -3,7 +3,7 @@ import React from "react";
 import { IoMdClose } from "react-icons/io";
 
 const highLight = (descript: string, ingredient: Ingredient[]) => {
-  let foundIndex: number[] = [];
+  const foundIndex: number[] = [];
   for (let i = 0; i < ingredient.length; i++) {
     const regex = new RegExp(ingredient[i].name);
     console.log(regex.exec(descript));
