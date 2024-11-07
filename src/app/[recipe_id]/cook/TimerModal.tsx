@@ -134,7 +134,7 @@ const TimerModal = ({
   };
 
   useEffect(() => {
-    if ((playing && min == 0) || sec == 0) reset();
+    if (playing && (min == 0 || sec == 0)) reset();
   }, [start]);
 
   const bgClickClose = (e: React.MouseEvent) => {
