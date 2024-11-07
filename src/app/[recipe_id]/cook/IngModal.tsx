@@ -64,23 +64,17 @@ const IngModal = ({
                   }
                   `}
                 >
-                  {highLightWord.length !== 0 ? (
-                    highLightWord.map((index: number) =>
-                      ing.index == index ? (
-                        <span
-                          key={index}
-                          className="ml-3 mb-1 text-orange-400 font-bold"
-                        >
-                          {ing.name}
-                        </span>
-                      ) : (
-                        <span key={index} className="ml-3 mb-1 text-black">
-                          {ing.name}
-                        </span>
-                      )
-                    )
+                  {highLightWord.includes(ing.index ?? -1) ? (
+                    <span
+                      key={ing.index}
+                      className="ml-3 mb-1 text-orange-400 font-bold"
+                    >
+                      {ing.name}
+                    </span>
                   ) : (
-                    <span className="ml-3 mb-1 text-black">{ing.name}</span>
+                    <span key={ing.index} className="ml-3 mb-1 text-black">
+                      {ing.name}
+                    </span>
                   )}
                   <span className="mr-3 text-black">{ing.amount}</span>
                 </div>
