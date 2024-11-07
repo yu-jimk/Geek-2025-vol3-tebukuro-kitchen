@@ -136,8 +136,12 @@ const Registration = () => {
                   />
                 </div>
               </section>
+              {/* zodのエラー文 */}
+              <div className="text-red-500">
+                {errors.recipe?.recipe_image?.message}
+              </div>
               <section className="items-center border-b border-gray-400 bg-[#FEF9EC]">
-                <section className='flex'>
+                <section className="flex">
                   <FaPen className="ml-3 text-gray-400 text-2xl" />
                   <input
                     {...register("recipe.recipe_name")}
@@ -215,6 +219,7 @@ const Registration = () => {
                   作り方
                 </p>
                 <DescriptInputItem
+                  errors={errors}
                   register={register}
                   inputItems={inputDescripts}
                   setInputItems={setInputDescripts}

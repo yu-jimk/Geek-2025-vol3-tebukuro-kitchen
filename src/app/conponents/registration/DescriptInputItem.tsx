@@ -2,14 +2,16 @@
 import { inputDescript } from "@/app/types";
 import { RecipeSchemaType } from "@/app/validations/schema";
 import Image from "next/image";
-import { UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { BiCameraOff, BiPlus } from "react-icons/bi";
 interface DescriptInputItem {
+  errors: FieldErrors<RecipeSchemaType>;
   register: UseFormRegister<RecipeSchemaType>;
   inputItems: inputDescript[];
   setInputItems: React.Dispatch<React.SetStateAction<inputDescript[]>>;
 }
 const DescriptInputItem = ({
+  errors,
   register,
   inputItems,
   setInputItems,
@@ -70,7 +72,12 @@ const DescriptInputItem = ({
                 className="absolute inset-0 opacity-0 cursor-pointer"
               />
             </div>
-
+            {/* zodのエラー文 */}
+            <div className="text-red-500">
+              {errors.descript !== undefined ? (
+                <div>{errors.descript[index]?.image?.message}</div>
+              ) : null}
+            </div>
             <div className="flex bg-white">
               <p className="flex-shrink-0 bg-orange-400 text-white size-4 flex items-center justify-center font-semibold text-xs rounded-sm m-1">
                 {index + 1} {/* 番号表示 */}
@@ -87,7 +94,7 @@ const DescriptInputItem = ({
         ))}
       </div>
       <button
-        type='button'
+        type="button"
         onClick={addInput}
         disabled={inputItems.length >= maxInputs}
         className="flex mx-auto my-4 text-orange-400"

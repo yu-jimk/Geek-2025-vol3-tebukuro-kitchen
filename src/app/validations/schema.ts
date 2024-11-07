@@ -1,11 +1,11 @@
 import { z } from "zod";
 
-// const MAX_IMAGE_SIZE = 5; // 5MB
-// // const IMAGE_TYPES = ['image/jpg', 'image/png'];
-// const sizeInMB = (sizeInBytes: number, decimalsNum = 2) => {
-//   const result = sizeInBytes / (1024 * 1024);
-//   return +result.toFixed(decimalsNum);
-// };
+const MAX_IMAGE_SIZE = 5; // 5MB
+// const IMAGE_TYPES = ['image/jpg', 'image/png'];
+const sizeInMB = (sizeInBytes: number, decimalsNum = 2) => {
+  const result = sizeInBytes / (1024 * 1024);
+  return +result.toFixed(decimalsNum);
+};
 const imageSchema = z
   // z.inferでSchemaを定義したときに型がつくようにするため
   .custom<File[]>()
@@ -14,10 +14,20 @@ const imageSchema = z
   // このあとのrefine()で扱いやすくするために整形
   .transform((file) => file[0])
   // ファイルサイズを制限したい場合
-  // .refine((file) => sizeInMB(file.size) <= MAX_IMAGE_SIZE, {
-  //   message: "ファイルサイズは最大5MBです",
-  // })
-  .optional();
+  .refine(
+    (file) => {
+      try {
+        return sizeInMB(file.size) <= MAX_IMAGE_SIZE;
+      } catch (error) {
+        // ファイルサイズが存在しない場合は良いものとする
+        return true;
+      }
+    },
+    {
+      message: `ファイルサイズは最大${MAX_IMAGE_SIZE}MBです`,
+    }
+  )
+  // .nullish();
 // // 画像形式を制限したい場合
 // .refine((file) => IMAGE_TYPES.includes(file.type), {
 //   message: '.jpgもしくは.pngのみ可能です',
