@@ -12,8 +12,9 @@ import SearchRecipe from "./conponents/SearchRecipe";
 
 export default function Home() {
   const pathName = usePathname();
-  // const [RecipesBase, setRecipesBase] = useState<Recipe[]>([]); //一番最初に映るレシピ
-  const [RecipesList, setRecipesList] = useState<Recipe[]>([]); //現在写しているレシピ
+  const [RecipesList, setRecipesList] = useState<Recipe[]>([]); //フィルターされてないレシピ
+  const [filRecipes, setFilRecipes] = useState<Recipe[]>([]); //検索時のフィルターされたレシピ
+  const [filteringNow,setFilteringNow] = useState(false);
   const [showHeadFooter, setshowshowHeadFooter] = useState(true);
   // 無限スクロール用のState
   const [page, setPage] = useState(1);
@@ -44,23 +45,6 @@ export default function Home() {
     onSwipedDown: () => setshowshowHeadFooter(true),
     delta: 60,
   });
-
-  useEffect(() => {
-    const setAllRecipes = async () => {
-      // 検索時に持ってくるのでいらない
-      // setRecipesBase(await getAllRecipes());
-      // 分割で持ってくるのでいらない
-      // setRecipesList(await getAllRecipes());
-    };
-    setAllRecipes();
-  }, []);
-
-  //検索用コンポーネントに渡す用のセット関数
-  //現在映しているレシピをセットするようにしてください
-  const recipessetter = (newrecipeslist: Recipe[]) => {
-    setRecipesList(newrecipeslist);
-  };
-
   return (
     <div
       {...handlers}
@@ -71,17 +55,20 @@ export default function Home() {
           showHeadFooter ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <SearchRecipe recipes={RecipesList} setlist={recipessetter} />
+        <SearchRecipe recipes={RecipesList} setFilRecipes={setFilRecipes} setFilteringNow={setFilteringNow}/>
         <Header pathName={pathName} />
       </div>
       <div
         className={`bg-[#FFFBF4] border-none flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 auto-rows-min gap-5 p-5`}
       >
-        {RecipesList.map((recipe: Recipe) => (
-          <ArticleCard key={recipe.id} recipe={recipe} />
-        ))}
+        {filteringNow ? filRecipes.map((filRecipe)=>{
+          <div>filllll!!!!</div>
+           return (<ArticleCard key={filRecipe.id} recipe={filRecipe} />)
+        }) : RecipesList.map((recipe)=>{
+           return (<ArticleCard key={recipe.id} recipe={recipe} />)
+        })}
       </div>
-      <div ref={loader}>Loading more...</div>
+      <div ref={loader}></div>
       <div
         className={`sticky bottom-0 w-full z-20 transition-transform duration-200 ${
           showHeadFooter ? "translate-y-0" : "translate-y-full"
