@@ -14,7 +14,7 @@ export default function Home() {
   const pathName = usePathname();
   const [RecipesList, setRecipesList] = useState<Recipe[]>([]); //フィルターされてないレシピ
   const [filRecipes, setFilRecipes] = useState<Recipe[]>([]); //検索時のフィルターされたレシピ
-  const [filteringNow,setFilteringNow] = useState(false);
+  const [filteringNow, setFilteringNow] = useState(false);
   const [showHeadFooter, setshowshowHeadFooter] = useState(true);
   // 無限スクロール用のState
   const [page, setPage] = useState(1);
@@ -37,8 +37,6 @@ export default function Home() {
     };
   }, []);
 
-
-
   //スクロールを検知する
   const handlers = useSwipeable({
     onSwipedUp: () => setshowshowHeadFooter(false),
@@ -55,18 +53,24 @@ export default function Home() {
           showHeadFooter ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <SearchRecipe recipes={RecipesList} setFilRecipes={setFilRecipes} setFilteringNow={setFilteringNow}/>
+        <SearchRecipe
+          recipes={RecipesList}
+          setFilRecipes={setFilRecipes}
+          setFilteringNow={setFilteringNow}
+        />
         <Header pathName={pathName} />
       </div>
       <div
         className={`bg-[#FFFBF4] border-none flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 auto-rows-min gap-5 p-5`}
       >
-        {filteringNow ? filRecipes.map((filRecipe)=>{
-          <div>filllll!!!!</div>
-           return (<ArticleCard key={filRecipe.id} recipe={filRecipe} />)
-        }) : RecipesList.map((recipe)=>{
-           return (<ArticleCard key={recipe.id} recipe={recipe} />)
-        })}
+        {/* 検索中なら filRecipesを、そうでないならRecipesListを表示*/}
+        {filteringNow
+          ? filRecipes.map((filRecipe) => {
+              return <ArticleCard key={filRecipe.id} recipe={filRecipe} />;
+            })
+          : RecipesList.map((recipe) => {
+              return <ArticleCard key={recipe.id} recipe={recipe} />;
+            })}
       </div>
       <div ref={loader}></div>
       <div
