@@ -1,37 +1,15 @@
 "use client";
-import { useEffect, useState, useRef, SetStateAction, Dispatch } from "react";
-import { supabase } from "../utils/supabase";
+import { useEffect, useState, useRef} from "react";
 import { Recipe } from "../types";
-const PAGE_SIZE = 10;
+import { getPageRecipes } from "../utils/supabaseFunctions";
 
 export default function MyComponent() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [page, setPage] = useState(1);
   const [pageRecipe, setPageRecipe] = useState<Recipe[]>([]);
   const loader = useRef(null);
-  const getPageRecipes = async (pageNumber: number,pageRecipe: Recipe[]) => {
-    const recipes = await supabase
-      .from("Recipes")
-      .select("*")
-      .range((pageNumber - 1) * PAGE_SIZE, pageNumber * PAGE_SIZE - 1);
-    // if (recipes.data !== null) {
-    //     recipes.data = arrayShuffle(recipes.data) as Recipe[];
-    // }
-    if (recipes.error) {
-      console.error("supabaseエラー", recipes.error);
-      return [] as Recipe[];
-    }
-    return [...pageRecipe,...recipes.data as Recipe[]] as Recipe[]
-    //  setPageRecipe([...pageRecipe,...recipes.data as Recipe[]] as Recipe[])
-    // 強制的にRecipe[]として認識させる
-  };
-   const setPageRecipeFnc = async (setPageRecipe: Dispatch<SetStateAction<Recipe[]>>) =>{
-    const a = await getPageRecipes(page,pageRecipe)
-    setPageRecipe(a);
-  }
-
   useEffect(() => {
-    setPageRecipeFnc(setPageRecipe)
+    getPageRecipes(page,pageRecipe,setPageRecipe)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
