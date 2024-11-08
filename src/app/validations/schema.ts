@@ -36,30 +36,30 @@ const imageSchema = z
 const IngredientSchema = z
   .array(
     z.object({
-      name: z.string().min(1, "入力してください").max(20, "入力値が長すぎます"),
+      name: z.string().min(1, "必須です").max(20, "入力値が長すぎます"),
       amount: z
         .string()
-        .min(1, "入力してください")
+        .min(1, "必須です")
         .max(20, "入力値が長すぎます"),
     })
   )
-  .min(1, { message: "入力してください" });
+  .min(1, { message: "必須です" });
 export type IngredientSchemaType = z.infer<typeof IngredientSchema>;
 const DescriptSchema = z
   .array(
     z.object({
-      text: z.string().min(0).max(20, "入力値が長すぎます"),
+      text: z.string().min(0).max(45, "入力値が長すぎます"),
       image: imageSchema,
     })
   )
-  .min(1, { message: "入力してください" });
+  .min(1, { message: "必須です" });
 export const RecipeObjectSchema = z.object({
   recipe_name: z
     .string()
-    .min(1, "入力してください")
+    .min(1, "必須です")
     .max(20, "入力値が長すぎます"),
   recipe_image: imageSchema,
-  recipe_comment: z.string().min(0).max(25, "入力値が長すぎます"),
+  recipe_comment: z.string().min(0).max(100, "入力値が長すぎます"),
   time: z.string().min(0).max(20, "入力値が長すぎます"),
   how_many: z.string().min(0).max(20, "入力値が長すぎます"),
 });

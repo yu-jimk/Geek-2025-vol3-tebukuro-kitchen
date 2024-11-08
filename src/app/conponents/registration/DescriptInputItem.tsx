@@ -90,6 +90,12 @@ const DescriptInputItem = ({
                 // onChange={(e) => handleInputChange(index, e.target.value)} // 入力変更ハンドラー
               />
             </div>
+            {/* zodのエラー文 */}
+            <div className="text-red-500">
+              {errors.descript !== undefined ? (
+                <div>{errors.descript[index]?.text?.message}</div>
+              ) : null}
+            </div>
           </div>
         ))}
       </div>

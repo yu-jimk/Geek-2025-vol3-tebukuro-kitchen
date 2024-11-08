@@ -54,7 +54,6 @@ const Registration = () => {
 
   const onSubmit: SubmitHandler<RecipeSchemaType> = async (data) => {
     setLoading(true);
-    console.log("onSubmit!!");
     console.log("onSubmit!!", data);
     const recipe_id = await addRecipe(data.recipe);
     if (recipe_id !== undefined) {
@@ -141,39 +140,44 @@ const Registration = () => {
                 {errors.recipe?.recipe_image?.message}
               </div>
               <section className="items-center border-b border-gray-400 bg-[#FEF9EC]">
-                <section className="flex">
-                  <FaPen className="ml-3 text-gray-400 text-2xl" />
-                  <input
-                    {...register("recipe.recipe_name")}
-                    type="text"
-                    name="recipe.recipe_name"
-                    id="recipe_name"
-                    // onChange={(e) => {
-                    //   setRecipe((prev) => ({ ...prev, name: e.target.value }));
-                    // }}
-                    placeholder="タイトル /例  基本のチャーハン"
-                    style={{ height: "40px", outline: "none" }}
-                    className="w-full bg-[#FEF9EC] pl-3"
-                  />
+                <section className="items-center  border-gray-400 bg-[#FEF9EC]">
+                  <section className="flex">
+                    <FaPen className="ml-3 text-gray-400 text-2xl" />
+                    <input
+                      {...register("recipe.recipe_name")}
+                      type="text"
+                      name="recipe.recipe_name"
+                      id="recipe_name"
+                      placeholder="タイトル /例  基本のチャーハン"
+                      style={{ height: "40px", outline: "none" }}
+                      className="w-full bg-[#FEF9EC] pl-3"
+                    />
+                  </section>
+                  <div className="text-red-500">
+                    {errors.recipe?.recipe_name?.message}
+                  </div>
                 </section>
-                <div className="text-red-500">
-                  {errors.recipe?.recipe_name?.message}
-                </div>
               </section>
               <section
-                className="flex items-center w-1/5 border-b border-gray-400 bg-[#FEF9EC] mt-3"
+                className="items-center w-1/5 border-b border-gray-400 bg-[#FEF9EC] mt-3"
                 style={{ width: "200px" }}
               >
-                <WiTime4 className="ml-3 mt-1 text-gray-400 text-3xl" />
-                <input
-                  {...register("recipe.time")}
-                  type="text"
-                  name="recipe.time"
-                  id="time"
-                  placeholder="時間  /例  約10分"
-                  style={{ height: "40px", outline: "none" }}
-                  className="pt-1 bg-[#FEF9EC] pl-2"
-                />
+                <section className="flex ">
+                  <WiTime4 className="ml-3 mt-1 text-gray-400 text-3xl" />
+                  <input
+                    {...register("recipe.time")}
+                    type="text"
+                    name="recipe.time"
+                    id="time"
+                    placeholder="時間  /例  約10分"
+                    style={{ height: "40px", outline: "none" }}
+                    className="pt-1 bg-[#FEF9EC] pl-2"
+                  />
+                </section>
+                {/* zodのエラー文 */}
+                <div className="text-red-500">
+                  {errors.recipe?.time?.message}
+                </div>
               </section>
               <section>
                 <div className="relative inline-block">
@@ -192,7 +196,7 @@ const Registration = () => {
                   </p>
                 </div>
 
-                <div>
+                <div className="items-center border-b border-gray-400 bg-[#FEF9EC] mt-3">
                   <input
                     {...register("recipe.how_many")}
                     name="recipe.how_many"
@@ -203,8 +207,12 @@ const Registration = () => {
                       height: "40px",
                       outline: "none",
                     }}
-                    className="w-full border-b border-gray-400 mt-4 pl-3"
+                    className="pl-3"
                   />
+                  {/* zodのエラー文 */}
+                  <div className="text-red-500">
+                    {errors.recipe?.how_many?.message}
+                  </div>
                 </div>
                 <IngredientInputItem
                   errors={errors}
@@ -239,7 +247,10 @@ const Registration = () => {
                   rows={4}
                 ></textarea>
               </section>
-
+                  {/* zodのエラー文 */}
+                  <div className="text-red-500">
+                    {errors.recipe?.recipe_comment?.message}
+                  </div>
               <button
                 type="submit"
                 className="flex justify-center text-white bg-orange-400 hover:bg-orange-400 font-semibold rounded-xl text-lg py-3 w-64 shadow-md mx-auto mt-8"
