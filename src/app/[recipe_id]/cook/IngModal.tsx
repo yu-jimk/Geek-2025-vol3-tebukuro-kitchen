@@ -41,7 +41,7 @@ const IngModal = ({
 
   return (
     <>
-      <div className="bg-black bg-opacity-50 fixed inset-x-0 top-0 bottom-0 font-mono">
+      <div className="bg-black bg-opacity-50 fixed inset-x-0 top-0 bottom-0">
         <div
           onClick={bgClickClose}
           className="flex justify-center items-center h-full"
