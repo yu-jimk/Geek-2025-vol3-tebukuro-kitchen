@@ -78,6 +78,7 @@ const Cook = ({
   const [inputTime, setInputTime] = useState(""); // 音声で認識したタイマーの時間
   const [timerStart, setTimerStart] = useState(false); // タイマーがスタートされているかどうか
   const [timerDisp, setTimerDisp] = useState(""); // タイマーのテキスト
+  const [timerReset, setTimerReset] = useState(false)
 
   // 音声認識コンポーネントでのページ操作用関数
   const back = (
@@ -139,6 +140,8 @@ const Cook = ({
           setTimerModalOpen={setTimerModalOpen}
           setInputTime={setInputTime}
           setTimerStart={setTimerStart}
+          timerReset={timerReset}
+          setTimerReset={setTimerReset}
         />
 
         <div className="flex justify-center content-center">
@@ -217,6 +220,7 @@ const Cook = ({
             setStart={setTimerStart}
             timerDisp={timerDisp}
             setTimerDisp={setTimerDisp}
+            timerReset={timerReset}
           />
         </div>
 

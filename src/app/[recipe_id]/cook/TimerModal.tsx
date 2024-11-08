@@ -12,6 +12,7 @@ const TimerModal = ({
   setStart,
   timerDisp,
   setTimerDisp,
+  timerReset,
 }: {
   timerModalOpen: boolean;
   setTimerModalOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -22,6 +23,7 @@ const TimerModal = ({
   setStart: React.Dispatch<SetStateAction<boolean>>;
   timerDisp: string;
   setTimerDisp: React.Dispatch<SetStateAction<string>>;
+  timerReset: boolean;
 }) => {
   const [inUse, setInUse] = useState(false); // タイマーの使用中判定（左下表示判定用）
   const [update, setUpdate] = useState(false); // 値更新検出用
@@ -100,7 +102,7 @@ const TimerModal = ({
     if (alarm.current) {
       alarm.current.pause();
       alarm.current.currentTime = 0;
-      setPlaying(false)
+      setPlaying(false);
     }
     setMin(0);
     setSec(0);
@@ -118,6 +120,11 @@ const TimerModal = ({
   useEffect(() => {
     if (playing && (min == 0 || sec == 0)) reset();
   }, [start]);
+
+  // 音声認識でのリセット検出
+  useEffect(() => {
+    reset()
+  },[timerReset])
 
   // 背景押したら閉じるやつ
   const bgClickClose = (e: React.MouseEvent) => {
