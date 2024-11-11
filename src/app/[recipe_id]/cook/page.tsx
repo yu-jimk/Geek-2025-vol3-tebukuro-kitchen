@@ -21,6 +21,7 @@ import { PiNoteDuotone } from "react-icons/pi";
 import { IoChatbubbleEllipsesOutline, IoMicOutline } from "react-icons/io5";
 import { FiCameraOff } from "react-icons/fi";
 import { MdOutlineTimer } from "react-icons/md";
+import { createPortal } from "react-dom";
 
 //丸を描画する　length=丸の数　page=塗りつぶし判定用ページ数
 const Circle = ({ length, page }: { length: number; page: number }) => {
@@ -36,6 +37,14 @@ const Circle = ({ length, page }: { length: number; page: number }) => {
       ))}
     </>
   );
+};
+
+const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
+  const container = document.getElementById("container");
+  if (!container) {
+    return null;
+  }
+  return createPortal(children, container);
 };
 
 const Cook = ({
@@ -78,7 +87,7 @@ const Cook = ({
   const [inputTime, setInputTime] = useState(""); // 音声で認識したタイマーの時間
   const [timerStart, setTimerStart] = useState(false); // タイマーがスタートされているかどうか
   const [timerDisp, setTimerDisp] = useState(""); // タイマーのテキスト
-  const [timerReset, setTimerReset] = useState(false)
+  const [timerReset, setTimerReset] = useState(false);
 
   // 音声認識コンポーネントでのページ操作用関数
   const back = (
@@ -186,29 +195,35 @@ const Cook = ({
 
         <div id="container">
           {ingModalOpen && (
-            <IngModal
-              modalClose={() => {
-                setIngModalOpen(false);
-              }}
-              ingredient={ingredient}
-              descript={descript[page]?.text}
-              howMany={howMany}
-            />
+            <ModalContainer>
+              <IngModal
+                modalClose={() => {
+                  setIngModalOpen(false);
+                }}
+                ingredient={ingredient}
+                descript={descript[page]?.text}
+                howMany={howMany}
+              />
+            </ModalContainer>
           )}
           {ytModalOpen && (
-            <YtModal
-              modalClose={() => {
-                setYtModalOpen(false);
-              }}
-              keyword={keyword}
-            />
+            <ModalContainer>
+              <YtModal
+                modalClose={() => {
+                  setYtModalOpen(false);
+                }}
+                keyword={keyword}
+              />
+            </ModalContainer>
           )}
           {guideModalOpen && (
-            <GuideModal
-              modalClose={() => {
-                setGuideModalOpen(false);
-              }}
-            />
+            <ModalContainer>
+              <GuideModal
+                modalClose={() => {
+                  setGuideModalOpen(false);
+                }}
+              />
+            </ModalContainer>
           )}
           <TimerModal
             timerModalOpen={timerModalOpen}
