@@ -2,6 +2,7 @@ import React from "react";
 import { IoMdClose } from "react-icons/io";
 
 const IngModal = ({ modalClose }: { modalClose: () => void }) => {
+  // 背景押したら閉じるやつ
   const bgClickClose = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       modalClose();
@@ -38,14 +39,19 @@ const IngModal = ({ modalClose }: { modalClose: () => void }) => {
               <div className="font-bold text-lg text-orange-400">
                 「~ってどうするの?」
               </div>
-              <div className="ml-8 mb-2">切り方の動画を再生します。</div>
+              <div className="ml-8 mb-2">
+                切り方の動画を再生します。
+                <div className="text-sm text-gray-500 -ml-1">
+                  {"（例）「いちょう切りってどうするの？」"}
+                </div>
+              </div>
               <div className="font-bold text-lg text-orange-400">
                 「タイマーxxセット」
               </div>
               <div className="ml-8 mb-2">
                 タイマーをxxの時間セットして、表示します。
-                <div className="text-sm text-gray-500">
-                  {"(例) タイマー3分セット"}
+                <div className="text-sm text-gray-500 -ml-1">
+                  {"（例）「タイマー3分セット」"}
                 </div>
               </div>
               <div className="font-bold text-lg text-orange-400">

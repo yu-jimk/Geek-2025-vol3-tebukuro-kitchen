@@ -31,6 +31,8 @@ const Speech = ({
   setTimerModalOpen,
   setInputTime,
   setTimerStart,
+  timerReset,
+  setTimerReset,
 }: {
   next: screenController["next"];
   back: screenController["back"];
@@ -44,6 +46,8 @@ const Speech = ({
   setTimerModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setInputTime: React.Dispatch<React.SetStateAction<string>>;
   setTimerStart: React.Dispatch<React.SetStateAction<boolean>>;
+  timerReset: boolean;
+  setTimerReset: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [response, setResponse] = useState("");
 
@@ -67,6 +71,7 @@ const Speech = ({
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
     },
     {
       command: /.*(戻って|戻る|前へ|前).*/,
@@ -75,6 +80,7 @@ const Speech = ({
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
     },
     {
       command: /.*(材料).*/,
@@ -83,6 +89,7 @@ const Speech = ({
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
     },
     {
       command: /.*(閉じて|閉じる).*/,
@@ -96,6 +103,7 @@ const Speech = ({
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
     },
     {
       command: /.*(スタート).*/,
@@ -104,23 +112,35 @@ const Speech = ({
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
     },
     {
       command: /.*(ストップ).*/,
       callback: () => {
         setTimerStart(false);
+        resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
+    },
+    {
+      command: /.*(リセット).*/,
+      callback: () => {
+        setTimerReset(!timerReset)
+        resetTranscript();
+        SpeechRecognition.startListening({ continuous: true });
+      },
+      matchInterim: true,
     },
     {
       command: /.*タイマー(.*)セット.*/,
       callback: (material: string) => {
-        console.log(material);
         setInputTime(material.replace(/\s+/g, "")); //スペース削除
         setResponse(material.replace(/\s+/g, ""));
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
     },
     {
       command: /(.*)ってどうするの.*/,
@@ -129,10 +149,11 @@ const Speech = ({
         setKeyword(material);
         setYtModalOpen(true);
         setResponse(`${material}`);
-        console.log("get",material)
+        console.log("[get]", material);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
     },
     {
       command: /.*(ガイド).*/,
@@ -142,6 +163,7 @@ const Speech = ({
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
+      matchInterim: true,
     },
   ];
 

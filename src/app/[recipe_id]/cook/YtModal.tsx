@@ -4,12 +4,12 @@ import youtube from "@/app/utils/youtube";
 import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
+// 動画取得用のtype　ほぼエラー対策用
 type Thumbnail = {
   url: string;
   width: number;
   height: number;
 };
-
 type Snippet = {
   publishedAt: string;
   channelId: string;
@@ -24,7 +24,6 @@ type Snippet = {
   liveBroadcastContent: string;
   publishTime: string;
 };
-
 type Video = {
   kind: string;
   etag: string;
@@ -42,13 +41,16 @@ const YtModal = ({
   modalClose: () => void;
   keyword: string;
 }) => {
-  const [video, setVideo] = useState<Video | null>(null);
+  const [video, setVideo] = useState<Video | null>(null); // 動画のデータ
+
+  // 背景押したら閉じるやつ
   const bgClickClose = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       modalClose();
     }
   };
 
+  // 検索関数
   useEffect(() => {
     if (keyword !== "") {
       const handleSearch = async () => {
