@@ -10,19 +10,20 @@ import { useEffect, useState } from "react";
 import { FiHeart } from "react-icons/fi";
 import SearchRecipe from "../conponents/SearchRecipe";
 import { useSwipeable } from "react-swipeable";
+import LoadingDataFetch from "@/app/conponents/LoadingDataFetch";
 
 const Favorites = () => {
   const pathName = usePathname();
 
-  const [listBase,setlistBase] = useState<Recipe[]>([]);
+  const [listBase, setlistBase] = useState<Recipe[]>([]);
   const [list, setList] = useState<Recipe[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showHeadFooter,setshowshowHeadFooter] = useState(true)
+  const [isloading, setIsLoading] = useState(true);
+  const [showHeadFooter, setshowshowHeadFooter] = useState(true);
 
   //スクロールを検知する
   const handlers = useSwipeable({
-    onSwipedUp:() => setshowshowHeadFooter(list.length > 4? false:true),
-    onSwipedDown:()=> setshowshowHeadFooter(true),
+    onSwipedUp: () => setshowshowHeadFooter(list.length > 4 ? false : true),
+    onSwipedDown: () => setshowshowHeadFooter(true),
     delta: 10,
   });
 
@@ -30,24 +31,31 @@ const Favorites = () => {
     const favoriteRecipes: Recipe[] = getFavoriteRecipes();
     if (favoriteRecipes.length > 0) {
       setList(favoriteRecipes);
-      setlistBase(favoriteRecipes)
+      setlistBase(favoriteRecipes);
     }
-    setLoading(false);
+    setIsLoading(false);
   }, []);
 
-  const setshowlist = (newrecipeslist:Recipe[])=>{
+  const setshowlist = (newrecipeslist: Recipe[]) => {
     setList(newrecipeslist);
-  }
+  };
 
   return (
-    <div {...handlers} className="min-h-screen flex flex-col contain-paint bg-[#FFFBF4]">
-      <div  className={`bg-white sticky top-0 px-2 w-full z-20 border-b-2 border-black transition-transform duration-200 ${showHeadFooter? 'translate-y-0':'-translate-y-full'}`}>
-        <SearchRecipe  recipes={listBase} setlist={setshowlist}/>
+    <div
+      {...handlers}
+      className="min-h-screen flex flex-col contain-paint bg-[#FFFBF4]"
+    >
+      <div
+        className={`bg-white sticky top-0 px-2 w-full z-20 border-b-2 border-black transition-transform duration-200 ${
+          showHeadFooter ? "translate-y-0" : "-translate-y-full"
+        }`}
+      >
+        <SearchRecipe recipes={listBase} setlist={setshowlist} />
         <Header pathName={pathName} />
       </div>
 
-      {loading ? (
-        <section className="bg-[#FFFBF4] flex-grow"></section>
+      {isloading ? (
+        <LoadingDataFetch />
       ) : list.length === 0 ? (
         <section className="bg-[#FFFBF4] flex-grow flex flex-col justify-center items-center gap-4">
           <FiHeart size={55} />
@@ -65,8 +73,12 @@ const Favorites = () => {
         </section>
       )}
 
-      <div className={`sticky bottom-0 w-full z-20 transition-transform duration-200 ${showHeadFooter? 'translate-y-0':'translate-y-full'}`}>
-        <Footer pathName={pathName}/>
+      <div
+        className={`sticky bottom-0 w-full z-20 transition-transform duration-200 ${
+          showHeadFooter ? "translate-y-0" : "translate-y-full"
+        }`}
+      >
+        <Footer pathName={pathName} />
       </div>
     </div>
   );
