@@ -161,7 +161,7 @@ const Cook = ({
                 src={imageSrc}
                 alt={title}
                 fill
-                className="object-cover shadow-lg"
+                className="object-contain shadow-lg"
                 onError={() => console.error("Image failed to load")}
               />
             </div>
