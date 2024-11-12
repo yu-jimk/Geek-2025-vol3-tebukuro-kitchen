@@ -8,7 +8,7 @@ import { getFavoriteRecipes } from "@/app/utils/localstorageFunction";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FiHeart } from "react-icons/fi";
-import SearchRecipe from "../conponents/SearchRecipe";
+import SearchRecipe from "@/app/conponents/SearchRecipe";
 import { useSwipeable } from "react-swipeable";
 import LoadingDataFetch from "@/app/conponents/LoadingDataFetch";
 
