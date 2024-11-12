@@ -18,7 +18,7 @@ import { Descript, Ingredient } from "@/app/types";
 import { FaArrowLeft, FaDoorOpen } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import { PiNoteDuotone } from "react-icons/pi";
-import { IoChatbubbleEllipsesOutline, IoMicOutline } from "react-icons/io5";
+import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { FiCameraOff } from "react-icons/fi";
 import { MdOutlineTimer } from "react-icons/md";
 import { createPortal } from "react-dom";
@@ -239,21 +239,22 @@ const Cook = ({
           />
         </div>
 
-        <div className="text-white flex justify-between fixed bottom-0 z-30 w-full h-14">
-          {page == 0 ? (
-            <div className="w-20 h-14">
-              <div className="w-6 h-6 mx-7"></div>
-            </div>
-          ) : (
-            <button
-              onClick={() => setPage(page - 1)}
-              className="w-20 h-14 bg-transparent font-bold"
-            >
-              <FaArrowLeft className="w-6 h-6 mx-7" />
-              戻って
-            </button>
-          )}
-          <div className="w-full flex justify-between">
+        {/* フッター */}
+        <div className="z-20 bg-orange-400 w-full fixed bottom-0 h-14 flex justify-center text-white">
+          <div className="text-white flex justify-between fixed bottom-0 z-30 w-full h-14">
+            {page == 0 ? (
+              <div className="w-20 h-14">
+                <div className="w-6 h-6 mx-7"></div>
+              </div>
+            ) : (
+              <button
+                onClick={() => setPage(page - 1)}
+                className="w-20 h-14 bg-transparent font-bold"
+              >
+                <FaArrowLeft className="w-6 h-6 mx-7" />
+                戻って
+              </button>
+            )}
             <button
               onClick={() => setIngModalOpen(!ingModalOpen)}
               className="bg-transparent font-bold hidden button:block"
@@ -272,25 +273,20 @@ const Cook = ({
                 セット
               </p>
             </button>
-          </div>
-          {page == length - 1 ? (
-            <Link href={recipePage} className="font-bold">
-              <FaDoorOpen className="w-6 h-6 mx-7 my-1 mb-0" />
-              <div className="text-center">終了</div>
-            </Link>
-          ) : (
-            <button
-              onClick={() => setPage(page + 1)}
-              className="w-20 h-14 bg-transparent font-bold"
-            >
-              <FaArrowRight className="w-6 h-6 mx-7" />
-              進んで
-            </button>
-          )}
-        </div>
-        <div className="z-20 bg-orange-400 w-full fixed bottom-0 h-14 flex justify-center text-white">
-          <div className="absolute -top-10 bg-orange-400 w-24 h-24 rounded-full flex justify-center">
-            <IoMicOutline className="relative w-12 h-12 top-6" />
+            {page == length - 1 ? (
+              <Link href={recipePage} className="font-bold">
+                <FaDoorOpen className="w-6 h-6 mx-7 my-1 mb-0" />
+                <div className="text-center">終了</div>
+              </Link>
+            ) : (
+              <button
+                onClick={() => setPage(page + 1)}
+                className="w-20 h-14 bg-transparent font-bold"
+              >
+                <FaArrowRight className="w-6 h-6 mx-7" />
+                進んで
+              </button>
+            )}
           </div>
         </div>
       </div>
