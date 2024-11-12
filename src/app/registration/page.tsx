@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect } from "react";
 import { FaPen } from "react-icons/fa";
-import { WiTime4 } from "react-icons/wi";
 // import { BiBookmark } from "react-icons/bi";
 import DescriptInputItem from "@/app/conponents/registration/DescriptInputItem";
 import { BiCamera, BiCameraOff, BiPlus } from "react-icons/bi";
@@ -135,6 +134,10 @@ const Registration = () => {
                   />
                 </div>
               </section>
+              {/* zodのエラー文 */}
+              <div className="text-red-500">
+                {errors.recipe?.recipe_image?.message}
+              </div>
               <section className="items-center border-b border-gray-400 bg-[#FEF9EC]">
                 <section className="items-center  border-gray-400 bg-[#FEF9EC]">
                   <section className="flex">
@@ -158,7 +161,7 @@ const Registration = () => {
                 className="items-center w-1/5 border-b border-gray-400 bg-[#FEF9EC] mt-3"
                 style={{ width: "200px" }}
               >
-                <section className='flex'>
+                <section className="flex">
                   <FaPen className="ml-3 text-gray-400 text-2xl" />
                   <input
                     {...register("recipe.time")}
@@ -223,6 +226,7 @@ const Registration = () => {
                   作り方
                 </p>
                 <DescriptInputItem
+                  errors={errors}
                   register={register}
                   inputItems={inputDescripts}
                   setInputItems={setInputDescripts}
@@ -242,10 +246,10 @@ const Registration = () => {
                   rows={4}
                 ></textarea>
               </section>
-                  {/* zodのエラー文 */}
-                  <div className="text-red-500">
-                    {errors.recipe?.recipe_comment?.message}
-                  </div>
+              {/* zodのエラー文 */}
+              <div className="text-red-500">
+                {errors.recipe?.recipe_comment?.message}
+              </div>
               <button
                 type="submit"
                 className="flex justify-center text-white bg-orange-400 hover:bg-orange-400 font-semibold rounded-xl text-lg py-3 w-64 shadow-md mx-auto mt-8"
