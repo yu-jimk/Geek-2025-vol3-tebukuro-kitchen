@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const MAX_IMAGE_SIZE = 5; // 5MB
+const MAX_IMAGE_SIZE = 30; // 30MB
 // const IMAGE_TYPES = ['image/jpg', 'image/png'];
 const sizeInMB = (sizeInBytes: number, decimalsNum = 2) => {
   const result = sizeInBytes / (1024 * 1024);
@@ -26,8 +26,8 @@ const imageSchema = z
     {
       message: `ファイルサイズは最大${MAX_IMAGE_SIZE}MBです`,
     }
-  )
-  // .nullish();
+  );
+// .nullish();
 // // 画像形式を制限したい場合
 // .refine((file) => IMAGE_TYPES.includes(file.type), {
 //   message: '.jpgもしくは.pngのみ可能です',
@@ -37,10 +37,7 @@ const IngredientSchema = z
   .array(
     z.object({
       name: z.string().min(1, "必須です").max(20, "入力値が長すぎます"),
-      amount: z
-        .string()
-        .min(1, "必須です")
-        .max(20, "入力値が長すぎます"),
+      amount: z.string().min(1, "必須です").max(20, "入力値が長すぎます"),
     })
   )
   .min(1, { message: "必須です" });
@@ -54,10 +51,7 @@ const DescriptSchema = z
   )
   .min(1, { message: "必須です" });
 export const RecipeObjectSchema = z.object({
-  recipe_name: z
-    .string()
-    .min(1, "必須です")
-    .max(20, "入力値が長すぎます"),
+  recipe_name: z.string().min(1, "必須です").max(20, "入力値が長すぎます"),
   recipe_image: imageSchema,
   recipe_comment: z.string().min(0).max(100, "入力値が長すぎます"),
   time: z.string().min(0).max(20, "入力値が長すぎます"),
