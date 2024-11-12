@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FiCameraOff } from "react-icons/fi";
 import { WiTime4 } from "react-icons/wi";
+import LoadingDataFetch from "@/app/conponents/LoadingDataFetch";
 
 export default function RecipeId({
   params,
@@ -32,7 +33,11 @@ export default function RecipeId({
   }, [params.recipe_id]);
 
   if (!list) {
-    return null;
+    return (
+      <div className="flex justify-center items-center bg-[#FFFBF4] h-screen">
+        <LoadingDataFetch />
+      </div>
+    );
   }
 
   return (
