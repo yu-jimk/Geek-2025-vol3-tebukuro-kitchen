@@ -267,9 +267,9 @@ const Cook = ({
             >
               <MdOutlineTimer className="w-6 h-6 mx-7" />
               <p className="text-xs tracking-tighter leading-none">
-                タイマー
+                〜分〜秒
                 <br />
-                XXセット
+                セット
               </p>
             </button>
           </div>

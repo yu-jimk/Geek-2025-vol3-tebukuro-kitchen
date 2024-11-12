@@ -133,7 +133,7 @@ const Speech = ({
       matchInterim: true,
     },
     {
-      command: /.*タイマー(.*)セット.*/,
+      command: /(.*)セット.*/,
       callback: (material: string) => {
         setInputTime(material.replace(/\s+/g, "")); //スペース削除
         setResponse(material.replace(/\s+/g, ""));

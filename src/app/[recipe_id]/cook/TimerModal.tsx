@@ -163,6 +163,16 @@ const TimerModal = ({
                     <div className="flex justify-between mx-5 mb-5 leading-none">
                       <button
                         onClick={() => {
+                          setMin(min + 60);
+                          setUpdate(!update);
+                          if (start) setStart(false);
+                        }}
+                        className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
+                      >
+                        +60分
+                      </button>
+                      <button
+                        onClick={() => {
                           setMin(min + 10);
                           setUpdate(!update);
                           if (start) setStart(false);
@@ -170,16 +180,6 @@ const TimerModal = ({
                         className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
                       >
                         +10分
-                      </button>
-                      <button
-                        onClick={() => {
-                          setMin(min + 5);
-                          setUpdate(!update);
-                          if (start) setStart(false);
-                        }}
-                        className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
-                      >
-                        +5分
                       </button>
                       <button
                         onClick={() => {
