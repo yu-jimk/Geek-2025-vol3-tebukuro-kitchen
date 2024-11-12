@@ -27,7 +27,6 @@ const imageSchema = z
       message: `ファイルサイズは最大${MAX_IMAGE_SIZE}MBです`,
     }
   );
-// .nullish();
 // // 画像形式を制限したい場合
 // .refine((file) => IMAGE_TYPES.includes(file.type), {
 //   message: '.jpgもしくは.pngのみ可能です',

@@ -21,6 +21,7 @@ import { PiNoteDuotone } from "react-icons/pi";
 import { IoChatbubbleEllipsesOutline, IoMicOutline } from "react-icons/io5";
 import { FiCameraOff } from "react-icons/fi";
 import { MdOutlineTimer } from "react-icons/md";
+import { createPortal } from "react-dom";
 
 //丸を描画する　length=丸の数　page=塗りつぶし判定用ページ数
 const Circle = ({ length, page }: { length: number; page: number }) => {
@@ -38,6 +39,14 @@ const Circle = ({ length, page }: { length: number; page: number }) => {
   );
 };
 
+const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
+  const container = document.getElementById("container");
+  if (!container) {
+    return null;
+  }
+  return createPortal(children, container);
+};
+
 const Cook = ({
   params,
   searchParams,
@@ -49,19 +58,21 @@ const Cook = ({
   const [howMany, setHowMany] = useState<string>(""); // 材料表示　何人前
   const [descript, setDescript] = useState<Descript[]>([]); // レシピの説明文　データベースから取得
   const [ingredient, setIngredient] = useState<Ingredient[]>([]); // 材料　データベースから取得
+
+  // データベースからデータの取得
   useEffect(() => {
     const getRecipes = async () => {
       const rec = await getRecipesbyId(params.recipe_id);
       const desc = await getByDescriptId(params.recipe_id);
       const ing = await getByIngredientId(params.recipe_id);
       setTitle(rec[0].name);
-      rec[0].howmany ? setHowMany(rec[0].howmany) : setHowMany("")
+      rec[0].howmany ? setHowMany(rec[0].howmany) : setHowMany("");
       setDescript(desc);
       setIngredient(ing);
     };
     getRecipes();
   }, [params.recipe_id]);
-  const length = descript.length;
+  const length = descript.length; // 説明文のページ数
 
   const [page, setPage] = useState(0); //現在のページ（番号）
 
@@ -75,8 +86,10 @@ const Cook = ({
 
   const [inputTime, setInputTime] = useState(""); // 音声で認識したタイマーの時間
   const [timerStart, setTimerStart] = useState(false); // タイマーがスタートされているかどうか
-  const [timerDisp, setTimerDisp] = useState(""); // タイマーのテキスト (左下表示用）
+  const [timerDisp, setTimerDisp] = useState(""); // タイマーのテキスト
+  const [timerReset, setTimerReset] = useState(false);
 
+  // 音声認識コンポーネントでのページ操作用関数
   const back = (
     num: number,
     setPage: React.Dispatch<React.SetStateAction<number>>
@@ -90,12 +103,15 @@ const Cook = ({
   ) => {
     num == page - 1 ? setPage(num) : setPage(num + 1);
   };
-  const from = searchParams?.from; // ヘッダーの戻るボタン用
+
+  // ヘッダーの戻るボタン用
+  const from = searchParams?.from;
   const recipePage =
     from === "favorites"
       ? `/${params.recipe_id}?from=favorites`
       : `/${params.recipe_id}`;
-  const imageSrc = descript[page]?.image_url ?? "";
+
+  const imageSrc = descript[page]?.image_url ?? ""; // 画像のＵＲＬ
 
   return (
     <>
@@ -111,7 +127,7 @@ const Cook = ({
           {title != "" ? ( //ヘッダーのタイトルのロードが完了したら表示（より自然に）
             <button
               onClick={() => setGuideModalOpen(!guideModalOpen)}
-              className="bg-transparent font-bold fixed z-50 p-3.5 hidden button:block"
+              className="bg-transparent font-bold fixed z-50 p-3.5 hidden button:block text-white"
             >
               <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-7" />
               ガイド
@@ -133,6 +149,8 @@ const Cook = ({
           setTimerModalOpen={setTimerModalOpen}
           setInputTime={setInputTime}
           setTimerStart={setTimerStart}
+          timerReset={timerReset}
+          setTimerReset={setTimerReset}
         />
 
         <div className="flex justify-center content-center">
@@ -177,28 +195,35 @@ const Cook = ({
 
         <div id="container">
           {ingModalOpen && (
-            <IngModal
-              modalClose={() => {
-                setIngModalOpen(false);
-              }}
-              ingredient={ingredient}
-              howMany = {howMany}
-            />
+            <ModalContainer>
+              <IngModal
+                modalClose={() => {
+                  setIngModalOpen(false);
+                }}
+                ingredient={ingredient}
+                descript={descript[page]?.text}
+                howMany={howMany}
+              />
+            </ModalContainer>
           )}
           {ytModalOpen && (
-            <YtModal
-              modalClose={() => {
-                setYtModalOpen(false);
-              }}
-              keyword={keyword}
-            />
+            <ModalContainer>
+              <YtModal
+                modalClose={() => {
+                  setYtModalOpen(false);
+                }}
+                keyword={keyword}
+              />
+            </ModalContainer>
           )}
           {guideModalOpen && (
-            <GuideModal
-              modalClose={() => {
-                setGuideModalOpen(false);
-              }}
-            />
+            <ModalContainer>
+              <GuideModal
+                modalClose={() => {
+                  setGuideModalOpen(false);
+                }}
+              />
+            </ModalContainer>
           )}
           <TimerModal
             timerModalOpen={timerModalOpen}
@@ -210,6 +235,7 @@ const Cook = ({
             setStart={setTimerStart}
             timerDisp={timerDisp}
             setTimerDisp={setTimerDisp}
+            timerReset={timerReset}
           />
         </div>
 
@@ -262,7 +288,7 @@ const Cook = ({
             </button>
           )}
         </div>
-        <div className="z-20 bg-orange-400 w-full fixed bottom-0 h-14 flex justify-center">
+        <div className="z-20 bg-orange-400 w-full fixed bottom-0 h-14 flex justify-center text-white">
           <div className="absolute -top-10 bg-orange-400 w-24 h-24 rounded-full flex justify-center">
             <IoMicOutline className="relative w-12 h-12 top-6" />
           </div>

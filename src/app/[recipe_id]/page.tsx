@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FiCameraOff } from "react-icons/fi";
 import { WiTime4 } from "react-icons/wi";
+import LoadingDataFetch from "@/app/conponents/LoadingDataFetch";
 
 export default function RecipeId({
   params,
@@ -32,7 +33,11 @@ export default function RecipeId({
   }, [params.recipe_id]);
 
   if (!list) {
-    return null;
+    return (
+      <div className="flex justify-center items-center bg-[#FFFBF4] h-screen">
+        <LoadingDataFetch />
+      </div>
+    );
   }
 
   return (
@@ -93,8 +98,8 @@ export default function RecipeId({
           )}
         </div>
 
-        <div className="lg:flex justify-between items-start">
-          <section className="pt-1 pb-8 flex-1">
+        <div className="lg:flex items-start">
+          <section className="pt-1 pb-8 flex-1 lg:max-w-md">
             <div className="bg-[#F9DEDC] font-semibold text-sm px-4 py-2">
               {list.howmany ? <p>材料（{list.howmany}）</p> : <p>材料</p>}
             </div>
@@ -109,7 +114,7 @@ export default function RecipeId({
             ))}
           </section>
 
-          <section className="mx-4">
+          <section className="mx-4 flex-1">
             <p className="font-semibold text-lg pb-1 mb-3 border-b border-black">
               作り方
             </p>

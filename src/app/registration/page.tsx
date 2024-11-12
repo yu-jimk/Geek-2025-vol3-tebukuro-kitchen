@@ -135,10 +135,6 @@ const Registration = () => {
                   />
                 </div>
               </section>
-              {/* zodのエラー文 */}
-              <div className="text-red-500">
-                {errors.recipe?.recipe_image?.message}
-              </div>
               <section className="items-center border-b border-gray-400 bg-[#FEF9EC]">
                 <section className="items-center  border-gray-400 bg-[#FEF9EC]">
                   <section className="flex">
@@ -162,8 +158,8 @@ const Registration = () => {
                 className="items-center w-1/5 border-b border-gray-400 bg-[#FEF9EC] mt-3"
                 style={{ width: "200px" }}
               >
-                <section className="flex ">
-                  <WiTime4 className="ml-3 mt-1 text-gray-400 text-3xl" />
+                <section className='flex'>
+                  <FaPen className="ml-3 text-gray-400 text-2xl" />
                   <input
                     {...register("recipe.time")}
                     type="text"
@@ -227,7 +223,6 @@ const Registration = () => {
                   作り方
                 </p>
                 <DescriptInputItem
-                  errors={errors}
                   register={register}
                   inputItems={inputDescripts}
                   setInputItems={setInputDescripts}

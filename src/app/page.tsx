@@ -8,7 +8,9 @@ import { getPageRecipes } from "@/app/utils/supabaseFunctions";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useSwipeable } from "react-swipeable";
-import SearchRecipe from "./conponents/SearchRecipe";
+import SearchRecipe from "@/app/conponents/SearchRecipe";
+
+import LoadingDataFetch from "@/app/conponents/LoadingDataFetch";
 
 export default function Home() {
   const pathName = usePathname();
@@ -36,6 +38,11 @@ export default function Home() {
       if (loader.current) observer.unobserve(loader.current);
     };
   }, []);
+<!--     main
+  const [RecipesBase, setRecipesBase] = useState<Recipe[]>([]); //一番最初に映るレシピ
+  const [RecipesList, setRecipesList] = useState<Recipe[]>([]); //現在写しているレシピ
+  const [showHeadFooter, setshowshowHeadFooter] = useState(true);
+  const [isloading, setIsLoading] = useState(true); -->
 
   //スクロールを検知する
   const handlers = useSwipeable({
@@ -43,6 +50,21 @@ export default function Home() {
     onSwipedDown: () => setshowshowHeadFooter(true),
     delta: 60,
   });
+<!-- main
+  useEffect(() => {
+    const setAllRecipes = async () => {
+      setRecipesBase(await getAllRecipes());
+      setRecipesList(await getAllRecipes());
+    };
+    setAllRecipes();
+    setIsLoading(false);
+  }, []);
+
+  //検索用コンポーネントに渡す用のセット関数
+  //現在映しているレシピをセットするようにしてください
+  const recipessetter = (newrecipeslist: Recipe[]) => {
+    setRecipesList(newrecipeslist);
+  }; -->
   return (
     <div
       {...handlers}
@@ -52,7 +74,7 @@ export default function Home() {
         className={`bg-white sticky top-0 px-2 w-full z-20 border-b-2 border-black transition-transform duration-200 ${
           showHeadFooter ? "translate-y-0" : "-translate-y-full"
         }`}
-      >
+
         <SearchRecipe
           recipes={RecipesList}
           setFilRecipes={setFilRecipes}
@@ -73,6 +95,23 @@ export default function Home() {
             })}
       </div>
       <div ref={loader}></div>
+<!-- main
+        <SearchRecipe recipes={RecipesBase} setlist={recipessetter} />
+        <Header pathName={pathName} />
+      </div>
+
+      {isloading ? (
+        <LoadingDataFetch />
+      ) : (
+        <div
+          className={`bg-[#FFFBF4] border-none flex-grow grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 auto-rows-min gap-5 p-5`}
+        >
+          {RecipesList.map((recipe: Recipe) => (
+            <ArticleCard key={recipe.id} recipe={recipe} />
+          ))}
+        </div>
+      )}
+ -->
       <div
         className={`sticky bottom-0 w-full z-20 transition-transform duration-200 ${
           showHeadFooter ? "translate-y-0" : "translate-y-full"
