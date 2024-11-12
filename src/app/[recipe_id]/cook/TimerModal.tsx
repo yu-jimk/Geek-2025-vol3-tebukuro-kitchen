@@ -228,7 +228,7 @@ const TimerModal = ({
       {inUse ? (
         <div
           onClick={() => setTimerModalOpen(true)}
-          className="z-10 text-3xl w-36 fixed bottom-24 timer:bottom-16 bg-orange-100 text-black text-center rounded-full p-1 ml-2 shadow-lg"
+          className="z-10 text-3xl w-36 fixed bottom-16 bg-orange-100 text-black text-center rounded-full p-1 ml-2 shadow-lg"
         >
           {timerDisp}
         </div>
