@@ -1,6 +1,15 @@
 import { SetStateAction, useEffect, useRef, useState } from "react";
 import { num2TimerText, str2TimerText } from "./timerFunc";
 import { IoMdClose } from "react-icons/io";
+import { createPortal } from "react-dom";
+
+const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
+  const container = document.getElementById("container");
+  if (!container) {
+    return null;
+  }
+  return createPortal(children, container);
+};
 
 const TimerModal = ({
   timerModalOpen,
@@ -123,8 +132,8 @@ const TimerModal = ({
 
   // 音声認識でのリセット検出
   useEffect(() => {
-    reset()
-  },[timerReset])
+    reset();
+  }, [timerReset]);
 
   // 背景押したら閉じるやつ
   const bgClickClose = (e: React.MouseEvent) => {
@@ -135,81 +144,85 @@ const TimerModal = ({
 
   return (
     <>
-      <div className={timerModalOpen ? "block" : "hidden"}>
-        <div className="bg-black bg-opacity-50 fixed inset-x-0 top-0 bottom-0">
-          <div
-            onClick={bgClickClose}
-            className="flex justify-center items-center h-full"
-          >
-            <div className="bg-white mx-20 w-full shadow-lg text-black rounded-3xl">
-              <div className="flex w-full justify-end mb-3">
-                <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
-              </div>
-              <div className="font-sans font-bold mx-5 mb-5 text-8xl text-center">
-                {timerDisp}
-              </div>
-              <div className="w-full font-bold mb-2">
-                <div className="flex justify-between mx-5 mb-5 leading-none">
-                  <button
-                    onClick={() => {
-                      setMin(min + 10);
-                      setUpdate(!update);
-                      if (start) setStart(false);
-                    }}
-                    className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
-                  >
-                    +10分
-                  </button>
-                  <button
-                    onClick={() => {
-                      setMin(min + 5);
-                      setUpdate(!update);
-                      if (start) setStart(false);
-                    }}
-                    className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
-                  >
-                    +5分
-                  </button>
-                  <button
-                    onClick={() => {
-                      setMin(min + 1);
-                      setUpdate(!update);
-                      if (start) setStart(false);
-                    }}
-                    className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
-                  >
-                    +1分
-                  </button>
-                  <button
-                    onClick={() => {
-                      setSec(sec + 10);
-                      setUpdate(!update);
-                      if (start) setStart(false);
-                    }}
-                    className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
-                  >
-                    +10秒
-                  </button>
-                </div>
-                <div className="flex justify-between mx-5 mb-5">
-                  <button
-                    onClick={() => start_stop()}
-                    className="text-2xl tracking-tighter leading-none bg-orange-400 text-white rounded-full w-40 h-20 mr-5"
-                  >
-                    {start ? "ストップ" : "スタート"}
-                  </button>
-                  <button
-                    onClick={() => reset()}
-                    className="text-2xl tracking-tighter bg-orange-100 text-orange-400 rounded-full w-40 h-20"
-                  >
-                    リセット
-                  </button>
+      {timerModalOpen && (
+        <ModalContainer>
+          <div className={timerModalOpen ? "block" : "hidden"}>
+            <div className="bg-black bg-opacity-50 fixed inset-x-0 top-0 bottom-0">
+              <div
+                onClick={bgClickClose}
+                className="flex justify-center items-center h-full"
+              >
+                <div className="bg-white mx-20 w-full shadow-lg text-black rounded-3xl">
+                  <div className="flex w-full justify-end mb-3">
+                    <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
+                  </div>
+                  <div className="font-sans font-bold mx-5 mb-5 text-8xl text-center">
+                    {timerDisp}
+                  </div>
+                  <div className="w-full font-bold mb-2">
+                    <div className="flex justify-between mx-5 mb-5 leading-none">
+                      <button
+                        onClick={() => {
+                          setMin(min + 10);
+                          setUpdate(!update);
+                          if (start) setStart(false);
+                        }}
+                        className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
+                      >
+                        +10分
+                      </button>
+                      <button
+                        onClick={() => {
+                          setMin(min + 5);
+                          setUpdate(!update);
+                          if (start) setStart(false);
+                        }}
+                        className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
+                      >
+                        +5分
+                      </button>
+                      <button
+                        onClick={() => {
+                          setMin(min + 1);
+                          setUpdate(!update);
+                          if (start) setStart(false);
+                        }}
+                        className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
+                      >
+                        +1分
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSec(sec + 10);
+                          setUpdate(!update);
+                          if (start) setStart(false);
+                        }}
+                        className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
+                      >
+                        +10秒
+                      </button>
+                    </div>
+                    <div className="flex justify-between mx-5 mb-5">
+                      <button
+                        onClick={() => start_stop()}
+                        className="text-2xl tracking-tighter leading-none bg-orange-400 text-white rounded-full w-40 h-20 mr-5"
+                      >
+                        {start ? "ストップ" : "スタート"}
+                      </button>
+                      <button
+                        onClick={() => reset()}
+                        className="text-2xl tracking-tighter bg-orange-100 text-orange-400 rounded-full w-40 h-20"
+                      >
+                        リセット
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </ModalContainer>
+      )}
 
       {/* 左下のミニタイマー */}
       {inUse ? (
