@@ -24,9 +24,12 @@ export default function Home() {
   const loader = useRef(null);
   // スクロールで底に行ったらpageRecipeを更新
   useEffect(() => {
+    // console.error(page);
     getPageRecipes(page, RecipesList, setRecipesList);
-    page >= 2 ? setIsLoading(false) : null;
   }, [page]);
+  useEffect(() => {
+    RecipesList.length >= 1 ? setIsLoading(false) : null;
+  }, [RecipesList.length]);
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
