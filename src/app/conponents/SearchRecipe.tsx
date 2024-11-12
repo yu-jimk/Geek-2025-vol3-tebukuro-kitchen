@@ -22,16 +22,14 @@ const SearchRecipe: React.FC<propsType> = (props: propsType) => {
       });
       // 検索してフィルターしたレシピをセット
       props.setFilRecipes(filteredRecipes);
+      // inputが''でない時は検索中
+      input !== "" ? props.setFilteringNow(true) : props.setFilteringNow(false);
     }
-    // inputが''でない時は検索中
-    input !== "" ? props.setFilteringNow(true) : props.setFilteringNow(false);
   };
 
   //ばつボタン用のリスト初期化関数
   const resetRicipes = () => {
     setinput("");
-    // inputが''なので検索中でない
-    props.setFilteringNow(false);
   };
 
   return (
@@ -42,6 +40,7 @@ const SearchRecipe: React.FC<propsType> = (props: propsType) => {
         value={input}
         onChange={(event) => {
           setinput(event.target.value);
+          event.target.value === "" ? props.setFilteringNow(false) : null;
         }}
         onKeyDown={filerandsetter}
         placeholder="レシピを検索"
