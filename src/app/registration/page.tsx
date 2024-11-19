@@ -35,11 +35,11 @@ const Registration = () => {
     { name: "", amount: "" },
     { name: "", amount: "" },
   ]);
-  const [showlist, setshowlist] = useState(true);
+  const [showFooter, setshowFooter] = useState(true);
   const [loading, setLoading] = useState(false);
   const handlers = useSwipeable({
-    onSwipedUp: () => setshowlist(false),
-    onSwipedDown: () => setshowlist(true),
+    onSwipedUp: () => setshowFooter(false),
+    onSwipedDown: () => setshowFooter(true),
     delta: 10,
   });
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +53,6 @@ const Registration = () => {
 
   const onSubmit: SubmitHandler<RecipeSchemaType> = async (data) => {
     setLoading(true);
-    console.log("onSubmit!!", data);
     const recipe_id = await addRecipe(data.recipe);
     if (recipe_id !== undefined) {
       if (data.recipe.recipe_image !== undefined) {
@@ -80,11 +79,11 @@ const Registration = () => {
   }, [errors]);
 
   return (
-    <div>
+    <div {...handlers} className="min-h-screen flex flex-col contain-paint bg-[#FFFBF4]">
       {loading === false ? (
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div {...handlers}>
-            <main className="bg-[#FFFBF4] mb-16 pr-4 pl-4">
+          <div>
+            <main className="pr-4 pl-4">
               <p className="text-center font-semibold text-lg pt-4">
                 レシピを登録
               </p>
@@ -258,11 +257,7 @@ const Registration = () => {
               </button>
               <div className="bg-[#FFFBF4] w-full h-8"></div>
             </main>
-            <div
-              className={`fixed bottom-0 w-full z-20 transition-transform duration-200 ${
-                showlist ? "translate-y-0" : "translate-y-full"
-              }`}
-            >
+            <div className={`sticky bottom-0 w-full z-20 transition-transform duration-200 ${showFooter ? "translate-y-0" : "translate-y-full"}`}>
               <Footer pathName="/registration" />
             </div>
           </div>

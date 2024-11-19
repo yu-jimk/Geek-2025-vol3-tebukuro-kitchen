@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { FiCameraOff } from "react-icons/fi";
 import { WiTime4 } from "react-icons/wi";
 import LoadingDataFetch from "@/app/conponents/LoadingDataFetch";
+import { useSwipeable } from "react-swipeable";
 
 export default function RecipeId({
   params,
@@ -23,6 +24,14 @@ export default function RecipeId({
 }) {
   const [list, setList] = useState<DetailRecipe>();
   const from = searchParams?.from || "/";
+  const [showFooter, setshowFooter] = useState(true);
+
+  //スクロールを検知する
+  const handlers = useSwipeable({
+    onSwipedUp: () => setshowFooter(false),
+    onSwipedDown: () => setshowFooter(true),
+    delta: 60,
+  });
 
   useEffect(() => {
     const getDetailRecipe = async () => {
@@ -39,9 +48,8 @@ export default function RecipeId({
       </div>
     );
   }
-
   return (
-    <>
+    <div {...handlers} className="bg-[#FFFBF4] contain-paint">
       <title>{`${list.name} | てぶくろキッチン`}</title>
       <RecipeHeader
         bgColor="bg-white"
@@ -51,7 +59,7 @@ export default function RecipeId({
         iconFill="black"
       />
 
-      <main className="bg-[#FFFBF4] pb-10 min-h-[calc(100vh-150px)] ">
+      <main className="pb-10 min-h-[calc(100vh-150px)] " >
         <figure className="flex justify-center items-center border-b border-gray-400 shadow-md aspect-[3/2] bg-gray-100 relative">
           {/* nullのみを判定しているので、url先の画像が見つからない場合に対処できない */}
           {list.image_url ? (
@@ -142,8 +150,9 @@ export default function RecipeId({
           つくる
         </Link>
       </main>
-
-      <Footer pathName="/" />
-    </>
+      <div className={`sticky bottom-0 w-full z-20 transition-transform duration-200 ${showFooter ? "translate-y-0" : "translate-y-full"}`}>
+        <Footer pathName="/registration" />
+      </div>
+    </div>
   );
 }
