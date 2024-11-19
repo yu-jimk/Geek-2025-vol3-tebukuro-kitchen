@@ -1,14 +1,9 @@
-import { FiSearch } from "react-icons/fi";
-import SearchRecipe from "./SearchRecipe";
-
 type headerProp={
     pathName : string
 }
 
 const Header = (prop:headerProp) => {
     const {pathName} = prop
-
-    console.log('This`s Header')
 
   return (
     
