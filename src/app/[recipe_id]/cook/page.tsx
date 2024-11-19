@@ -126,7 +126,7 @@ const Cook = ({
           {title != "" ? ( //ヘッダーのタイトルのロードが完了したら表示（より自然に）
             <button
               onClick={() => setGuideModalOpen(!guideModalOpen)}
-              className="absolute top-0.5 right-1 bg-transparent font-bold p-3 text-white"
+              className="absolute top-0.5 right-1 bg-transparent font-bold p-3 text-white z-50"
             >
               <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-auto" />
               ガイド
