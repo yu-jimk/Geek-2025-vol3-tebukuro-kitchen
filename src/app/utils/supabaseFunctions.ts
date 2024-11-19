@@ -31,7 +31,12 @@ export const getAllRandomRecipes = async () => {
   return [] as Recipe[];
 };
 const PAGE_SIZE = 10;
-export const getPageRecipes = async (pageNumber: number,pageRecipe: Recipe[],setPageRecipe: Dispatch<SetStateAction<Recipe[]>>) => {
+export const getPageRecipes = async (
+  pageNumber: number,
+  pageRecipe: Recipe[],
+  setPageRecipe: Dispatch<SetStateAction<Recipe[]>>,
+  setAllRecipesRetrieved: Dispatch<SetStateAction<boolean>>
+) => {
   const recipes = await supabase
     .from("Recipes")
     .select("*")
@@ -41,8 +46,13 @@ export const getPageRecipes = async (pageNumber: number,pageRecipe: Recipe[],set
   // }
   if (recipes.error) {
     console.error("supabaseエラー", recipes.error);
+  } else {
+    if (recipes.data.length !== PAGE_SIZE) {
+      // もしレシピが全部取れていたならtrueをセット
+      setAllRecipesRetrieved(true);
+    }
   }
-  else setPageRecipe([...pageRecipe,...recipes.data as Recipe[]] as Recipe[]);
+  setPageRecipe([...pageRecipe, ...(recipes.data as Recipe[])] as Recipe[]);
 };
 
 // レシピのidより1つのレシピ取得
@@ -195,9 +205,7 @@ export const uploadImage = async (
 };
 // 画像名より画像のurl取得
 export const getImageUrl = async (filePath: string) => {
-  const { data } = supabase.storage
-    .from("images")
-    .getPublicUrl(filePath);
+  const { data } = supabase.storage.from("images").getPublicUrl(filePath);
   if (data === null) {
     console.error("画像が見つかりません");
     return "";
