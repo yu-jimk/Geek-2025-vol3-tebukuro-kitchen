@@ -34,7 +34,7 @@ const IngModal = ({
   };
 
   // ハイライトする配列番号の取得
-  let highLightWord: number[];
+  let highLightWord: number[] = [-1];
   if (descript) {
     highLightWord = highLight(descript, ingredient);
   }
