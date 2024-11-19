@@ -60,7 +60,7 @@ export default function Home() {
 
   async function asyncMyFunc() {
     setUseing(true);
-    await mySleep(1000); // 1000ミリ秒停止
+    await mySleep(100); // 100ミリ秒停止
     setPage((prev) => prev + 1);
     setUseing(false);
   }
