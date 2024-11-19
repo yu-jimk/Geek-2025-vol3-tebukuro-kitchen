@@ -61,13 +61,17 @@ const TimerModal = ({
 
   // タイマー更新関数
   useEffect(() => {
-    setTimerDisp(num2TimerText(min, sec, setMin, setSec, true));
+    if (min > 999) {
+      setTimerDisp(num2TimerText(999, 59, setMin, setSec, true));
+    } else {
+      setTimerDisp(num2TimerText(min, sec, setMin, setSec, true));
+    }
     if (min == 0 && sec == 0) {
       setInUse(false);
     } else {
       setInUse(true);
     }
-  }, [update, setTimerDisp, setInUse]);
+  }, [update, setTimerDisp, setInUse, min, sec]);
 
   // アラーム終了時の処理　（終了するまではstart判定はtrueのまま）
   if (alarm.current) {
@@ -146,76 +150,74 @@ const TimerModal = ({
     <>
       {timerModalOpen && (
         <ModalContainer>
-          <div className={timerModalOpen ? "block" : "hidden"}>
-            <div className="bg-black bg-opacity-50 fixed inset-x-0 top-0 bottom-0">
-              <div
-                onClick={bgClickClose}
-                className="flex justify-center items-center h-full"
-              >
-                <div className="bg-white mx-20 w-full shadow-lg text-black rounded-3xl">
-                  <div className="flex w-full justify-end mb-3">
-                    <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
+          <div className="bg-black bg-opacity-50 fixed inset-x-0 top-0 bottom-0">
+            <div
+              onClick={bgClickClose}
+              className="flex justify-center items-center h-full"
+            >
+              <div className="bg-white mx-10 w-96 min-w-64 shadow-lg text-black rounded-3xl">
+                <div className="flex w-full justify-end mb-3">
+                  <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
+                </div>
+                <div className="font-sans font-bold mx-5 mb-5 text-8xl text-center">
+                  {timerDisp}
+                </div>
+                <div className="w-full font-bold mb-2">
+                  <div className="flex justify-between mx-5 mb-5 leading-none">
+                    <button
+                      onClick={() => {
+                        setMin(min + 60);
+                        setUpdate(!update);
+                        if (start) setStart(false);
+                      }}
+                      className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
+                    >
+                      +60分
+                    </button>
+                    <button
+                      onClick={() => {
+                        setMin(min + 10);
+                        setUpdate(!update);
+                        if (start) setStart(false);
+                      }}
+                      className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
+                    >
+                      +10分
+                    </button>
+                    <button
+                      onClick={() => {
+                        setMin(min + 1);
+                        setUpdate(!update);
+                        if (start) setStart(false);
+                      }}
+                      className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
+                    >
+                      +1分
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSec(sec + 10);
+                        setUpdate(!update);
+                        if (start) setStart(false);
+                      }}
+                      className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
+                    >
+                      +10秒
+                    </button>
                   </div>
-                  <div className="font-sans font-bold mx-5 mb-5 text-8xl text-center">
-                    {timerDisp}
-                  </div>
-                  <div className="w-full font-bold mb-2">
-                    <div className="flex justify-between mx-5 mb-5 leading-none">
-                      <button
-                        onClick={() => {
-                          setMin(min + 60);
-                          setUpdate(!update);
-                          if (start) setStart(false);
-                        }}
-                        className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
-                      >
-                        +60分
-                      </button>
-                      <button
-                        onClick={() => {
-                          setMin(min + 10);
-                          setUpdate(!update);
-                          if (start) setStart(false);
-                        }}
-                        className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
-                      >
-                        +10分
-                      </button>
-                      <button
-                        onClick={() => {
-                          setMin(min + 1);
-                          setUpdate(!update);
-                          if (start) setStart(false);
-                        }}
-                        className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
-                      >
-                        +1分
-                      </button>
-                      <button
-                        onClick={() => {
-                          setSec(sec + 10);
-                          setUpdate(!update);
-                          if (start) setStart(false);
-                        }}
-                        className="bg-orange-400 text-white rounded-full px-2 w-16 h-16"
-                      >
-                        +10秒
-                      </button>
-                    </div>
-                    <div className="flex justify-between mx-5 mb-5">
-                      <button
-                        onClick={() => start_stop()}
-                        className="text-2xl tracking-tighter leading-none bg-orange-400 text-white rounded-full w-40 h-20 mr-5"
-                      >
-                        {start ? "ストップ" : "スタート"}
-                      </button>
-                      <button
-                        onClick={() => reset()}
-                        className="text-2xl tracking-tighter bg-orange-100 text-orange-400 rounded-full w-40 h-20"
-                      >
-                        リセット
-                      </button>
-                    </div>
+                  <div className="flex justify-between mx-5 mb-5">
+                    <button
+                      onClick={() => start_stop()}
+                      className="text-2xl tracking-tighter leading-none bg-orange-400 text-white rounded-full w-40 h-20 mr-5"
+                    >
+                      {start ? "ストップ" : "スタート"}
+                    </button>
+                    <button
+                      onClick={() => reset()}
+                      className="text-2xl tracking-tighter bg-orange-100 text-orange-400 rounded-full w-40 h-20"
+                    >
+                      リセット
+                    </button>
                   </div>
                 </div>
               </div>
@@ -228,7 +230,7 @@ const TimerModal = ({
       {inUse ? (
         <div
           onClick={() => setTimerModalOpen(true)}
-          className="z-10 text-3xl w-36 fixed bottom-24 timer:bottom-16 bg-orange-100 text-black text-center rounded-full p-1 ml-2 shadow-lg"
+          className="left-1/2 -translate-x-1/2 z-10 text-3xl w-36 fixed bottom-16 bg-orange-100 text-black text-center rounded-full p-1 shadow-lg"
         >
           {timerDisp}
         </div>
