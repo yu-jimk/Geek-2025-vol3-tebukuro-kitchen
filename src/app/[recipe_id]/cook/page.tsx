@@ -8,18 +8,13 @@ import {
   getByIngredientId,
   getRecipesbyId,
 } from "@/app/utils/supabaseFunctions";
-import { Descript, Ingredient } from "@/app/types";
-import { FaArrowLeft, FaDoorOpen } from "react-icons/fa";
-import { FaArrowRight } from "react-icons/fa";
-import { PiNoteDuotone } from "react-icons/pi";
-import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { FaArrowLeft, FaArrowRight, FaDoorOpen } from "react-icons/fa";
 import { FiCameraOff } from "react-icons/fi";
-import { IoChatbubbleEllipsesOutline, IoMicOutline } from "react-icons/io5";
+import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { MdOutlineTimer } from "react-icons/md";
 import { PiNoteDuotone } from "react-icons/pi";
 import GuideModal from "./GuideModal";
