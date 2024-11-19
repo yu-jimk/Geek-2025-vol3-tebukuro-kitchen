@@ -1,5 +1,5 @@
 import { z } from "zod";
-
+const MAX_TEXT = [20, 30, 45, 50, 300];
 const MAX_IMAGE_SIZE = 30; // 30MB
 // const IMAGE_TYPES = ['image/jpg', 'image/png'];
 const sizeInMB = (sizeInBytes: number, decimalsNum = 2) => {
@@ -35,8 +35,14 @@ const imageSchema = z
 const IngredientSchema = z
   .array(
     z.object({
-      name: z.string().min(1, "必須です").max(30, "入力値が長すぎます"),
-      amount: z.string().min(1, "必須です").max(20, "入力値が長すぎます"),
+      name: z
+        .string()
+        .min(1, "必須です")
+        .max(30, `${MAX_TEXT[1]}文字以下にしてください`),
+      amount: z
+        .string()
+        .min(1, "必須です")
+        .max(20, `${MAX_TEXT[0]}文字以下にしてください`),
     })
   )
   .min(1, { message: "必須です" });
@@ -44,17 +50,23 @@ export type IngredientSchemaType = z.infer<typeof IngredientSchema>;
 const DescriptSchema = z
   .array(
     z.object({
-      text: z.string().min(0).max(45, "入力値が長すぎます"),
+      text: z.string().min(0).max(45, `${MAX_TEXT[2]}文字以下にしてください`),
       image: imageSchema,
     })
   )
   .min(1, { message: "必須です" });
 export const RecipeObjectSchema = z.object({
-  recipe_name: z.string().min(1, "必須です").max(50, "入力値が長すぎます"),
+  recipe_name: z
+    .string()
+    .min(1, "必須です")
+    .max(50, `${MAX_TEXT[3]}文字以下にしてください`),
   recipe_image: imageSchema,
-  recipe_comment: z.string().min(0).max(300, "入力値が長すぎます"),
-  time: z.string().min(0).max(20, "入力値が長すぎます"),
-  how_many: z.string().min(0).max(20, "入力値が長すぎます"),
+  recipe_comment: z
+    .string()
+    .min(0)
+    .max(300, `${MAX_TEXT[4]}文字以下にしてください`),
+  time: z.string().min(0).max(20, `${MAX_TEXT[0]}文字以下にしてください`),
+  how_many: z.string().min(0).max(20, `${MAX_TEXT[0]}文字以下にしてください`),
 });
 export type RecipeObjectSchemaType = z.infer<typeof RecipeObjectSchema>;
 export type DescriptSchemaType = z.infer<typeof DescriptSchema>;

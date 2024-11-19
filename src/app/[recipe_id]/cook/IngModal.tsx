@@ -46,11 +46,11 @@ const IngModal = ({
           onClick={bgClickClose}
           className="flex justify-center items-center h-full"
         >
-          <div className="bg-white mx-10 shadow-lg text-black rounded-3xl">
+          <div className="bg-white mx-10 shadow-lg text-black rounded-3xl w-80">
             <div className="flex w-full justify-end">
               <IoMdClose onClick={modalClose} className="w-10 h-10 m-2" />
             </div>
-            <div className="font-bold mx-5 w-[60vw] mb-5 text-xl border-b-2 border-orange-400">
+            <div className="font-bold mx-5 mb-5 text-xl border-b-2 border-orange-400">
               {`材料${howMany == "" ? "" : `${howMany}人前`}`}
             </div>
             <div className="mb-5">

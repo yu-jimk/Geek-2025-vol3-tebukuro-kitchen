@@ -61,13 +61,17 @@ const TimerModal = ({
 
   // タイマー更新関数
   useEffect(() => {
-    setTimerDisp(num2TimerText(min, sec, setMin, setSec, true));
+    if (min > 999) {
+      setTimerDisp(num2TimerText(999, 59, setMin, setSec, true));
+    } else {
+      setTimerDisp(num2TimerText(min, sec, setMin, setSec, true));
+    }
     if (min == 0 && sec == 0) {
       setInUse(false);
     } else {
       setInUse(true);
     }
-  }, [update, setTimerDisp, setInUse]);
+  }, [update, setTimerDisp, setInUse, min, sec]);
 
   // アラーム終了時の処理　（終了するまではstart判定はtrueのまま）
   if (alarm.current) {
@@ -231,7 +235,7 @@ const TimerModal = ({
       {inUse ? (
         <div
           onClick={() => setTimerModalOpen(true)}
-          className="z-10 text-3xl w-36 fixed bottom-24 timer:bottom-16 bg-orange-100 text-black text-center rounded-full p-1 ml-2 shadow-lg"
+          className="left-1/2 -translate-x-1/2 z-10 text-3xl w-36 fixed bottom-16 bg-orange-100 text-black text-center rounded-full p-1 shadow-lg"
         >
           {timerDisp}
         </div>
