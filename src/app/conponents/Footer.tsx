@@ -9,7 +9,6 @@ type FooterProps = {
 
 const Footer = (props: FooterProps) => {
   const { pathName } = props;
-  console.log(pathName)
   const iconsize = 22;
 
   return (
