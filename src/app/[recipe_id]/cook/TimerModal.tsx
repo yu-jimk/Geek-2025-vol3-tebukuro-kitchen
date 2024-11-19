@@ -13,7 +13,6 @@ const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
 
 const TimerModal = ({
   timerModalOpen,
-  setTimerModalOpen,
   modalClose,
   inputTime,
   setInputTime,
@@ -24,7 +23,6 @@ const TimerModal = ({
   timerReset,
 }: {
   timerModalOpen: boolean;
-  setTimerModalOpen: React.Dispatch<SetStateAction<boolean>>;
   modalClose: () => void;
   inputTime: string;
   setInputTime: React.Dispatch<SetStateAction<string>>;
@@ -233,11 +231,20 @@ const TimerModal = ({
 
       {/* 左下のミニタイマー */}
       {inUse ? (
-        <div
-          onClick={() => setTimerModalOpen(true)}
-          className="left-1/2 -translate-x-1/2 z-10 text-3xl w-36 fixed bottom-16 bg-orange-100 text-black text-center rounded-full p-1 shadow-lg"
-        >
-          {timerDisp}
+        <div className="left-1/2 -translate-x-1/2 z-10 fixed top-[85px]">
+          <div
+            className="w-48 bg-orange-400 text-white text-2xl text-center rounded-full px-1 py-0.5 shadow-lg"
+          >
+            {timerDisp}
+          </div>
+          <div className="flex justify-between mt-1">
+            <div className="bg-orange-400 rounded-full shadow-lg ml-2 px-2 font-semibold text-sm" onClick={() => start_stop()}>
+              {start ? "ストップ" : "スタート"}
+            </div>
+            <div className="bg-orange-400 rounded-full shadow-lg mr-2 px-2 font-semibold text-sm" onClick={() => reset()}>
+              リセット
+            </div>
+          </div>
         </div>
       ) : (
         <span></span>

@@ -226,7 +226,6 @@ const Cook = ({
           )}
           <TimerModal
             timerModalOpen={timerModalOpen}
-            setTimerModalOpen={setTimerModalOpen}
             modalClose={() => setTimerModalOpen(false)}
             inputTime={inputTime}
             setInputTime={setInputTime}
