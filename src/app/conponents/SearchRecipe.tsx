@@ -3,6 +3,7 @@ import { Recipe } from "../types";
 import { FiSearch } from "react-icons/fi";
 
 type propsType = {
+  setInput: Dispatch<SetStateAction<string>>;
   recipes: Recipe[];
   // 検索中のレシピ配列をセットする
   setFilRecipes: Dispatch<SetStateAction<Recipe[]>>;
@@ -17,16 +18,17 @@ const SearchRecipe: React.FC<propsType> = (props: propsType) => {
   //エンターを押したら検索結果が親のRecipe[]のステートがセットされる
   const filerandsetter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      const filteredRecipes = props.recipes.filter((recipe) => {
-        return recipe.name.includes(input);
-      });
-      // 検索してフィルターしたレシピをセット
-      props.setFilRecipes(filteredRecipes);
-      // inputが''でない時は検索中
       input !== "" ? props.setFilteringNow(true) : props.setFilteringNow(false);
+      props.setInput(input);
     }
   };
-
+  // useEffect(() => {
+  //   const filteredRecipes = props.recipes.filter((recipe) => {
+  //     return recipe.name.includes(input);
+  //   });
+  //   // 検索してフィルターしたレシピをセット
+  //   props.setFilRecipes(filteredRecipes);
+  // }, [props.recipes]);
   //ばつボタン用のリスト初期化関数
   const resetRicipes = () => {
     setinput("");
