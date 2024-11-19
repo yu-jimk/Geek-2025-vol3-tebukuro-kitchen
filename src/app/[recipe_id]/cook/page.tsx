@@ -1,14 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import Speech from "@/app/conponents/Speech";
-import IngModal from "./IngModal";
-import YtModal from "./YtModal";
-import GuideModal from "./GuideModal";
-import TimerModal from "./TimerModal";
 import RecipeHeader from "@/app/conponents/RecipeHeader";
+import Speech from "@/app/conponents/Speech";
+import { Descript, Ingredient } from "@/app/types";
 import {
   getByDescriptId,
   getByIngredientId,
@@ -19,9 +13,19 @@ import { FaArrowLeft, FaDoorOpen } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import { PiNoteDuotone } from "react-icons/pi";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
-import { FiCameraOff } from "react-icons/fi";
-import { MdOutlineTimer } from "react-icons/md";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { FaArrowLeft, FaArrowRight, FaDoorOpen } from "react-icons/fa";
+import { FiCameraOff } from "react-icons/fi";
+import { IoChatbubbleEllipsesOutline, IoMicOutline } from "react-icons/io5";
+import { MdOutlineTimer } from "react-icons/md";
+import { PiNoteDuotone } from "react-icons/pi";
+import GuideModal from "./GuideModal";
+import IngModal from "./IngModal";
+import TimerModal from "./TimerModal";
+import YtModal from "./YtModal";
 
 //丸を描画する　length=丸の数　page=塗りつぶし判定用ページ数
 const Circle = ({ length, page }: { length: number; page: number }) => {
@@ -116,7 +120,7 @@ const Cook = ({
   return (
     <>
       <div className="bg-white fixed inset-x-0 top-0 bottom-0 -z-50">
-        <div className="flex flex-row-reverse">
+        <div className="relative">
           <RecipeHeader
             bgColor="bg-orange-400"
             textColor="text-white"
@@ -127,9 +131,9 @@ const Cook = ({
           {title != "" ? ( //ヘッダーのタイトルのロードが完了したら表示（より自然に）
             <button
               onClick={() => setGuideModalOpen(!guideModalOpen)}
-              className="bg-transparent font-bold fixed z-50 p-3.5 hidden button:block text-white"
+              className="absolute top-0.5 right-1 bg-transparent font-bold p-3 text-white"
             >
-              <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-7" />
+              <IoChatbubbleEllipsesOutline className="w-6 h-6 mx-auto" />
               ガイド
             </button>
           ) : (
