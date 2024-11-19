@@ -33,7 +33,7 @@ const ArticleCard = (props: ArticleCardProps) => {
         )}
       </div>
 
-      <p className="min-h-12 border-t-4 border-t-orange-400 rounded-b-lg font-semibold text-sm p-1">
+      <p className="min-h-12 border-t-4 border-t-orange-400 rounded-b-lg font-semibold text-sm p-1 text-black">
         {recipe.name}
       </p>
     </Link>

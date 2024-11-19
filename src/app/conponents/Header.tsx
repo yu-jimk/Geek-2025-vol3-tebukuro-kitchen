@@ -15,14 +15,14 @@ const Header = (prop:headerProp) => {
             placeholder= 'レシピをさがす' />
         </div> */}
         <div className='flex'>
-            <div className='w-1/2 px-4 flex justify-center '>
+            <div className='w-1/2 px-4 flex justify-center text-black'>
                 <button className={`px-4 py-2 ${pathName === '/' ? 'border-b-4 border-orange-400' : 'border-b-4 border-white'}`}
                 onClick={() => location.href='/'}>
                     レシピ
                 </button>
             </div>
 
-            <div className='w-1/2 px-4 flex justify-center '>
+            <div className='w-1/2 px-4 flex justify-center text-black'>
                 <button className={`px-4 py-2 ${pathName === '/favorites' ? 'border-b-4 border-orange-500' : 'border-b-4 border-white'}`}
                 onClick={()=> location.href='/favorites'}>
                     お気に入り
