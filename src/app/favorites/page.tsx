@@ -57,7 +57,7 @@ const Favorites = () => {
       {isloading ? (
         <LoadingDataFetch />
       ) : list.length === 0 ? (
-        <section className="bg-[#FFFBF4] flex-grow flex flex-col justify-center items-center gap-4">
+        <section className="bg-[#FFFBF4] flex-grow flex flex-col justify-center items-center gap-4 text-black">
           <FiHeart size={55} />
           <p className="font-black text-2xl">
             お気に入りを
