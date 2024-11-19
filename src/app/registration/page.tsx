@@ -6,15 +6,15 @@ import { FaPen } from "react-icons/fa";
 import DescriptInputItem from "@/app/conponents/registration/DescriptInputItem";
 import { BiCamera, BiCameraOff, BiPlus } from "react-icons/bi";
 // import Link from "next/link";
+import IngredientInputItem from "@/app/conponents/registration/IngredientInputItem";
 import Image from "next/image";
 import { useState } from "react";
-import IngredientInputItem from "@/app/conponents/registration/IngredientInputItem";
+import { SubmitHandler } from "react-hook-form";
+import { useSwipeable } from "react-swipeable";
 import Footer from "../conponents/Footer";
 import { inputDescript, InputIngredient } from "../types";
-import { useSwipeable } from "react-swipeable";
-import { useRecipeFormTop } from "../validations/useFormUtils";
-import { SubmitHandler } from "react-hook-form";
-import { RecipeSchemaType } from "../validations/schema";
+import { getFileExtension } from "../utils/fileUtils";
+import { updateRecipeImage } from "../utils/supabaseFncUpdate";
 import {
   addRecipe,
   addSomeDescript,
@@ -22,8 +22,8 @@ import {
   getImageUrl,
   uploadImage,
 } from "../utils/supabaseFunctions";
-import { getFileExtension } from "../utils/fileUtils";
-import { updateRecipeImage } from "../utils/supabaseFncUpdate";
+import { RecipeSchemaType } from "../validations/schema";
+import { useRecipeFormTop } from "../validations/useFormUtils";
 
 const Registration = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -206,7 +206,7 @@ const Registration = () => {
                       height: "40px",
                       outline: "none",
                     }}
-                    className="pl-3"
+                    className="w-full pl-3"
                   />
                   {/* zodのエラー文 */}
                   <div className="text-red-500">
