@@ -209,7 +209,7 @@ const Speech = ({
         response : {response}
       </p> */}
       <div className="w-full flex justify-center items-center font-mono">
-        <span className="z-10 flex overflow-hidden justify-end whitespace-nowrap max-w-[80vw] h-6 mb-32 text-white fixed bottom-0 bg-black bg-opacity-30">
+        <span className="z-10 flex overflow-hidden justify-end whitespace-nowrap max-w-[80vw] h-6 mb-16 text-white fixed bottom-0 bg-black bg-opacity-30">
           {transcript}
         </span>
       </div>
