@@ -4,7 +4,7 @@ import "regenerator-runtime";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 type screenController = {
   next: (
@@ -195,13 +195,14 @@ const Speech = ({
     }
   }, [listening]);
 
-  useEffect(() => {
-    console.log("[input] " + transcript);
-  }, [transcript]);
+  // デバッグ用
+  // useEffect(() => {
+  //   console.log("[input] " + transcript);
+  // }, [transcript]);
 
-  if (!browserSupportsSpeechRecognition) {
-    console.log("Speech conponent ERROR");
-  }
+  // if (!browserSupportsSpeechRecognition) {
+  //   console.log("Speech conponent ERROR");
+  // }
 
   return (
     <>
