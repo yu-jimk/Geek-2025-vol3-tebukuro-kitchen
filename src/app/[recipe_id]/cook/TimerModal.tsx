@@ -64,12 +64,12 @@ const TimerModal = ({
     } else {
       setTimerDisp(num2TimerText(min, sec, setMin, setSec, true));
     }
-    if (min == 0 && sec == 0) {
+    if (min == 0 && sec == 0 && !playing) {
       setInUse(false);
     } else {
       setInUse(true);
     }
-  }, [update, setTimerDisp, setInUse, min, sec]);
+  }, [update, setTimerDisp, setInUse, min, playing]);
 
   // アラーム終了時の処理　（終了するまではstart判定はtrueのまま）
   if (alarm.current) {
