@@ -49,7 +49,7 @@ const Speech = ({
   timerReset: boolean;
   setTimerReset: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const [response, setResponse] = useState("");
+  // const [response, setResponse] = useState("");
 
   // useStateすごい
   // const [lastModalStateAction, setLastModalStateAction] = useState<
@@ -136,7 +136,7 @@ const Speech = ({
       command: /(.*)セット.*/,
       callback: (material: string) => {
         setInputTime(material.replace(/\s+/g, "")); //スペース削除
-        setResponse(material.replace(/\s+/g, ""));
+        // setResponse(material.replace(/\s+/g, ""));
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
@@ -148,7 +148,7 @@ const Speech = ({
         // FIXME いちょう切りが胃腸切りになっちゃう
         setKeyword(material);
         setYtModalOpen(true);
-        setResponse(`${material}`);
+        // setResponse(`${material}`);
         console.log("[get]", material);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
@@ -159,7 +159,7 @@ const Speech = ({
       command: /.*(ガイド).*/,
       callback: () => {
         setGuideModalOpen(true);
-        setResponse(`guide`);
+        // setResponse(`guide`);
         resetTranscript();
         SpeechRecognition.startListening({ continuous: true });
       },
