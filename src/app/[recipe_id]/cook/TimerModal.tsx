@@ -238,10 +238,10 @@ const TimerModal = ({
             {timerDisp}
           </div>
           <div className="flex justify-between mt-1">
-            <div className="bg-orange-400 rounded-full shadow-lg ml-2 px-2 font-semibold text-sm" onClick={() => start_stop()}>
+            <div className="bg-orange-400 rounded-full shadow-lg ml-2 px-2 font-semibold text-sm cursor-pointer" onClick={() => start_stop()}>
               {start ? "ストップ" : "スタート"}
             </div>
-            <div className="bg-orange-400 rounded-full shadow-lg mr-2 px-2 font-semibold text-sm" onClick={() => reset()}>
+            <div className="bg-orange-400 rounded-full shadow-lg mr-2 px-2 font-semibold text-sm cursor-pointer" onClick={() => reset()}>
               リセット
             </div>
           </div>
