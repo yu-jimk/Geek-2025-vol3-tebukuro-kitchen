@@ -8,9 +8,9 @@ import { getFavoriteRecipes } from "@/app/utils/localstorageFunction";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FiHeart } from "react-icons/fi";
-import SearchRecipe from "@/app/conponents/SearchRecipe";
 import { useSwipeable } from "react-swipeable";
 import LoadingDataFetch from "@/app/conponents/LoadingDataFetch";
+import SearchRecipeFav from "../conponents/SearchRecipeFav";
 
 const Favorites = () => {
   const pathName = usePathname();
@@ -50,7 +50,7 @@ const Favorites = () => {
           showHeadFooter ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <SearchRecipe recipes={listBase} setlist={setshowlist} />
+        <SearchRecipeFav recipes={listBase} setlist={setshowlist} />
         <Header pathName={pathName} />
       </div>
 
