@@ -17,10 +17,10 @@ export default function RootLayout({
           content="telephone=no, email=no, address=no"
         ></meta>
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        {/* <link
-          rel="apple-touch-icon-precomposed"
-          href="画像のパス/apple-touch-icon-precomposed.png"
-        ></link> */}
+        <link
+          rel="apple-touch-icon"
+          href="../../public/apple-touch-icon.png"
+        ></link>
         <meta name="viewport" content="width=device-width,initial-scale=1.0" />
         <meta property="og:site_name" content="てぶくろキッチン" />
         {/* <meta property="og:url" content="ページURL" /> */}
@@ -31,7 +31,7 @@ export default function RootLayout({
           content="音声認識を使ったレシピアプリ"
         />
         {/* 1200px✕630px */}
-        {/* <meta property="og:image" content="サムネイル画像URL" /> */}
+        <meta property="og:image" content="../../public/thumbnail.png" />
         {/* <meta property="fb:app_id" content="appIdを入力" /> */}
         <meta property="og:locale" content="ja_JP" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -40,7 +40,7 @@ export default function RootLayout({
           name="twitter:description"
           content="音声認識を使ったレシピアプリ"
         />
-        {/* <meta name="twitter:image" content="サムネイル画像のURL" /> */}
+        <meta name="twitter:image" content="../../public/thumbnail.png" />
       </head>
 
       <body className="bg-white">{children}</body>
