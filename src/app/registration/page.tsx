@@ -84,7 +84,7 @@ const Registration = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
             <main className="pr-4 pl-4">
-              <p className="text-center font-semibold text-lg pt-4">
+              <p className="text-center font-semibold text-lg pt-4 text-black">
                 レシピを登録
               </p>
               <section className="bg-gray-100 h-56 w-9/12 mx-auto rounded-xl mt-10 mb-12 shadow-lg flex-col flex gap-y-4 justify-center items-center relative">
@@ -221,7 +221,7 @@ const Registration = () => {
               </section>
 
               <section className="mx-4">
-                <p className="font-semibold text-lg pb-1 mb-3 border-b border-black mt-4">
+                <p className="font-semibold text-lg pb-1 mb-3 border-b border-black mt-4 text-black">
                   作り方
                 </p>
                 <DescriptInputItem
@@ -232,7 +232,7 @@ const Registration = () => {
                 />
               </section>
               <section className="mx-4">
-                <p className="font-semibold text-lg pb-1 mb-3 border-b border-black mt-4">
+                <p className="font-semibold text-lg pb-1 mb-3 border-b border-black mt-4 text-black">
                   料理の紹介
                 </p>
                 <textarea

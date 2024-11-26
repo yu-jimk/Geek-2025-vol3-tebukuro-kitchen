@@ -93,7 +93,7 @@ export default function RecipeId({
           </div>
 
           {list.time && (
-            <div className="flex items-center py-2 gap-2">
+            <div className="flex items-center py-2 gap-2 text-black">
               <WiTime4 fill="#fa003f" className="size-8" />
               {list.time}
             </div>
@@ -106,7 +106,7 @@ export default function RecipeId({
           )}
         </div>
 
-        <div className="lg:flex items-start">
+        <div className="lg:flex items-start text-black">
           <section className="pt-1 pb-8 flex-1 lg:max-w-md">
             <div className="bg-[#F9DEDC] font-semibold text-sm px-4 py-2">
               {list.howmany ? <p>材料（{list.howmany}）</p> : <p>材料</p>}

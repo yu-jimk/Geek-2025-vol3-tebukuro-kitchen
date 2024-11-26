@@ -8,7 +8,7 @@ const UserId = () => {
         className={`bg-white sticky w-full flex items-center justify-center p-6 border-b border-gray-400 shadow-md `}
       >
         <p
-          className={`text-center text-xl font-semibold pl-10 pr-4 text-balance`}
+          className={`text-center text-xl font-semibold pl-10 pr-4 text-balance text-black`}
         >
           マイページ
         </p>
