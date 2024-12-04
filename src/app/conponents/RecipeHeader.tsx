@@ -13,7 +13,7 @@ const RecipeHeader = (props: RecipeHeaderProps) => {
   const { bgColor, textColor, title, link, iconFill } = props;
   return (
     <header
-      className={`sticky top-0 w-full flex items-center p-6 border-b border-gray-400 shadow-md ${bgColor} z-40`}
+      className={`sticky top-0 w-full flex items-center p-5 border-b border-gray-400 shadow-md ${bgColor} z-40`}
     >
       <Link href={link} className="absolute left-5 text-3xl">
         <IoIosArrowBack fill={iconFill} />

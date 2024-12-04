@@ -1,7 +1,7 @@
 import { SetStateAction, useEffect, useRef, useState } from "react";
-import { num2TimerText, str2TimerText } from "./timerFunc";
-import { IoMdClose } from "react-icons/io";
 import { createPortal } from "react-dom";
+import { IoMdClose } from "react-icons/io";
+import { num2TimerText, str2TimerText } from "./timerFunc";
 
 const ModalContainer = ({ children }: { children: React.JSX.Element }) => {
   const container = document.getElementById("container");
@@ -244,15 +244,17 @@ const TimerModal = ({
           <div className="w-48 bg-orange-400 text-white text-2xl text-center rounded-full px-1 py-0.5 shadow-lg">
             {timerDisp}
           </div>
-          <div className="flex justify-between mt-1">
+          <div className="flex justify-between mt-2">
             <div
-              className="bg-orange-400 rounded-full shadow-lg ml-2 px-2 font-semibold text-sm cursor-pointer text-white"
+              className="bg-orange-400 rounded-full shadow-lg ml-4 py-1 px-2 font-semibold text-sm cursor-pointer text-white"
+
               onClick={() => start_stop()}
             >
               {start ? "ストップ" : "スタート"}
             </div>
             <div
-              className="bg-orange-400 rounded-full shadow-lg mr-2 px-2 font-semibold text-sm cursor-pointer text-white"
+              className="bg-orange-400 rounded-full shadow-lg mr-4 py-1 px-2 font-semibold text-sm cursor-pointer text-white"
+
               onClick={() => reset()}
             >
               リセット
