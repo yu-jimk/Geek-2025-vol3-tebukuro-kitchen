@@ -88,8 +88,17 @@ const TimerModal = ({
         if (sec <= 0 && min == 0) {
           clearInterval(manager);
           if (alarm.current) {
-            alarm.current.play();
-            setPlaying(true);
+            alarm.current
+              .play()
+              .then(() => {
+                setPlaying(true);
+              })
+              .catch((error) => {
+                setPlaying(true);
+                setTimeout(() => {
+                  reset()
+                },8000)
+              });
           }
         } else {
           setSec(sec - 1);
@@ -238,12 +247,14 @@ const TimerModal = ({
           <div className="flex justify-between mt-2">
             <div
               className="bg-orange-400 rounded-full shadow-lg ml-4 py-1 px-2 font-semibold text-sm cursor-pointer text-white"
+
               onClick={() => start_stop()}
             >
               {start ? "ストップ" : "スタート"}
             </div>
             <div
               className="bg-orange-400 rounded-full shadow-lg mr-4 py-1 px-2 font-semibold text-sm cursor-pointer text-white"
+
               onClick={() => reset()}
             >
               リセット
